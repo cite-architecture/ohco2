@@ -43,8 +43,20 @@ case class Corpus (texts: Vector[CitableNode]) {
       case n: Some[CitableNode] => n.get
     }
   }
+
+  def getLastNodeOption(filterUrn: CtsUrn): Option[CitableNode] = {
+    val matching = urnMatch(filterUrn)
+    matching.isEmpty match {
+      case true => None
+      case false => Some(matching.last)
+    }
+  }
+
   def getLastNode(filterUrn: CtsUrn): CitableNode = {
-    urnMatch(filterUrn).last
+    getLastNodeOption(filterUrn) match {
+      case None => throw Ohco2Exception("No node matching " + filterUrn)
+      case n: Some[CitableNode] => n.get
+    }
   }
   def citedWorks: Vector[CtsUrn] = {
     texts.map(_.urn.dropPassage).distinct

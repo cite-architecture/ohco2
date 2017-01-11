@@ -184,14 +184,53 @@ class CorpusSpec extends FlatSpec {
     val filtered = corpus.urnMatch(urn)
     assert (filtered.isEmpty)
   }
-  it should "return an empty vector if the second node of the filtering URN does not appear in the corpus" in pending
+  it should "return an empty vector if the second node of the filtering URN does not appear in the corpus" in {
+    val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1-FAKE")
+    val srcFile = "src/test/resources/scholia-twocolumns.tsv"
+    val corpus = Corpus(srcFile,"\t")
+    val filtered = corpus.urnMatch(urn)
+    assert (filtered.isEmpty)
+  }
 
   // CTS-like convenience methods
-  it should "offer a convenience method for finding the first citable node in a filtered vector" in pending
+  it should "offer a convenience method for finding the first citable node in a filtered vector" in {
+    val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2.lemma-1.10.comment")
+    val srcFile = "src/test/resources/scholia-twocolumns.tsv"
+    val corpus = Corpus(srcFile)
+    val expectedFirst = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.lemma")
+    assert(corpus.getFirstNode(filterUrn).urn == expectedFirst)
+  }
 
-  it should "offer a convenience method for finding the last citable node in a filtered vector" in pending
-  it should "offer a convenience method for reducing a list of citable nodes to a list of URN" in pending
-  it should "offer a convenience method for extracting the string contents from a list of citable nodes as a single string" in pending
+  it should "offer a convenience method for finding the last citable node in a filtered vector" in {
+    val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2")
+    val srcFile = "src/test/resources/scholia-twocolumns.tsv"
+    val corpus = Corpus(srcFile)
+    val expectedLast = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.comment")
+    assert(corpus.getLastNode(filterUrn).urn == expectedLast)
+  }
+  it should "offer a convenience method for reducing a list of citable nodes to a list of URN" in {
+    val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2")
+    val srcFile = "src/test/resources/scholia-twocolumns.tsv"
+    val corpus = Corpus(srcFile)
+    val expectedReff = Vector(CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.lemma"),
+    CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.comment"))
+    assert(corpus.getValidReff(filterUrn) == expectedReff)
+  }
+
+  it should "offer a convenience method for extracting the string contents from a list of citable nodes as a single string" in {
+    val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2")
+    val srcFile = "src/test/resources/scholia-twocolumns.tsv"
+    val corpus = Corpus(srcFile)
+    val actualText = corpus.getTextContents(filterUrn)
+
+    // sample beginning and end of long text:
+    val expectedOpening = """<div xmlns="http://www.tei-c.org/ns/1.0" n="lemma"> <p> μῆνις</p>"""
+    val expectedClosing = """οὐκ ὀρθῶς.</p></div>"""
+    
+
+    assert(actualText.startsWith(expectedOpening))
+    assert(actualText.endsWith(expectedClosing))
+  }
 
   it should "offer a convenience method to extract a list of works cited in the corpus" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1-1.2")
