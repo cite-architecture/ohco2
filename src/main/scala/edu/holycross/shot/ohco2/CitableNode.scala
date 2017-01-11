@@ -3,6 +3,6 @@ import edu.holycross.shot.cite._
 
 case class CitableNode (urn: CtsUrn, text: String) {
   if (text.isEmpty) {
-    throw new Exception("CitableNode: text cannot be empty")
+    throw new Ohco2Exception("CitableNode: text content cannot be empty")
   }
 }
