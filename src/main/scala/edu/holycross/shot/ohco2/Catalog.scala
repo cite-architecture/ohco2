@@ -5,11 +5,32 @@ import scala.io.Source
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Try
 
-case class CatalogEntry(urn: CtsUrn, citationScheme: String, groupName: String, workTitle: String, versionLabel: String, exemplarLabel: Option[String] = None, online: Boolean = true)
+case class CatalogEntry(urn: CtsUrn, citationScheme: String, groupName: String, workTitle: String, versionLabel: String, exemplarLabel: Option[String] = None, online: Boolean = true) {
+  require(citationScheme.nonEmpty,"citation scheme cannot be empty")
+  require(groupName.nonEmpty,"text group name cannot be empty")
+  require(workTitle.nonEmpty,"work title cannot be empty")
+  require(versionLabel.nonEmpty,"version label cannot be empty")
+  urn.workLevel match {
+    case WorkLevel.Version => {
+      exemplarLabel match {
+        case None => // ok
+        case _ => throw Ohco2Exception("exemplar label must be none when URN is at version level")
+      }
+
+    }
+    case WorkLevel.Exemplar => {
+      exemplarLabel match {
+        case None =>  throw Ohco2Exception("exemplar label cannot be none when URN is at exemplar level")
+        case _ => // ok
+      }
+
+    }
+  }
+}
 
 
 case class Catalog (texts: Vector[CatalogEntry]) {
-  def forUrnOption(filterUrn: CtsUrn): Vector[CatalogEntry] = {
+  def entriesForUrn(filterUrn: CtsUrn): Vector[CatalogEntry] = {
     texts.filter(_.urn.urnMatch(filterUrn))
   }
 }
@@ -26,17 +47,12 @@ object Catalog {
       val group = row(2)
       val work = row(3)
       val vers = row(4)
-      row.size match {
-        case 6 => {
-          val exemplar = None
-          val online = Try(row(5).toBoolean).getOrElse(false)
-          entries += CatalogEntry(urn,citation,group,work,vers,exemplar,online)
-        }
-        case 7 => {
-          val exemplar = Some(row(5))
-          val online = Try(row(6).toBoolean).getOrElse(false)
-          entries += CatalogEntry(urn,citation,group,work,vers,exemplar,online)
-        }
+      val online = Try(row(6).toBoolean).getOrElse(false)
+      if (row(5).isEmpty) {
+        entries += CatalogEntry(urn,citation,group,work,vers,None,online)
+      } else {
+        entries += CatalogEntry(urn,citation,group,work,vers,Some(row(5)),online)
+
       }
     }
     Catalog(entries.toVector)
