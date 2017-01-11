@@ -35,13 +35,13 @@ class CatalogSpec extends FlatSpec {
   it should "have a non-empty string for citation scheme " in pending
   it should "have a non-empty string for group name " in pending
   it should "have a non-empty string for work title " in pending
-  it  should "have a non-empty string for version label " in pending
+  it  should "have a non-empty string for version label " c
 
-  it should "throw an Ohco2 error if the URN does have a valid version identifier"
-  it should "throw an Ohco2 error if an empty citation scheme is given"
-  it should "throw an Ohco2 error if an empty group name is given"
-  it should "throw an Ohco2 error if an empty work title is given"
-  it should "throw an Ohco2 error if an empty version label is given"
+  it should "throw an Ohco2 error if the URN does have a valid version identifier" in pending
+  it should "throw an Ohco2 error if an empty citation scheme is given" in pending
+  it should "throw an Ohco2 error if an empty group name is given" in pending
+  it should "throw an Ohco2 error if an empty work title is given" in pending
+  it should "throw an Ohco2 error if an empty version label is given" in pending
 
   it should "have a none option for exemplarLabel when the urn is a version-level URN " in pending
   it should "have a non-empty string option for exemplarLabel when the urn is an exemplar-level URN " in pending
