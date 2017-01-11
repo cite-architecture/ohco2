@@ -1,5 +1,5 @@
 
-organization := "org.homermultitext"
+organization := "edu.holycross.shot"
 name := "ohco2"
 
 version := "0.1.0"
