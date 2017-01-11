@@ -184,16 +184,27 @@ class CorpusSpec extends FlatSpec {
     val filtered = corpus.urnMatch(urn)
     assert (filtered.isEmpty)
   }
-  it should "return an empty vector if the second node of the filtering URN does not appear in the corpus"
+  it should "return an empty vector if the second node of the filtering URN does not appear in the corpus" in pending
 
   // CTS-like convenience methods
-  it should "offer a convenience method for finding the first citable node in a filtered vector"
+  it should "offer a convenience method for finding the first citable node in a filtered vector" in pending
 
-  it should "offer a convenience method for finding the last citable node in a filtered vector"
-  it should "offer a convenience method for reducing a list of citable nodes to a list of URN"
-  it should "offer a convenience method for extracting the string contents from a list of citable nodes as a single string"
+  it should "offer a convenience method for finding the last citable node in a filtered vector" in pending
+  it should "offer a convenience method for reducing a list of citable nodes to a list of URN" in pending
+  it should "offer a convenience method for extracting the string contents from a list of citable nodes as a single string" in pending
 
-
-
+  it should "offer a convenience method to extract a list of works cited in the corpus" in {
+    val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1-1.2")
+    val srcFile = "src/test/resources/scholia-twocolumns.tsv"
+    val corpus = Corpus(srcFile)
+    val expectedWorks = Set(CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:"),
+      CtsUrn("urn:cts:greekLit:tlg5026.msAim.hmt:"),
+      CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt:"),
+      CtsUrn("urn:cts:greekLit:tlg5026.msAext.hmt:"),
+      CtsUrn("urn:cts:greekLit:tlg5026.msAil.hmt:"),
+      CtsUrn("urn:cts:greekLit:tlg5026.msAimlater.hmt:")
+    )
+    assert (corpus.citedWorks.toSet == expectedWorks)
+  }
 
 }

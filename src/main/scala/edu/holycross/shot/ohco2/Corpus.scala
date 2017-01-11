@@ -46,6 +46,9 @@ case class Corpus (texts: Vector[CitableNode]) {
   def getLastNode(filterUrn: CtsUrn): CitableNode = {
     urnMatch(filterUrn).last
   }
+  def citedWorks: Vector[CtsUrn] = {
+    texts.map(_.urn.dropPassage).distinct
+  }
 }
 
 
