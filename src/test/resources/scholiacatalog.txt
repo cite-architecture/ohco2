@@ -1,0 +1,6 @@
+urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online
+urn:cts:greekLit:tlg5026.msA.hmt:#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true
+urn:cts:greekLit:tlg5026.msAim.hmt:#Scholia to the Iliad#Intermarginal scholia of the Venetus A#HMT project edition##true
+urn:cts:greekLit:tlg5026.msAint.hmt:#Scholia to the Iliad#Interior scholia of the Venetus A#HMT project edition##true
+urn:cts:greekLit:tlg5026.msAext.hmt:#Scholia to the Iliad#Exterior scholia of the Venetus A#HMT project edition##true
+urn:cts:greekLit:tlg5026.msAil.hmt:#Scholia to the Iliad#Interlinear scholia of the Venetus A#HMT project edition##true
