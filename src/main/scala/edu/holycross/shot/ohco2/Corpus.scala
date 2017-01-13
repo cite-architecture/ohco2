@@ -61,6 +61,18 @@ case class Corpus (texts: Vector[CitableNode]) {
   def citedWorks: Vector[CtsUrn] = {
     texts.map(_.urn.dropPassage).distinct
   }
+
+
+  def to82xfVector: Vector[XfColumns] = {
+    val ids = texts.map ( n => n.urn)
+    val templateVector = Vector.empty[String]
+    val nextColumn = templateVector  ++ ids.drop(1) ++ Vector("")
+    val prevColumn = templateVector ++ Vector("") ++ ids.dropRight(1)
+    val nextPrev = nextColumn.zip(prevColumn)
+    texts.zip(nextPrev).map {
+      case (n,(nxt,prv)) => XfColumns(n.urn.toString,nxt.toString,prv.toString,n.text)
+    }
+  }
 }
 
 
@@ -71,3 +83,6 @@ object Corpus {
     Corpus(citableNodes)
   }
 }
+
+
+case class XfColumns(urn: String, nxt: String, prv: String, txt: String)
