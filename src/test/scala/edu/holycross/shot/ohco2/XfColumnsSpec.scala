@@ -1,7 +1,7 @@
 package edu.holycross.shot.ohco2
 import org.scalatest.FlatSpec
 import edu.holycross.shot.cite._
-
+import java.io._
 
 
 class XfColumnsSpec extends FlatSpec {
@@ -64,4 +64,11 @@ class XfColumnsSpec extends FlatSpec {
       assert(c.nxt.nonEmpty)
     }
   }
+  it should "have a function to format as a single string" in {
+    val srcFile = "src/test/resources/shortscholia.tsv"
+    val corpus = Corpus(srcFile,"\t")
+    val xfcols = corpus.to82xfVector
+    assert(xfcols.head.rowString("#") == """urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma#urn:cts:greekLit:tlg5026.msA.hmt:1.1.comment##<div xmlns="http://www.tei-c.org/ns/1.0" n="lemma"> <p> μῆνιν ἄειδε</p></div>""")
+  }
+
 }

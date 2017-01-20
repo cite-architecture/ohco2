@@ -1,7 +1,8 @@
 package edu.holycross.shot.ohco2
 import org.scalatest.FlatSpec
 import edu.holycross.shot.cite._
-
+import scala.io.Source
+import java.io._
 
 
 class CorpusSpec extends FlatSpec {
@@ -244,6 +245,61 @@ class CorpusSpec extends FlatSpec {
       CtsUrn("urn:cts:greekLit:tlg5026.msAimlater.hmt:")
     )
     assert (corpus.citedWorks.toSet == expectedWorks)
+  }
+
+  it should "have a method to get 82xf format in a string" in {
+    val srcFile = "src/test/resources/shortscholia.tsv"
+    val corpus = Corpus(srcFile,"\t")
+    val xfString = corpus.to82xfString("#")
+    assert(xfString.split("\n").size == 10)
+  }
+  it should "have a method to write 2 column format in a string" in {
+    val srcFile = "src/test/resources/shortscholia.tsv"
+    val corpus = Corpus(srcFile,"\t")
+    val twoColStr = corpus.to2colString("#")
+    assert(twoColStr.split("\n").size == 10)
+  }
+
+  it should "have a method to write 82xf to a named file" in {
+    val srcFile = "src/test/resources/shortscholia.tsv"
+    val corpus = Corpus(srcFile,"\t")
+    val testFileName = "src/test/resources/test82xf.txt"
+    corpus.write82xfFile(testFileName, "#")
+    val outputLines = Source.fromFile(testFileName).getLines.toVector
+    assert (outputLines.size == 10)
+    val testFile = new File(testFileName)
+    testFile.delete()
+  }
+  it should "have a method to write 82xf to an existing file object" in {
+    val srcFile = "src/test/resources/shortscholia.tsv"
+    val corpus = Corpus(srcFile,"\t")
+    val testFile = new File("src/test/resources/test82xf.txt")
+    corpus.write82xfFile(testFile, "#")
+    val outputLines = Source.fromFile(testFile).getLines.toVector
+    assert (outputLines.size == 10)
+    testFile.delete()
+  }
+
+  it should "have a method to write 2 column to a named file" in {
+    val srcFile = "src/test/resources/shortscholia.tsv"
+    val corpus = Corpus(srcFile,"\t")
+    val testFileName = "src/test/resources/test82xf.txt"
+    corpus.write2colFile(testFileName, "#")
+    val outputLines = Source.fromFile(testFileName).getLines.toVector
+    assert (outputLines.size == 10)
+    val testFile = new File(testFileName)
+    testFile.delete()
+  }
+  it should "have a method to write 2 column to an existint file object" in {
+    val srcFile = "src/test/resources/shortscholia.tsv"
+    val corpus = Corpus(srcFile,"\t")
+    val testFileName = "src/test/resources/test82xf.txt"
+    val testFile = new File(testFileName)
+    corpus.write2colFile(testFile, "#")
+    val outputLines = Source.fromFile(testFileName).getLines.toVector
+    assert (outputLines.size == 10)
+
+    testFile.delete()
   }
 
 }

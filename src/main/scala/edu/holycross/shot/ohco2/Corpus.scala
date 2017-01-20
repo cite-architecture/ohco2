@@ -2,6 +2,7 @@ package edu.holycross.shot.ohco2
 
 import edu.holycross.shot.cite._
 import scala.io.Source
+import java.io._
 
 case class Corpus (nodes: Vector[CitableNode]) {
   def urnMatch(filterUrn: CtsUrn) : Vector[CitableNode]= {
@@ -63,6 +64,9 @@ case class Corpus (nodes: Vector[CitableNode]) {
   }
 
 
+
+
+
   def to82xfVector: Vector[XfColumns] = {
     val ids = nodes.map ( n => n.urn)
     val templateVector = Vector.empty[String]
@@ -72,6 +76,30 @@ case class Corpus (nodes: Vector[CitableNode]) {
     nodes.zip(nextPrev).map {
       case (n,(nxt,prv)) => XfColumns(n.urn.toString,nxt.toString,prv.toString,n.text)
     }
+  }
+  def to82xfString(delimiter: String): String = {
+    to82xfVector.map(_.rowString(delimiter)).mkString("\n")
+  }
+
+  def write82xfFile(f: File, delimiter: String) {
+    val pw = new PrintWriter(f)
+    pw.write(to82xfString(delimiter) + "\n")
+    pw.close
+  }
+  def write82xfFile(fileName: String, delimiter: String) {
+    write82xfFile(new File(fileName), delimiter)
+  }
+  def to2colString(delimiter: String): String = {
+    nodes.map(cn => cn.urn + delimiter + cn.text).mkString("\n")
+  }
+
+  def write2colFile(fName: String, delimiter: String) {
+    write2colFile(new File(fName), delimiter)
+  }
+  def write2colFile(f: File, delimiter: String) {
+    val pw = new PrintWriter(f)
+    pw.write(to2colString(delimiter) + "\n")
+    pw.close
   }
 }
 
@@ -85,4 +113,9 @@ object Corpus {
 }
 
 
-case class XfColumns(urn: String, nxt: String, prv: String, txt: String)
+case class XfColumns(urn: String, nxt: String, prv: String, txt: String) {
+
+  def rowString(delimiter: String ): String = {
+    urn + delimiter + nxt + delimiter + prv + delimiter + txt
+  }
+}
