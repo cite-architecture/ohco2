@@ -3,7 +3,7 @@ package edu.holycross.shot.ohco2
 import edu.holycross.shot.cite._
 import scala.io.Source
 
-case class Corpus (texts: Vector[CitableNode]) {
+case class Corpus (nodes: Vector[CitableNode]) {
   def urnMatch(filterUrn: CtsUrn) : Vector[CitableNode]= {
     filterUrn.isRange match {
       // range filter:
@@ -11,16 +11,16 @@ case class Corpus (texts: Vector[CitableNode]) {
         val u1 = CtsUrn(filterUrn.dropPassage.toString + filterUrn.rangeBeginRef)
         val u2 = CtsUrn(filterUrn.dropPassage.toString + filterUrn.rangeEndRef)
         try {
-          val idx1 = texts.indexOf(getFirstNode(u1))
-          val idx2 = texts.indexOf(getLastNode(u2)) + 1
-          texts.slice(idx1,idx2)
+          val idx1 = nodes.indexOf(getFirstNode(u1))
+          val idx2 = nodes.indexOf(getLastNode(u2)) + 1
+          nodes.slice(idx1,idx2)
         } catch {
           case oe: Ohco2Exception => Vector.empty[CitableNode]
         }
       }
       //node filter:
       case false =>  {
-       texts.filter(_.urn.urnMatch(filterUrn))
+       nodes.filter(_.urn.urnMatch(filterUrn))
      }
     }
   }
@@ -59,17 +59,17 @@ case class Corpus (texts: Vector[CitableNode]) {
     }
   }
   def citedWorks: Vector[CtsUrn] = {
-    texts.map(_.urn.dropPassage).distinct
+    nodes.map(_.urn.dropPassage).distinct
   }
 
 
   def to82xfVector: Vector[XfColumns] = {
-    val ids = texts.map ( n => n.urn)
+    val ids = nodes.map ( n => n.urn)
     val templateVector = Vector.empty[String]
     val nextColumn = templateVector  ++ ids.drop(1) ++ Vector("")
     val prevColumn = templateVector ++ Vector("") ++ ids.dropRight(1)
     val nextPrev = nextColumn.zip(prevColumn)
-    texts.zip(nextPrev).map {
+    nodes.zip(nextPrev).map {
       case (n,(nxt,prv)) => XfColumns(n.urn.toString,nxt.toString,prv.toString,n.text)
     }
   }

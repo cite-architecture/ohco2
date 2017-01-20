@@ -6,7 +6,7 @@ import edu.holycross.shot.cite._
 
 class CorpusSpec extends FlatSpec {
 
-  "A corpus of citable texts"  should "offer a constructor signature for instantiating a corpus from a 2-column delimited text file" in {
+  "A corpus of citable nodes"  should "offer a constructor signature for instantiating a corpus from a 2-column delimited text file" in {
     val srcFile = "src/test/resources/scholia-twocolumns.tsv"
     val corpus = Corpus(srcFile,"\t")
     corpus match {
@@ -18,7 +18,7 @@ class CorpusSpec extends FlatSpec {
   it should "have a non-empty vector of citable nodes" in {
     val srcFile = "src/test/resources/scholia-twocolumns.tsv"
     val corpus = Corpus(srcFile,"\t")
-    assert(corpus.texts.size > 0)
+    assert(corpus.nodes.size > 0)
   }
 
 
@@ -226,7 +226,7 @@ class CorpusSpec extends FlatSpec {
     // sample beginning and end of long text:
     val expectedOpening = """<div xmlns="http://www.tei-c.org/ns/1.0" n="lemma"> <p> μῆνις</p>"""
     val expectedClosing = """οὐκ ὀρθῶς.</p></div>"""
-    
+
 
     assert(actualText.startsWith(expectedOpening))
     assert(actualText.endsWith(expectedClosing))

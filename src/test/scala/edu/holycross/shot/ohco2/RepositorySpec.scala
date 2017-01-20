@@ -6,7 +6,7 @@ import edu.holycross.shot.cite._
 
 class RepositorySpec extends FlatSpec {
 
-  "A repository of citable texts"  should "have a corpus of citable texts" in {
+  "A repository of citable texts"  should "have a corpus of citable nodes" in {
     val corpusSource = "src/test/resources/scholia-twocolumns.tsv"
     val corpus = Corpus(corpusSource)
     val catalogSource = "src/test/resources/scholiacatalog.txt"

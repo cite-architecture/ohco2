@@ -7,7 +7,7 @@ import edu.holycross.shot.cite._
 */
 class CatalogSpec extends FlatSpec {
 
-  "A catalog of citable texts" should "offer a constructor signature for instantiating a corpus for a delimited text file" in {
+  "A catalog of citable nodes" should "offer a constructor signature for instantiating a corpus for a delimited text file" in {
     val srcFile = "src/test/resources/scholiacatalog.txt"
     val catalog = Catalog(srcFile)
     catalog match {
