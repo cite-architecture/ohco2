@@ -15,7 +15,7 @@ lazy val crossed = crossProject.in(file(".")).
     settings(
       name := "ohco2",
       organization := "edu.holycross.shot",
-      version := "2.2.0",
+      version := "3.0.0",
       licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
       resolvers += Resolver.jcenterRepo,
       libraryDependencies ++= Seq(
@@ -31,6 +31,7 @@ lazy val crossed = crossProject.in(file(".")).
       skip in packageJSDependencies := false,
       persistLauncher in Compile := true,
       persistLauncher in Test := false
+
     )
 
 lazy val crossedJVM = crossed.jvm
