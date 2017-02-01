@@ -1,14 +1,28 @@
 # `ohco2`
 
-The `edu.holycross.shot.ohco2` package is a library written in Scala for  working with collections of texts in the OHCO2 model.
+T
 
-## Current state of the library
+##What it is
 
-Currently in very rudimentary form only.
+`ohco2` is a cross-platform library for working with corpora of citable texts.
 
-It uses `sbt` for its build system, and `scalatest` for unit testing. Run all tests with `sbt test`; build scaladocs with `sbt doc`.
+##Current version: 3.1
+
+[Release notes](releases.md)
+
+## License
+
+[GPL 3.0](https://opensource.org/licenses/gpl-3.0.html)
+
+## Using, building, testing
+
+`ohco2` compiled for both the JVM and ScalaJS using scala versions 2.10, 2.11 and 2.12.  Binaries for all platforms are available from jcenter.  If you are using sbt, include `Resolver.jcenterRepo` in your build file, and add this to your library dependencies:
 
 
-## Demo scripts
+    "edu.holycross.shot.cite" %% "ohco2" % "3.1.0"
 
-Not yet available.
+For maven, ivy or gradle equivalents, refer to <https://bintray.com/neelsmith/maven/ohco2>.
+
+
+
+To build from source and test, use normal sbt commands (`compile`, `test` ...).
