@@ -26,6 +26,12 @@ case class Corpus (nodes: Vector[CitableNode]) {
      }
     }
   }
+
+  def ~~(filterUrn: CtsUrn) : Vector[CitableNode]= {
+    urnMatch(filterUrn)
+  }
+
+
   def getValidReff(filterUrn: CtsUrn): Vector[CtsUrn] = {
     urnMatch(filterUrn).map(_.urn)
   }

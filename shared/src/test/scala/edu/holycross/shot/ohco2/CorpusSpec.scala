@@ -45,6 +45,15 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
     assert(filtered(0).urn == urn)
   }
 
+  it should "support the twiddle operator in matching queries" in {
+    val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma")
+    val filtered = corpus ~~ urn
+    // result should be a single node with same URN:
+    assert (filtered.size == 1)
+    assert(filtered(0).urn == urn)
+  }
+
+
   it should "filter the corpus contents against a  URN with matching work hierarchy and containing passage hierarchy" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1")
     val filtered = corpus.urnMatch(urn)
