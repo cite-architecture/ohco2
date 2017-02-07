@@ -16,8 +16,11 @@ T
 
 ## Using, building, testing
 
-`ohco2` compiled for both the JVM and ScalaJS using scala versions 2.10, 2.11 and 2.12.  Binaries for all platforms are available from jcenter.  If you are using sbt, include `Resolver.jcenterRepo` in your build file, and add this to your library dependencies:
+`ohco2` compiled for both the JVM and ScalaJS using scala versions 2.10, 2.11 and 2.12.  Binaries for all platforms are available from jcenter.  If you are using sbt, include `Resolver.jcenterRepo`in your list of rsolvers
 
+    resolvers += Resolver.jcenterRepo
+
+and  add this to your library dependencies:
 
     "edu.holycross.shot.cite" %% "ohco2" % "3.1.0"
 
