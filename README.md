@@ -6,7 +6,7 @@
 
 `ohco2` is a cross-platform library for working with corpora of citable texts.
 
-##Current version: 3.1
+##Current version: 4.0
 
 [Release notes](releases.md)
 
