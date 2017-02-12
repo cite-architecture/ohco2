@@ -6,7 +6,7 @@ import java.io._
 import java.net.URL
 
 case class Corpus (nodes: Vector[CitableNode]) {
-  def urnMatch(filterUrn: CtsUrn) : Vector[CitableNode]= {
+  def urnMatch(filterUrn: CtsUrn) : Corpus = {
     filterUrn.isRange match {
       // range filter:
       case true => {
@@ -15,34 +15,35 @@ case class Corpus (nodes: Vector[CitableNode]) {
         try {
           val idx1 = nodes.indexOf(getFirstNode(u1))
           val idx2 = nodes.indexOf(getLastNode(u2)) + 1
-          nodes.slice(idx1,idx2)
+          Corpus(nodes.slice(idx1,idx2))
         } catch {
-          case oe: Ohco2Exception => Vector.empty[CitableNode]
+          case oe: Ohco2Exception => Corpus(Vector.empty[CitableNode])
         }
       }
       //node filter:
       case false =>  {
-       nodes.filter(_.urn.urnMatch(filterUrn))
+       Corpus(nodes.filter(_.urn.urnMatch(filterUrn)))
      }
     }
   }
 
-  def ~~(filterUrn: CtsUrn) : Vector[CitableNode]= {
+  def ~~(filterUrn: CtsUrn) : Corpus = {
     urnMatch(filterUrn)
   }
 
 
-  def getValidReff(filterUrn: CtsUrn): Vector[CtsUrn] = {
-    urnMatch(filterUrn).map(_.urn)
+  def getValidReff(filterUrn: CtsUrn): Vector[CtsUrn]
+ = {
+    urnMatch(filterUrn).nodes.map(_.urn)
   }
   def getTextContents(filterUrn: CtsUrn, connector: String = "\n"): String = {
-    urnMatch(filterUrn).map(_.text).mkString(connector)
+    urnMatch(filterUrn).nodes.map(_.text).mkString(connector)
   }
   def getFirstNodeOption(filterUrn: CtsUrn): Option[CitableNode] = {
     val matching = urnMatch(filterUrn)
-    matching.isEmpty match {
+    matching.nodes.isEmpty match {
       case true => None
-      case false => Some(matching.head)
+      case false => Some(matching.nodes.head)
     }
   }
   def getFirstNode(filterUrn: CtsUrn): CitableNode = {
@@ -54,9 +55,9 @@ case class Corpus (nodes: Vector[CitableNode]) {
 
   def getLastNodeOption(filterUrn: CtsUrn): Option[CitableNode] = {
     val matching = urnMatch(filterUrn)
-    matching.isEmpty match {
+    matching.nodes.isEmpty match {
       case true => None
-      case false => Some(matching.last)
+      case false => Some(matching.nodes.last)
     }
   }
 

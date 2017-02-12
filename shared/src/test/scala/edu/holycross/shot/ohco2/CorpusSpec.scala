@@ -41,16 +41,16 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma")
     val filtered = corpus.urnMatch(urn)
     // result should be a single node with same URN:
-    assert (filtered.size == 1)
-    assert(filtered(0).urn == urn)
+    assert (filtered.nodes.size == 1)
+    assert(filtered.nodes(0).urn == urn)
   }
 
   it should "support the twiddle operator in matching queries" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma")
     val filtered = corpus ~~ urn
     // result should be a single node with same URN:
-    assert (filtered.size == 1)
-    assert(filtered(0).urn == urn)
+    assert (filtered.nodes.size == 1)
+    assert(filtered.nodes(0).urn == urn)
   }
 
 
@@ -58,26 +58,26 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1")
     val filtered = corpus.urnMatch(urn)
     // result should be two nodes with:
-    assert (filtered.size == 2)
+    assert (filtered.nodes.size == 2)
     // add test on trimmed version of URN...
   }
 
   it should "filter the corpus contents against a URN with containing work hierarchy and matching passage hierarchy" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1.lemma")
     val filtered = corpus.urnMatch(urn)
-    assert (filtered.size == 1)
+    assert (filtered.nodes.size == 1)
     // urns differ only in version:
-    assert (filtered(0).urn.textGroup == urn.textGroup)
-    assert (filtered(0).urn.work == urn.work)
-    assert (filtered(0).urn.passageComponent == urn.passageComponent)
+    assert (filtered.nodes(0).urn.textGroup == urn.textGroup)
+    assert (filtered.nodes(0).urn.work == urn.work)
+    assert (filtered.nodes(0).urn.passageComponent == urn.passageComponent)
   }
 
 
   it should "filter the corpus contents against a URN with containing work hierarchy and containing passage hierarchy" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1")
     val filtered = corpus.urnMatch(urn)
-    assert (filtered.size == 2)
-    for (txtnode <- filtered) {
+    assert (filtered.nodes.size == 2)
+    for (txtnode <- filtered.nodes) {
       assert (txtnode.urn.textGroup == urn.textGroup)
       assert (txtnode.urn.work == urn.work)
     }
@@ -86,15 +86,15 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
   it should "return an empty vector if the filtering URN does not appear in the corpus" in {
       val urn = CtsUrn("urn:cts:fake:group:none")
       val filtered = corpus.urnMatch(urn)
-      assert(filtered.isEmpty)
+      assert(filtered.nodes.isEmpty)
   }
 
   // filtering on range URNS:
   it should "filter the corpus contents against a range URN with matching work hierarchy and matching range end points" in  {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma-1.2.comment")
     val filtered = corpus.urnMatch(urn)
-    assert (filtered.size == 4)
-    for (txtnode <- filtered) {
+    assert (filtered.nodes.size == 4)
+    for (txtnode <- filtered.nodes) {
       assert (txtnode.urn.textGroup == urn.textGroup)
       assert (txtnode.urn.work == urn.work)
       assert (txtnode.urn.version == urn.version)
@@ -104,8 +104,8 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
   it should "filter the corpus contents against a range URN with matching work hierarchy and containing range beginning point" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1-1.2.comment")
     val filtered = corpus.urnMatch(urn)
-    assert (filtered.size == 4)
-    for (txtnode <- filtered) {
+    assert (filtered.nodes.size == 4)
+    for (txtnode <- filtered.nodes) {
       assert (txtnode.urn.textGroup == urn.textGroup)
       assert (txtnode.urn.work == urn.work)
       assert (txtnode.urn.version == urn.version)
@@ -115,8 +115,8 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
   it should "filter the corpus contents against a range URN with matching work hierarchy and containing range ending point" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma-1.2")
     val filtered = corpus.urnMatch(urn)
-    assert (filtered.size == 4)
-    for (txtnode <- filtered) {
+    assert (filtered.nodes.size == 4)
+    for (txtnode <- filtered.nodes) {
       assert (txtnode.urn.textGroup == urn.textGroup)
       assert (txtnode.urn.work == urn.work)
       assert (txtnode.urn.version == urn.version)
@@ -126,8 +126,8 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
   it should "filter the corpus contents against a range URN with matching work hierarchy and containing points for range beginning and ending" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1-1.2")
     val filtered = corpus.urnMatch(urn)
-    assert (filtered.size == 4)
-    for (txtnode <- filtered) {
+    assert (filtered.nodes.size == 4)
+    for (txtnode <- filtered.nodes) {
       assert (txtnode.urn.textGroup == urn.textGroup)
       assert (txtnode.urn.work == urn.work)
       assert (txtnode.urn.version == urn.version)
@@ -137,8 +137,8 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
   it should "filter the corpus contents against a range URN with containing work hierarchy and matching range end points" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1.lemma-1.2.comment")
     val filtered = corpus.urnMatch(urn)
-    assert (filtered.size == 4)
-    for (txtnode <- filtered) {
+    assert (filtered.nodes.size == 4)
+    for (txtnode <- filtered.nodes) {
       assert (txtnode.urn.textGroup == urn.textGroup)
       assert (txtnode.urn.work == urn.work)
     }
@@ -147,8 +147,8 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
   it should "filter the corpus contents against a range URN with containing work hierarchy and containing range beginning point" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1-1.2.comment")
     val filtered = corpus.urnMatch(urn)
-    assert (filtered.size == 4)
-    for (txtnode <- filtered) {
+    assert (filtered.nodes.size == 4)
+    for (txtnode <- filtered.nodes) {
       assert (txtnode.urn.textGroup == urn.textGroup)
       assert (txtnode.urn.work == urn.work)
     }
@@ -157,8 +157,8 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
   it should "filter the corpus contents against a range URN with containing work hierarchy and containing range ending point" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1.lemma-1.2")
     val filtered = corpus.urnMatch(urn)
-    assert (filtered.size == 4)
-    for (txtnode <- filtered) {
+    assert (filtered.nodes.size == 4)
+    for (txtnode <- filtered.nodes) {
       assert (txtnode.urn.textGroup == urn.textGroup)
       assert (txtnode.urn.work == urn.work)
     }
@@ -167,8 +167,8 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
   it should "filter the corpus contents against a range URN with containing work hierarchy and containing points for range beginning and ending" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1-1.2")
     val filtered = corpus.urnMatch(urn)
-    assert (filtered.size == 4)
-    for (txtnode <- filtered) {
+    assert (filtered.nodes.size == 4)
+    for (txtnode <- filtered.nodes) {
       assert (txtnode.urn.textGroup == urn.textGroup)
       assert (txtnode.urn.work == urn.work)
     }
@@ -177,12 +177,12 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
   it should "return an empty vector if the first node of the filtering URN does not appear in the corpus" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:FAKE-1.2")
     val filtered = corpus.urnMatch(urn)
-    assert (filtered.isEmpty)
+    assert (filtered.nodes.isEmpty)
   }
   it should "return an empty vector if the second node of the filtering URN does not appear in the corpus" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1-FAKE")
     val filtered = corpus.urnMatch(urn)
-    assert (filtered.isEmpty)
+    assert (filtered.nodes.isEmpty)
   }
 
   // CTS-like convenience methods
