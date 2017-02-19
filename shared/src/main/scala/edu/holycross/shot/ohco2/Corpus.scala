@@ -11,6 +11,10 @@ case class Corpus (nodes: Vector[CitableNode]) {
     Corpus(newNodes.distinct)
   }
 
+  def --(corpus2: Corpus) : Corpus = {
+    Corpus( nodes diff corpus2.nodes)
+  }
+
   def urnMatch(filterUrn: CtsUrn) : Corpus = {
     filterUrn.isRange match {
       // range filter:
