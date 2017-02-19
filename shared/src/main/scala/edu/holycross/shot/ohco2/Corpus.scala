@@ -1,9 +1,8 @@
 package edu.holycross.shot.ohco2
 
 import edu.holycross.shot.cite._
-import scala.io.Source
-import java.io._
-import java.net.URL
+
+
 
 case class Corpus (nodes: Vector[CitableNode]) {
   def urnMatch(filterUrn: CtsUrn) : Corpus = {
