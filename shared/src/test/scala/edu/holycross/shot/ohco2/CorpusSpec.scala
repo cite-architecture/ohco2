@@ -100,4 +100,23 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
     assert (anded.size == 3)
   }
 
+  it should "offer a function for retrieving URNs" in {
+    val threeLines = Corpus(delimitedText,"#")
+    val one = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.1")
+    val two = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.2")
+    val three = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.3")
+    val expected = Vector(one,two,three)
+
+
+    assert (threeLines.urns == expected)
+  }
+
+  it should "offer a function for retrieving text contents" in {
+    val threeLines = Corpus(delimitedText,"#")
+    val expected = Vector("μῆνιν","ἄειδε","θεὰ")
+
+
+    assert (threeLines.texts == expected)
+  }
+
 }

@@ -1,5 +1,9 @@
 #ohco2: release notes
 
+**4.2**: adds `urns` and `texts` functions to `Corpus`.
+
+**4.1**: to `Corpus`, adds `++` and `--` functions, and application of `~~` to Vectors of CTS URNs.
+
 **4.0**: breaking changes:  twiddling on a Corpus now returns a new (possibly empty) Corpus; in the JVM subproject, the `CorpusFileIO` class is replaced with `CorpusSource`.
 
 **3.1**: introduces the twiddle operator ~~ for URN matching.

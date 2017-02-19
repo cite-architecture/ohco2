@@ -29,6 +29,14 @@ case class Corpus (nodes: Vector[CitableNode]) {
     }
   }
 
+  def urns : Vector[CtsUrn] = {
+    nodes.map(_.urn)
+  }
+
+  def texts : Vector[String] = {
+    nodes.map(_.text)
+  }
+
   def urnMatch(filterUrn: CtsUrn) : Corpus = {
     filterUrn.isRange match {
       // range filter:
