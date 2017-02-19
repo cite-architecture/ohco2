@@ -12,7 +12,13 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.1#θεά
 """
 
 
-  "A corpus of citable nodes"  should "offer a constructor signature for  a corpus from a string value for a URL identifying a 2-column delimited text source" in pending
+  "A corpus of citable nodes"  should "offer a constructor signature for  a corpus from a string value for a URL identifying a 2-column delimited text source" in {
+    val corpus = Corpus(delimitedText,"#")
+    corpus match {
+      case c: Corpus => assert(true)
+      case _ => fail("Failed to create Corpus object")
+    }
+  }
   it should "throw an Ohco2Exception if badly formatted data is given to the constructor" in {
     val badInput = "no structure here"
     try {
@@ -24,20 +30,12 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.1#θεά
     }
   }
 
-   /*{
-    val corpus = Corpus(delimitedText,"#")
-    corpus match {
-      case c: Corpus => assert(true)
-      case _ => fail("Failed to create Corpus object")
-    }
-  }
   it should "have a non-empty vector of citable nodes" in {
     val corpus = Corpus(delimitedText,"#")
     assert(corpus.nodes.size > 0)
   }
 
 
-*/
 
 
 }
