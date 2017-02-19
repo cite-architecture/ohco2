@@ -14,6 +14,20 @@ case class Corpus (nodes: Vector[CitableNode]) {
   def --(corpus2: Corpus) : Corpus = {
     Corpus( nodes diff corpus2.nodes)
   }
+  def ~~(filterUrn: CtsUrn) : Corpus = {
+    urnMatch(filterUrn)
+  }
+
+// dEFAULT TO EMPTY RESULT VECTOR
+  def ~~(urnV : Vector[CtsUrn], resultCorpus: Corpus): Corpus = {
+    if (urnV.isEmpty ) {
+      resultCorpus
+    } else {
+      val subVect = this ~~ urnV.head
+      val newTotal = resultCorpus ++ subVect
+      this ~~(urnV.tail, newTotal)
+    }
+  }
 
   def urnMatch(filterUrn: CtsUrn) : Corpus = {
     filterUrn.isRange match {
@@ -36,9 +50,7 @@ case class Corpus (nodes: Vector[CitableNode]) {
     }
   }
 
-  def ~~(filterUrn: CtsUrn) : Corpus = {
-    urnMatch(filterUrn)
-  }
+
 
 
   def getValidReff(filterUrn: CtsUrn): Vector[CtsUrn]

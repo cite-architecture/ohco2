@@ -15,6 +15,13 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.4#Πηληϊάδεω
 urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
 """
 
+val fiveTokens = """urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.1#μῆνιν
+urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.2#ἄειδε
+urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.3#θεὰ
+urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.4#Πηληϊάδεω
+urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
+"""
+
   "A corpus of citable nodes"  should "offer a constructor signature for  a corpus from a string value for a URL identifying a 2-column delimited text source" in {
     val corpus = Corpus(delimitedText,"#")
     corpus match {
@@ -42,6 +49,16 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
     assert (corpus.size == 3)
   }
 
+  it should "allow comparing of corpus equality" in {
+    val allFive = Corpus(fiveTokens,"#")
+
+    val c1 = Corpus(delimitedText,"#")
+    val c2 = Corpus(text2,"#")
+    val combo = c1 ++ c2
+
+    assert(allFive == combo)
+  }
+
   it should "support addition of corpora" in {
     val c1 = Corpus(delimitedText,"#")
     val c2 = Corpus(text2,"#")
@@ -50,5 +67,37 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
   }
 
 
+
+  it should "maintain corpus sequence in addition of corpora" in {
+    val allFive = Corpus(fiveTokens,"#")
+
+    val c1 = Corpus(delimitedText,"#")
+    val c2 = Corpus(text2,"#")
+    val combo = c2 ++ c1
+
+    assert(allFive != combo)
+  }
+
+  it should "allow subtraction on corpora" in {
+    val allFive = Corpus(fiveTokens,"#")
+    val threeLines = Corpus(delimitedText,"#")
+    assert( (allFive -- threeLines).size == 2)
+  }
+
+  it should "maintain non-commutative property subtraction" in {
+    val allFive = Corpus(fiveTokens,"#")
+    val threeLines = Corpus(delimitedText,"#")
+    assert( (threeLines -- allFive).size == 0)
+  }
+
+  it should "support twiddling on vectors of URNs" in {
+    val five = Corpus(fiveTokens,"#")
+    val one = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.1")
+    val two = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.2")
+    val three = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.3")
+
+    val anded = five.~~(Vector(one,two,three), Corpus(Vector.empty))
+    assert (anded.size == 3)
+  }
 
 }
