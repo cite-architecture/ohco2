@@ -93,6 +93,10 @@ case class Corpus (nodes: Vector[CitableNode]) {
   def to2colString(delimiter: String): String = {
     nodes.map(cn => cn.urn + delimiter + cn.text).mkString("\n")
   }
+
+  def size: Int = {
+    nodes.size
+  }
 }
 
 
