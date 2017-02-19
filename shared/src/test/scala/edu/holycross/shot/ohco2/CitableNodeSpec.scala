@@ -16,6 +16,14 @@ class CitableNodeSpec extends FlatSpec {
         assert (cn.text.nonEmpty)
   }
 
+
+  it should "consider nodes with identical urns and text content to be equivalent" in {
+    val cn1 = CitableNode(CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1"),"Μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος")
+    val cn2 = CitableNode(CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1"),"Μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος")
+
+    assert(cn1 == cn2)
+  }
+
   "The constructor for a citable text node" should "throw an Ohco2 exception if text content is empty" in {
     try {
       CitableNode(CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1"), "")
@@ -23,5 +31,6 @@ class CitableNodeSpec extends FlatSpec {
       case oe: Ohco2Exception => assert(oe.message == "CitableNode: text content cannot be empty")
     }
   }
+
 
 }
