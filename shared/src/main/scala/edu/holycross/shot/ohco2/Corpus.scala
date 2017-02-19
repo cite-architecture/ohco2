@@ -5,6 +5,12 @@ import edu.holycross.shot.cite._
 
 
 case class Corpus (nodes: Vector[CitableNode]) {
+
+  def ++(corpus2: Corpus) : Corpus = {
+    val newNodes = nodes ++ corpus2.nodes
+    Corpus(newNodes.distinct)
+  }
+
   def urnMatch(filterUrn: CtsUrn) : Corpus = {
     filterUrn.isRange match {
       // range filter:
@@ -92,8 +98,16 @@ case class Corpus (nodes: Vector[CitableNode]) {
 
 object Corpus {
   def apply(data: String, separator: String = "\t"): Corpus = {
-    val stringPairs = data.split("\n").toVector.map(_.split(separator))
-    val citableNodes = stringPairs.map( arr => CitableNode(CtsUrn(arr(0)), arr(1)))
+    val stringPairs = data.split("\n").toVector.map(_.split(separator).toVector)
+    // should be exclusively 2-column data
+    val checkFormat = stringPairs.filter(_.size != 2)
+    if (checkFormat.size > 0) {
+      throw Ohco2Exception("Badly formatted input.  Did not find 2 columns in the following source: " + checkFormat.map(_.mkString(" ")).mkString("\n"))
+    }
+
+    val citableNodes = stringPairs.map( arr => CitableNode(CtsUrn(arr(0)), arr(1))  )
+
+
     Corpus(citableNodes)
   }
 
