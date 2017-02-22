@@ -1,5 +1,6 @@
 #ohco2: release notes
 
+**5.0**: adds (API-breaking) support for `xcite` v. 2.
 
 **4.3**:  adds filtering by `OrcaCollection`
 

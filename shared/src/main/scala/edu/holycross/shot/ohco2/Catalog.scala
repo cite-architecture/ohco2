@@ -31,7 +31,7 @@ case class CatalogEntry(urn: CtsUrn, citationScheme: String, groupName: String, 
 
 case class Catalog (texts: Vector[CatalogEntry]) {
   def entriesForUrn(filterUrn: CtsUrn): Vector[CatalogEntry] = {
-    texts.filter(_.urn.urnMatch(filterUrn))
+    texts.filter(_.urn.~~(filterUrn))
   }
 }
 

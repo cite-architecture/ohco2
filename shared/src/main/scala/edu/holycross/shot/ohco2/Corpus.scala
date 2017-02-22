@@ -11,12 +11,8 @@ case class Corpus (nodes: Vector[CitableNode]) {
     val newNodes = nodes ++ corpus2.nodes
     Corpus(newNodes.distinct)
   }
-
   def --(corpus2: Corpus) : Corpus = {
     Corpus( nodes diff corpus2.nodes)
-  }
-  def ~~(filterUrn: CtsUrn) : Corpus = {
-    urnMatch(filterUrn)
   }
 
   def ~~(orca: OrcaCollection) : Corpus = {
@@ -32,9 +28,13 @@ case class Corpus (nodes: Vector[CitableNode]) {
     if (urnV.isEmpty ) {
       resultCorpus
     } else {
-      val subVect = this ~~ urnV.head
+
+      val subVect =   Corpus(nodes.filter(_.urn ~~ urnV.head))
       val newTotal = resultCorpus ++ subVect
       this ~~(urnV.tail, newTotal)
+
+
+
     }
   }
 
@@ -42,11 +42,11 @@ case class Corpus (nodes: Vector[CitableNode]) {
     nodes.map(_.urn)
   }
 
-  def texts : Vector[String] = {
+  def contents : Vector[String] = {
     nodes.map(_.text)
   }
 
-  def urnMatch(filterUrn: CtsUrn) : Corpus = {
+  def ~~(filterUrn: CtsUrn) : Corpus = {
     filterUrn.isRange match {
       // range filter:
       case true => {
@@ -62,7 +62,7 @@ case class Corpus (nodes: Vector[CitableNode]) {
       }
       //node filter:
       case false =>  {
-       Corpus(nodes.filter(_.urn.urnMatch(filterUrn)))
+       Corpus(nodes.filter(_.urn.~~(filterUrn)))
      }
     }
   }
@@ -72,16 +72,18 @@ case class Corpus (nodes: Vector[CitableNode]) {
 
   def getValidReff(filterUrn: CtsUrn): Vector[CtsUrn]
  = {
-    urnMatch(filterUrn).nodes.map(_.urn)
+   val filtered = nodes.filter(_.urn.~~(filterUrn))
+   filtered.map(_.urn)
   }
   def getTextContents(filterUrn: CtsUrn, connector: String = "\n"): String = {
-    urnMatch(filterUrn).nodes.map(_.text).mkString(connector)
+    val matching = nodes.filter(_.urn ~~ filterUrn)
+    matching.map(_.text).mkString(connector)
   }
   def getFirstNodeOption(filterUrn: CtsUrn): Option[CitableNode] = {
-    val matching = urnMatch(filterUrn)
-    matching.nodes.isEmpty match {
+    val matching =nodes.filter(_.urn.~~(filterUrn))
+    matching.isEmpty match {
       case true => None
-      case false => Some(matching.nodes.head)
+      case false => Some(nodes.head)
     }
   }
   def getFirstNode(filterUrn: CtsUrn): CitableNode = {
@@ -92,10 +94,10 @@ case class Corpus (nodes: Vector[CitableNode]) {
   }
 
   def getLastNodeOption(filterUrn: CtsUrn): Option[CitableNode] = {
-    val matching = urnMatch(filterUrn)
-    matching.nodes.isEmpty match {
+    val matching =nodes.filter(_.urn.~~(filterUrn))
+    matching.isEmpty match {
       case true => None
-      case false => Some(matching.nodes.last)
+      case false => Some(matching.last)
     }
   }
 

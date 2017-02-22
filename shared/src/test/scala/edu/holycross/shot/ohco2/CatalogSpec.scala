@@ -32,7 +32,7 @@ urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad
     val mainScholia = catalog.entriesForUrn(mainScholiaUrn)
     val documents = mainScholia.map(_.urn).distinct
     assert (documents.size == 1)
-    assert (documents(0).urnMatch(mainScholiaUrn))
+    assert (documents(0).~~(mainScholiaUrn))
   }
 
   "A catalog entry"  should "have a CtsUrn with a valid version identifier" in {

@@ -28,7 +28,7 @@ class JvmFileIOSpec extends FlatSpec {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile,"\t")
-    val filtered = corpus.urnMatch(urn)
+    val filtered = corpus.~~(urn)
     // result should be a single node with same URN:
     assert (filtered.nodes.size == 1)
     assert(filtered.nodes(0).urn == urn)
@@ -38,7 +38,7 @@ class JvmFileIOSpec extends FlatSpec {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile,"\t")
-    val filtered = corpus.urnMatch(urn)
+    val filtered = corpus.~~(urn)
     // result should be two nodes with:
     assert (filtered.nodes.size == 2)
     // add test on trimmed version of URN...
@@ -48,7 +48,7 @@ class JvmFileIOSpec extends FlatSpec {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1.lemma")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile,"\t")
-    val filtered = corpus.urnMatch(urn)
+    val filtered = corpus.~~(urn)
     assert (filtered.nodes.size == 1)
     // urns differ only in version:
     assert (filtered.nodes(0).urn.textGroup == urn.textGroup)
@@ -61,7 +61,7 @@ class JvmFileIOSpec extends FlatSpec {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile,"\t")
-    val filtered = corpus.urnMatch(urn)
+    val filtered = corpus.~~(urn)
     assert (filtered.nodes.size == 2)
     for (txtnode <- filtered.nodes) {
       assert (txtnode.urn.textGroup == urn.textGroup)
@@ -73,7 +73,7 @@ class JvmFileIOSpec extends FlatSpec {
       val urn = CtsUrn("urn:cts:fake:group:none")
       val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
       val corpus = CorpusSource.fromFile(srcFile,"\t")
-      val filtered = corpus.urnMatch(urn)
+      val filtered = corpus.~~(urn)
       assert(filtered.nodes.isEmpty)
   }
 
@@ -82,7 +82,7 @@ class JvmFileIOSpec extends FlatSpec {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma-1.2.comment")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile,"\t")
-    val filtered = corpus.urnMatch(urn)
+    val filtered = corpus.~~(urn)
     assert (filtered.nodes.size == 4)
     for (txtnode <- filtered.nodes) {
       assert (txtnode.urn.textGroup == urn.textGroup)
@@ -95,7 +95,7 @@ class JvmFileIOSpec extends FlatSpec {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1-1.2.comment")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile,"\t")
-    val filtered = corpus.urnMatch(urn)
+    val filtered = corpus.~~(urn)
     assert (filtered.nodes.size == 4)
     for (txtnode <- filtered.nodes) {
       assert (txtnode.urn.textGroup == urn.textGroup)
@@ -108,7 +108,7 @@ class JvmFileIOSpec extends FlatSpec {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma-1.2")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile,"\t")
-    val filtered = corpus.urnMatch(urn)
+    val filtered = corpus.~~(urn)
     assert (filtered.nodes.size == 4)
     for (txtnode <- filtered.nodes) {
       assert (txtnode.urn.textGroup == urn.textGroup)
@@ -121,7 +121,7 @@ class JvmFileIOSpec extends FlatSpec {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1-1.2")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile,"\t")
-    val filtered = corpus.urnMatch(urn)
+    val filtered = corpus.~~(urn)
     assert (filtered.nodes.size == 4)
     for (txtnode <- filtered.nodes) {
       assert (txtnode.urn.textGroup == urn.textGroup)
@@ -134,7 +134,7 @@ class JvmFileIOSpec extends FlatSpec {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1.lemma-1.2.comment")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile,"\t")
-    val filtered = corpus.urnMatch(urn)
+    val filtered = corpus.~~(urn)
     assert (filtered.nodes.size == 4)
     for (txtnode <- filtered.nodes) {
       assert (txtnode.urn.textGroup == urn.textGroup)
@@ -146,7 +146,7 @@ class JvmFileIOSpec extends FlatSpec {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1-1.2.comment")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile,"\t")
-    val filtered = corpus.urnMatch(urn)
+    val filtered = corpus.~~(urn)
     assert (filtered.nodes.size == 4)
     for (txtnode <- filtered.nodes) {
       assert (txtnode.urn.textGroup == urn.textGroup)
@@ -158,7 +158,7 @@ class JvmFileIOSpec extends FlatSpec {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1.lemma-1.2")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile,"\t")
-    val filtered = corpus.urnMatch(urn)
+    val filtered = corpus.~~(urn)
     assert (filtered.nodes.size == 4)
     for (txtnode <- filtered.nodes) {
       assert (txtnode.urn.textGroup == urn.textGroup)
@@ -170,7 +170,7 @@ class JvmFileIOSpec extends FlatSpec {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1-1.2")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile,"\t")
-    val filtered = corpus.urnMatch(urn)
+    val filtered = corpus.~~(urn)
     assert (filtered.nodes.size == 4)
     for (txtnode <- filtered.nodes) {
       assert (txtnode.urn.textGroup == urn.textGroup)
@@ -182,25 +182,25 @@ class JvmFileIOSpec extends FlatSpec {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:FAKE-1.2")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile,"\t")
-    val filtered = corpus.urnMatch(urn)
+    val filtered = corpus.~~(urn)
     assert (filtered.nodes.isEmpty)
   }
   it should "return an empty vector if the second node of the filtering URN does not appear in the corpus" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1-FAKE")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile,"\t")
-    val filtered = corpus.urnMatch(urn)
+    val filtered = corpus.~~(urn)
     assert (filtered.nodes.isEmpty)
   }
 
   // CTS-like convenience methods
-  it should "offer a convenience method for finding the first citable node in a filtered vector" in {
+  it should "offer a convenience method for finding the first citable node in a filtered vector" in pending /*{
     val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2.lemma-1.10.comment")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile)
     val expectedFirst = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.lemma")
     assert(corpus.getFirstNode(filterUrn).urn == expectedFirst)
-  }
+  }*/
 
   it should "offer a convenience method for finding the last citable node in a filtered vector" in {
     val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2")

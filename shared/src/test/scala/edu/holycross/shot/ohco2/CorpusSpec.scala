@@ -116,7 +116,7 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
     val expected = Vector("μῆνιν","ἄειδε","θεὰ")
 
 
-    assert (threeLines.texts == expected)
+    assert (threeLines.contents == expected)
   }
 
 }
