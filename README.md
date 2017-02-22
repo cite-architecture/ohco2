@@ -8,7 +8,7 @@
 
 ##Current version: 4.3
 
-[Release notes](releases.md)
+Status:  **active development**. [Release notes](releases.md)
 
 ## License
 
