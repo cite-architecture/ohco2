@@ -2,6 +2,7 @@ package edu.holycross.shot.ohco2
 import org.scalatest.FlatSpec
 import edu.holycross.shot.cite._
 
+import edu.holycross.shot.orca._
 
 class CorpusFilteringSpec extends FlatSpec {
 
@@ -169,5 +170,20 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
     assert (filtered.nodes.isEmpty)
   }
 
+
+  it should "support filtering by OrcaAnalysis" in {
+    val tokens = "ORCA_URN#AnalyzedText#Analysis#TextDeformation\n" + "urn:cite2:hmt:clausereading.v1:clause1#urn:cts:greekLit:tlg0012.tlg001.msA:1.1@Μῆνιν#urn:cite2:hmt:lextype:lexical#Μῆνιν\n"
+
+
+    val orca = OrcaCollection(tokens,"#")
+    assert (orca.size == 1)
+    val ln1 = CitableNode(CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1"),"Μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος")
+    val ln2 =  CitableNode(CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.2"),"οὐλομένην· ἡ μυρί᾽ Ἀχαιοῖς ἄλγε᾽ ἔθηκεν")
+
+    val c = Corpus(Vector(ln1, ln2))
+
+    val analyzedCorpus  = c ~~ orca
+    assert (analyzedCorpus.size == 1)
+  }
 
 }

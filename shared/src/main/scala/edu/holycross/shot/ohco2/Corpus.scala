@@ -1,6 +1,7 @@
 package edu.holycross.shot.ohco2
 
 import edu.holycross.shot.cite._
+import edu.holycross.shot.orca._
 
 
 
@@ -18,7 +19,15 @@ case class Corpus (nodes: Vector[CitableNode]) {
     urnMatch(filterUrn)
   }
 
+  def ~~(orca: OrcaCollection) : Corpus = {
+    this ~~ orca.texts
+  }
+
 // dEFAULT TO EMPTY RESULT VECTOR
+  def  ~~(urnV: Vector[CtsUrn]): Corpus = {
+    val rslts = Vector.empty
+    this.~~(urnV, Corpus(rslts))
+  }
   def ~~(urnV : Vector[CtsUrn], resultCorpus: Corpus): Corpus = {
     if (urnV.isEmpty ) {
       resultCorpus

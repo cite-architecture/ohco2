@@ -1,5 +1,9 @@
 #ohco2: release notes
 
+
+**4.3**:  adds filtering by `OrcaCollection`
+
+
 **4.2**: adds `urns` and `texts` functions to `Corpus`.
 
 **4.1**: to `Corpus`, adds `++` and `--` functions, and application of `~~` to Vectors of CTS URNs.
