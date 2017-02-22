@@ -23,7 +23,7 @@ case class Corpus (nodes: Vector[CitableNode]) {
     this ~~ orca.texts
   }
 
-// dEFAULT TO EMPTY RESULT VECTOR
+
   def  ~~(urnV: Vector[CtsUrn]): Corpus = {
     val rslts = Vector.empty
     this.~~(urnV, Corpus(rslts))
