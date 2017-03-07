@@ -250,11 +250,9 @@ case class Corpus (nodes: Vector[CitableNode]) {
 
       min match {
         case n if n >= 0 => {
-          println("SLICE MIN " + min + " to  IDX " + idx)
           nodes.slice(min,idx)
         }
         case _ => {
-            println("AT 0, slide 0 to IDX " + idx)
           nodes.slice(0,idx)
         }
       }
