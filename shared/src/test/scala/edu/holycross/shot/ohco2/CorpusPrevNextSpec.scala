@@ -32,8 +32,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
   it should  "find the previous passage of equal size before a passage" in {
     val middle = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.3")
     val prv = corpus.prev(middle)
-    println("FOR " + middle + " PREV IS ")
-    println(prv.map(_.urn).mkString("\n"))
+  
     assert(prv.size == 2)
     assert(prv(0).urn ==  CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.lemma"))
     assert(prv(1).urn ==  CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.comment"))
@@ -42,8 +41,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
   it should "find all previous nodes before a passage if they are fewer than the size of the passage"  in {
     val middle = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2-1.4")
     val prv = corpus.prev(middle)
-    println("FOR " + middle + " PREV IS ")
-    println(prv.map(_.urn).mkString("\n"))
+
     assert(prv.size == 2)
     assert(prv(0).urn ==  CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma"))
     assert(prv(1).urn ==  CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.comment"))
