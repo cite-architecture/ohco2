@@ -8,4 +8,9 @@ import js.annotation.JSExport
   if (text.isEmpty) {
     throw new Ohco2Exception("CitableNode: text content cannot be empty")
   }
+
+
+  def ~~ (urn2: CtsUrn): Boolean = {
+    (this.urn ~~ urn2)
+  }
 }

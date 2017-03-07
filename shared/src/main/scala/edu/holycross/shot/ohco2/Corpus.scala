@@ -29,6 +29,12 @@ case class Corpus (nodes: Vector[CitableNode]) {
     nodes.size
   }
 
+  /** True if citable nodes vector is empty.
+  */
+  def isEmpty: Boolean = {
+    nodes.isEmpty
+  }
+
   /** List all versions or exemplars cited in a corpus.
   */
   def citedWorks: Vector[CtsUrn] = {

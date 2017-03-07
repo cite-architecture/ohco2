@@ -59,5 +59,11 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
     CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.comment"))
     assert(corpus.validReff(filterUrn) == expectedReff)
   }
-  
+  it should "offer a boolean function to test for empty contents" in {
+    assert (corpus.isEmpty == false)
+
+    val nonCorpus = Corpus(Vector.empty)
+    assert (nonCorpus.isEmpty)
+  }
+
 }

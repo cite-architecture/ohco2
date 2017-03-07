@@ -24,6 +24,15 @@ class CitableNodeSpec extends FlatSpec {
     assert(cn1 == cn2)
   }
 
+  it should "support URN twiddling" in {
+      val cn = CitableNode(CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1"),"Μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος")
+
+      val iliad1 = CtsUrn("urn:cts:greekLit:tlg0012.tlg001:1")
+
+      assert (cn ~~ iliad1)
+
+  }
+
   "The constructor for a citable text node" should "throw an Ohco2 exception if text content is empty" in {
     try {
       CitableNode(CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1"), "")
