@@ -4,10 +4,9 @@ import edu.holycross.shot.cite._
 
 
 
-class CorpusCtsSpec extends FlatSpec {
+class TextRepositorySpec extends FlatSpec {
 
-
-  val scholiaDelimited = """urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma#<div xmlns="http://www.tei-c.org/ns/1.0" n="lemma"> <p> μῆνιν ἄειδε</p></div>
+      val scholiaDelimited = """urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma#<div xmlns="http://www.tei-c.org/ns/1.0" n="lemma"> <p> μῆνιν ἄειδε</p></div>
 urn:cts:greekLit:tlg5026.msA.hmt:1.1.comment#<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> ζητοῦσι δια τί ἀπὸ τῆς μήνιδος ἤρξατο οὕτως δυσφήμου ὀνόματος· δια δύο ταῦτα· πρῶτον μὲν ἵν' ἐκ τοῦ πάθους ἀπκαταῥρεύσῃ τὸ τοιοῦτο μόριον τῆς ψυχῆς καὶ προσεκτικωτέρους τοὺς ἀκροατὰς ἐπι τοῦ μεγέθους ποιήσῃ καὶ προσεθίζῃ φέρειν γενναίως ἡμᾶς τὰ πάθη. μέλλων πολλέμους ἀπαγγέλλειν· δεύτερον. ἵνα τὰ ἐγκώμια τῶν Ἑλλήνων πιθανώτερα ποιήσῃ· ἐπεὶ δὲ ἔμελλε, νικωντας ἀποφαίνειν τοὺς Ἑλληνας, εἰκότως οὐ κατατρέχει ἀξιοπιστότερον ἐκ τοῦ μὴ παντα χαρίζεσθαι τῷ εκείνων ἐπαίνῳ· ἤρξατο μὲν ἀπὸ μήνιδος ἐπείπερ αὕτη τοῖς πρακτικοῖς ὑπόθεσις γέγονεν· ἄλλῳς τε καὶ τραγῳδίαις τραγικὸν ἐξεῦρε προοίμιον· καὶ γὰρ προσεκτικοὺς ἡμᾶς ἡ τῶν ἀτυχημάτων διήγησις ἐργάζεται· καὶ ὡς ἄριστος ϊατρὸς, πρῶτον ἀναστέλλων τὰ νοσήματα τῆς ψυχῆς ὕστερον τὴν ΐασιν ἐπάγει. <placeName n="urn:cite:hmt:place.place3"> Ἑλληνικὸν</placeName> δὲ τὸ προ τέλει τὰς ηδονὰς ἐπάγειν· ῾ϊστέον δέ, ὥσπερ ἐπι συκῆς πρωτον μέν ἐστιν όλυνθος εἶτα φίλιξ σύκον ϊσχάς. οὕτω πρῶτον· <rs type="waw"> ὀργή</rs> · <rs type="waw"> θυμός</rs> · <rs type="waw"> χόλος</rs> · <rs type="waw"> κότος</rs> · <rs type="waw"> μῆνις</rs> · ὅμως ὁ ποιητὴς ὡς συνωνύμοις ὀνόμασιν ἐπὶ <persName n="urn:cite:hmt:pers.pers1"> Ἀχιλλεως</persName> χρῆται <cit> <q> ἢἐ <seg type="word"> χόλ <unclear> ο</unclear> ν</seg> παύσειεν, ἐρητύσειε τε θυμόν</q> <ref type="urn"> urn:cts:greekLit:tlg0012.tlg001:1.192</ref></cit> · <cit> <q> οὐδ' ὄθομαι κοτέοντος</q> <ref type="urn"> urn:cts:greekLit:tlg0012.tlg001:1.181</ref></cit> , <cit> <q> αὐτὰρ ὁ μήνιε νηυσίν</q> <ref type="urn"> urn:cts:greekLit:tlg0012.tlg001:1.488</ref></cit> ·</p></div>
 urn:cts:greekLit:tlg5026.msA.hmt:1.2.lemma#<div xmlns="http://www.tei-c.org/ns/1.0" n="lemma"> <p> μῆνις</p></div>
 urn:cts:greekLit:tlg5026.msA.hmt:1.2.comment#<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> παρὰ τὸ <rs type="waw"> μένω</rs> <rs type="waw"> μῆνις</rs> ὡς <rs type="waw"> ἐνὸς</rs> <rs type="waw"> ἦνις</rs> · οἱ δὲ περὶ <persName n="urn:cite:hmt:pers.pers3"> Γλαύκωνα</persName> τὸν <placeName n="urn:cite:hmt:place.place47"> <seg type="word"> Ταρ <unclear> σέα</unclear></seg></placeName> ἠξίουν ὀξύνειν τὸ ὄνομα οὐκ ὀρθῶς.</p></div>
@@ -18,46 +17,53 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.4.comment#<div xmlns="http://www.tei-c.org/ns
 urn:cts:greekLit:tlg5026.msA.hmt:1.5.lemma#<div xmlns="http://www.tei-c.org/ns/1.0" n="lemma"> <p> <persName n="urn:cite:hmt:pers.pers1"> Πηληϊάδεω</persName> <persName n="urn:cite:hmt:pers.pers1"> Ἀχιλῆος</persName></p></div>
 urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> οὕτως ἀναγνωστεον δια τοῦ ενὸς <rs type="waw"> λ</rs> καὶ διὰ τὸ μέτρον καὶ διὰ τὸ ἄχος ὅ ἐστι λύπην ἐπενεγκεῖν τοῖς Ἰλιεῦσιν, οἱ δὲ παρὰ τὸ μὴ θιγεῖν χείλεσι θηλῆς ὅλως γὰρ οὐ μετέσχε γάλακτος⁑</p></div>
 """
+    val corpus = Corpus(scholiaDelimited,"#")
+    val catalogSource = """urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online
+urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true
+"""
+  val catalog = Catalog(catalogSource)
 
-
-  val corpus = Corpus(scholiaDelimited,"#")
-
-
-    // CTS-like convenience methods
-  "A corpus of citable nodes"  should  "offer a convenience method for finding the first citable node in a filtered vector" in  {
-    val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2.lemma-1.5.comment")
-    val expectedFirst = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.lemma")
-    assert(corpus.firstNode(filterUrn).urn == expectedFirst)
+  "A repository of citable texts"  should "have a corpus of citable nodes" in {
+    val repo = TextRepository(corpus, catalog)
+    repo.corpus match {
+      case c: Corpus => assert (true)
+      case _ => fail("Failed to create corpus object")
+    }
   }
-
-  it should "offer a convenience method for finding the last citable node in a filtered vector" in {
-    val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2")
-    val expectedLast = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.comment")
-    assert(corpus.lastNode(filterUrn).urn == expectedLast)
+  it should "have a catalog of citable texts" in {
+    val repo = TextRepository(corpus, catalog)
+    repo.catalog match {
+      case c: Catalog => assert (true)
+      case _ => fail("Failed to create catalog object")
+    }
   }
+  it should "validate there is a 1-1 relation between texts cataloged as online and texts cited in the corpus" in  {
+    val repo = TextRepository(corpus, catalog)
 
-  it should "offer a convenience method for extracting the string contents from a list of citable nodes as a single string" in {
-    val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2")
-    val actualText = corpus.textContents(filterUrn)
-
-    // sample beginning and end of long text:
-    val expectedOpening = """<div xmlns="http://www.tei-c.org/ns/1.0" n="lemma"> <p> μῆνις</p>"""
-    val expectedClosing = """οὐκ ὀρθῶς.</p></div>"""
-
-    assert(actualText.startsWith(expectedOpening))
-    assert(actualText.endsWith(expectedClosing))
+    val catalogTexts = repo.catalog.texts.map(_.urn)
+    assert(repo.corpus.citedWorks.toSet == catalogTexts.toSet)
   }
+  it should "throw an Ohco2 exception if works cataloged as online do not appear in the corpus"  in pending /* {
+    val corpusSource = "shared/src/test/resources/shortscholia.tsv"
+    val corpus = Corpus(corpusSource)
+    val catalogSource = "shared/src/test/resources/scholiacatalog.txt"
+    val catalog = Catalog(catalogSource)
+    try {
+      TextRepository(corpus, catalog)
+    } catch {
+        case e : IllegalArgumentException => assert(e.getMessage() == "requirement failed: Online catalog (6 texts) did not match works appearing in corpus (1 texts)")
+    }
+  }*/
 
-  it should "offer a convenience method to extract a list of works cited in the corpus" in {
-    val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1-1.2")
-    val expectedWorks = Set(CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:") )
-    assert (corpus.citedWorks.toSet == expectedWorks)
-  }
-  it should "offer a convenience method for reducing a list of citable nodes to a list of URN" in {
-    val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2")
-    val expectedReff = Vector(CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.lemma"),
-    CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.comment"))
-    assert(corpus.validReff(filterUrn) == expectedReff)
-  }
-  
+  it should "throw an Ohco2 exception if works in the corpus do not appear in the catalog as online"  in pending /*{
+    val corpusSource = "shared/src/test/resources/scholia-twocolumns.tsv"
+    val corpus = Corpus(corpusSource)
+    val catalogSource = "shared/src/test/resources/shortcatalog.txt"
+    val catalog = Catalog(catalogSource)
+    try {
+      TextRepository(corpus, catalog)
+    } catch {
+        case e : IllegalArgumentException => assert(e.getMessage() == "requirement failed: Online catalog (2 texts) did not match works appearing in corpus (6 texts)")
+    }
+  }*/
 }

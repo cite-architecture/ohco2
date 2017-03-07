@@ -2,7 +2,7 @@ package edu.holycross.shot.ohco2
 
 import edu.holycross.shot.cite._
 
-case class Repository (corpus: Corpus, catalog: Catalog) {
+case class TextRepository (corpus: Corpus, catalog: Catalog) {
   // enforce 1-1 relation of texts cataloged as online
   // and texts cited in the corpus
   val online = catalog.texts.filter(_.online)

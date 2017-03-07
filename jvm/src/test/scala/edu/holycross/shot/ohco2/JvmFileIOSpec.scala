@@ -16,6 +16,7 @@ class JvmFileIOSpec extends FlatSpec {
     }
   }
 
+/*
   it should "have a non-empty vector of citable nodes" in {
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile,"\t")
@@ -194,20 +195,20 @@ class JvmFileIOSpec extends FlatSpec {
   }
 
   // CTS-like convenience methods
-  it should "offer a convenience method for finding the first citable node in a filtered vector" in pending /*{
+  it should "offer a convenience method for finding the first citable node in a filtered vector" in{
     val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2.lemma-1.10.comment")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile)
     val expectedFirst = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.lemma")
-    assert(corpus.getFirstNode(filterUrn).urn == expectedFirst)
-  }*/
+    assert(corpus.firstNode(filterUrn).urn == expectedFirst)
+  }
 
   it should "offer a convenience method for finding the last citable node in a filtered vector" in {
     val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile)
     val expectedLast = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.comment")
-    assert(corpus.getLastNode(filterUrn).urn == expectedLast)
+    assert(corpus.lastNode(filterUrn).urn == expectedLast)
   }
   it should "offer a convenience method for reducing a list of citable nodes to a list of URN" in {
     val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2")
@@ -215,14 +216,14 @@ class JvmFileIOSpec extends FlatSpec {
     val corpus = CorpusSource.fromFile(srcFile)
     val expectedReff = Vector(CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.lemma"),
     CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.comment"))
-    assert(corpus.getValidReff(filterUrn) == expectedReff)
+    assert(corpus.validReff(filterUrn) == expectedReff)
   }
 
   it should "offer a convenience method for extracting the string contents from a list of citable nodes as a single string" in {
     val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile)
-    val actualText = corpus.getTextContents(filterUrn)
+    val actualText = corpus.textContents(filterUrn)
 
     // sample beginning and end of long text:
     val expectedOpening = """<div xmlns="http://www.tei-c.org/ns/1.0" n="lemma"> <p> μῆνις</p>"""
@@ -258,7 +259,7 @@ class JvmFileIOSpec extends FlatSpec {
     val corpus = CorpusSource.fromFile(srcFile,"\t")
     val twoColStr = corpus.to2colString("#")
     assert(twoColStr.split("\n").size == 10)
-  }
+  }*/
 
 
 }

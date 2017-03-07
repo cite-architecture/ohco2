@@ -27,7 +27,7 @@ class CorpusSourceSpec extends FlatSpec {
     val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile)
-    val actualText = corpus.getTextContents(filterUrn)
+    val actualText = corpus.textContents(filterUrn)
 
     // sample beginning and end of long text:
     val expectedOpening = """<div xmlns="http://www.tei-c.org/ns/1.0" n="lemma"> <p> μῆνις</p>"""

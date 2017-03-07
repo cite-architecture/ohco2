@@ -1,5 +1,7 @@
 #ohco2: release notes
 
+**6.0**: API-breaking changes in names of functions, along with addition of functions specified for complete library support of projects building UIs for text browsing and reading.
+
 **5.0**: adds (API-breaking) support for `xcite` v. 2.
 
 **4.3**:  adds filtering by `OrcaCollection`
