@@ -1,5 +1,6 @@
 #ohco2: release notes
 
+**6.2**: Adds functions for computing and manipulating n-grams.
 
 **6.1**: Adds `isEmpty` function to `Corpus` and `~~` function to `CitableNode`.
 
