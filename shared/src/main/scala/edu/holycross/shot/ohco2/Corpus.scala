@@ -159,8 +159,8 @@ case class Corpus (nodes: Vector[CitableNode]) {
   * @param connector String value separating citable nodes in the resulting string.
   */
   def textContents(filterUrn: CtsUrn, connector: String = "\n"): String = {
-    val matching = nodes.filter(_.urn ~~ filterUrn)
-    matching.map(_.text).mkString(connector)
+    val matching = this ~~ filterUrn
+    matching.nodes.map(_.text).mkString(connector)
   }
 
 
