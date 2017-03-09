@@ -345,7 +345,7 @@ case class Corpus (nodes: Vector[CitableNode]) {
   * @param gram The desired ngram, with white space separating tokens.
   * @param dropPunctuation True if punctuation should be omitted.
   */
-  def urnsForNGram(gram: String, dropPunctuation: Boolean = true): Vector[CtsUrn] = {
+  def urnsForNGram(gram: String, threshhold: Int = 2,dropPunctuation: Boolean = true): Vector[CtsUrn] = {
     val n = gram.split(" ").size
     val words = passagesToWords(dropPunctuation)
     val allGrams = words.map(v => Corpus.ngrams(v,n))
@@ -353,22 +353,22 @@ case class Corpus (nodes: Vector[CitableNode]) {
     citableGrams.filter(_._2.contains(gram)).map(_._1)
   }
 
-
-
-
-  /**
+  /** Create a histogram of ngrams of size [[n]],
+  * occurring more than [[threshold]] times.
+  *
   * @param strings Vector  of strings
   * @param n size of ngram desired
+  * @param threshhold
   * @param dropPunctuation true if punctuation should be omitted from ngrams
   * @return a vector of word+count pairs sorted from high to low
   */
-  def ngramHisto(n: Int, dropPunctuation: Boolean = true): StringHistogram = {
+  def ngramHisto(n: Int, threshhold: Int = 2, dropPunctuation: Boolean = true): StringHistogram = {
     val words = passagesToWords(dropPunctuation)
     val allGrams = words.map(v => Corpus.ngrams(v,n)).filterNot(_.isEmpty).flatten
     // guarantee length after filtering empties:
     val grams = allGrams.filter(_.split(" ").size == n)
 
-    val histogram = grams.groupBy(phr => phr).map{ case (k,v) => StringCount(k,v.size) }.toSeq.sortBy(_.count).reverse
+    val histogram = grams.groupBy(phr => phr).map{ case (k,v) => StringCount(k,v.size) }.toSeq.filter(_.count > threshhold).sortBy(_.count).reverse
     StringHistogram(histogram.toVector)
   }
 
