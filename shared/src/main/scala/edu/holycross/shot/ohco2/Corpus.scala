@@ -384,7 +384,7 @@ object Corpus {
   * @param separator delimiting value separating URN from text contents of citable node.
   */
   def apply(data: String, separator: String = "\t"): Corpus = {
-    val stringPairs = data.split("\n").toVector.map(_.split(separator).toVector)
+    val stringPairs = data.split("\n").toVector.filter(_.nonEmpty).map(_.split(separator).toVector)
     // should be exclusively 2-column data
     val checkFormat = stringPairs.filter(_.size != 2)
     if (checkFormat.size > 0) {
