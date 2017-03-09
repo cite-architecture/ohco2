@@ -321,6 +321,57 @@ case class Corpus (nodes: Vector[CitableNode]) {
     nodes.map(cn => cn.urn + delimiter + cn.text).mkString("\n")
   }
 
+
+
+
+  /** Convert strings to vectors of words, tokenizing on whitespace.
+  *
+  * @param skipPunct true if punctuation should be omitted.
+  * @param return sequence of word vectors.
+  */
+  def passagesToWords(skipPunct: Boolean = true): Vector[Vector[String]] = {
+    val punctList = "·.,:⁚‡·".toList.map(_.toString)
+    if (skipPunct) {
+      contents.map(_.split("\\s+").toVector.filterNot(punctList.contains(_)))
+    } else {
+      contents.map(_.split("\\s+").toVector)
+    }
+  }
+
+  /** Find passages, identified by URN, where a given ngram occurs.
+  * The value of n is derived from the number of whitespace-delimited
+  * tokens in gram.
+  *
+  * @param gram The desired ngram, with white space separating tokens.
+  * @param dropPunctuation True if punctuation should be omitted.
+  */
+  def urnsForNGram(gram: String, dropPunctuation: Boolean = true): Vector[CtsUrn] = {
+    val n = gram.split(" ").size
+    val words = passagesToWords(dropPunctuation)
+    val allGrams = words.map(v => Corpus.ngrams(v,n))
+    val citableGrams = urns.zip(allGrams)
+    citableGrams.filter(_._2.contains(gram)).map(_._1)
+  }
+
+
+
+
+  /**
+  * @param strings Vector  of strings
+  * @param n size of ngram desired
+  * @param dropPunctuation true if punctuation should be omitted from ngrams
+  * @return a vector of word+count pairs sorted from high to low
+  */
+  def ngramHisto(n: Int, dropPunctuation: Boolean = true): StringHistogram = {
+    val words = passagesToWords(dropPunctuation)
+    val allGrams = words.map(v => Corpus.ngrams(v,n)).filterNot(_.isEmpty).flatten
+    // guarantee length after filtering empties:
+    val grams = allGrams.filter(_.split(" ").size == n)
+
+    val histogram = grams.groupBy(phr => phr).map{ case (k,v) => StringCount(k,v.size) }.toSeq.sortBy(_.count).reverse
+    StringHistogram(histogram.toVector)
+  }
+
 }
 
 /** Factory for [[edu.holycross.shot.ohco2.Corpus]] instances.
@@ -343,6 +394,18 @@ object Corpus {
     val citableNodes = stringPairs.map( arr => CitableNode(CtsUrn(arr(0)), arr(1))  )
 
     Corpus(citableNodes)
+  }
+
+
+
+  /** Create a sequence of ngrams for a sequence of toknes.
+  *
+  * @param v Strings to make ngrams from
+  * @param n size of ngram
+  * @return vector of Strings containing ngrams of the requested size.
+  */
+  def ngrams(v: Vector[String], n: Int): Vector[String] = {
+    v.sliding(n,1).toVector.map(_.mkString(" "))
   }
 
 }
