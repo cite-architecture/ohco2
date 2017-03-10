@@ -5,6 +5,18 @@ import scala.io.Source
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Try
 
+
+/** Entry for a single concrete version of a text.
+*
+* @param urn URN for the version.
+* @param citationScheme Label for citation scheme, with levels
+* separated by "/", e.g., "book/chapter".
+* @param groupName Label for text group.
+* @param workTitle Title of notional work.
+* @param versionLabel Label for edition or translation.
+* @param exemplarLabel Label for optional exemplar, or None.
+* @param online True if the text is present in the cataloged [[Corpus]].
+*/
 case class CatalogEntry(urn: CtsUrn, citationScheme: String, groupName: String, workTitle: String, versionLabel: String, exemplarLabel: Option[String] = None, online: Boolean = true) {
   require(citationScheme.nonEmpty,"citation scheme cannot be empty")
   require(groupName.nonEmpty,"text group name cannot be empty")
@@ -29,13 +41,31 @@ case class CatalogEntry(urn: CtsUrn, citationScheme: String, groupName: String, 
 }
 
 
+/** Catalog for an entire text repository.
+*
+* @param texts Set of catalog entries.
+*/
 case class Catalog (texts: Vector[CatalogEntry]) {
+
+  /** Find catalog entries by URN.
+  *
+  * @param filterUrn URN identifying text(s).
+  */
   def entriesForUrn(filterUrn: CtsUrn): Vector[CatalogEntry] = {
     texts.filter(_.urn.~~(filterUrn))
   }
 }
 
+/** Factory for making catalogs from text sources.
+*/
 object Catalog {
+
+
+  /** Build a [[Catalog]] from delimited text source.
+  *
+  * @param data Delimited-text representation of a catalog.
+  * @param sep String value separating fields of the catalog entry.
+  */
   def apply(data: String, sep: String = "#"): Catalog = {
     var entries = scala.collection.mutable.ArrayBuffer.empty[CatalogEntry]
     // read file, drop header line:
