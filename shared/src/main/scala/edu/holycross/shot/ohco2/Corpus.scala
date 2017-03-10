@@ -90,17 +90,11 @@ case class Corpus (nodes: Vector[CitableNode]) {
           val filt1 = this ~~ u1
           val filt2 = this ~~ u2
 
-          //val node1 = filt1.firstNode
-          //val node2 = filt2.lastNode
-          //val idx1 = nodes.indexOf(node1)
-          //val idx2 = nodes.indexOf(node2)
-          //
-          // OR
-          //
           val idx1 = nodes.indexOf(firstNode(u1))
           val idx2 = nodes.indexOf(lastNode(u2)) + 1
 
           Corpus(nodes.slice(idx1,idx2))
+          
         } catch {
           case oe: Ohco2Exception => Corpus(Vector.empty[CitableNode])
         }

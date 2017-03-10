@@ -4,7 +4,7 @@ import scala.scalajs.js
 import js.annotation.JSExport
 
 
-/** Simplify syntax of working with tuples when counting strings.
+/** Number of occurrences of a String in a corpus.
 *
 * @param s String
 * @param count Number of occurrences in a corpus.
@@ -31,6 +31,8 @@ import js.annotation.JSExport
     StringHistogram(histogram.filter(_.s.contains(s2)))
   }
 
+  /** Override default toString function.
+  */
   override def toString = {
     histogram.mkString("\n")
   }
