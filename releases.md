@@ -1,6 +1,8 @@
 #ohco2: release notes
 
-**6.5**: Add functions for finding URNs for passages preceding or following other passages.
+**6.5.1**: Fixes a bug in handling blank lines in text input to Catalog builder.
+
+**6.5.**: Add functions for finding URNs for passages preceding or following other passages.
 
 **6.4**: Add pretty printing of catalog entries.
 

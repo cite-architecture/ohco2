@@ -85,7 +85,7 @@ object Catalog {
   def apply(data: String, sep: String = "#"): Catalog = {
     var entries = scala.collection.mutable.ArrayBuffer.empty[CatalogEntry]
     // read file, drop header line:
-    val columnsByRow = data.split("\n").toVector.map(_.split(sep)).drop(1)
+    val columnsByRow = data.split("\n").toVector.filter(_.nonEmpty).map(_.split(sep)).drop(1)
 
     for (row <- columnsByRow) {
       val urn = CtsUrn(row(0))

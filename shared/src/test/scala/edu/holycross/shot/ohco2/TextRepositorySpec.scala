@@ -77,19 +77,19 @@ urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main s
     }
   }
 
+  it should "ignore blank lines in making a repository" in {
 
-
-
-
-  /*{
-    val corpusSource = "shared/src/test/resources/scholia-twocolumns.tsv"
-    val corpus = Corpus(corpusSource)
-    val catalogSource = "shared/src/test/resources/shortcatalog.txt"
-    val catalog = Catalog(catalogSource)
-    try {
-      TextRepository(corpus, catalog)
-    } catch {
-        case e : IllegalArgumentException => assert(e.getMessage() == "requirement failed: Online catalog (2 texts) did not match works appearing in corpus (6 texts)")
+    val tinyData = """urn:cts:greekLit:tlg5026.msA.hmt:1.4.lemma#<div xmlns="http://www.tei-c.org/ns/1.0" n="lemma"> <p> θεά</p></div>
+urn:cts:greekLit:tlg5026.msA.hmt:1.4.comment#<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> οὕτως εἴωθε τὴν <persName n="urn:cite:hmt:pers.pers6"> Μοῦσαν</persName> καλεῖν· ἀμέλει καὶ ἐν <title> Ὀδυσσεία</title> · <cit> <q> ἄνδρα μοι ἔννεπε <persName n="urn:cite:hmt:pers.pers6"> Μοῦσα</persName> <ref type="urn">
+"""
+    val tinyCatalog = """
+urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online
+urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true
+"""
+    val catalog = Catalog(tinyCatalog)
+    catalog match {
+      case cat: Catalog => assert(true)
+      case _ => fail("Failed to make a catalog")
     }
-  }*/
+  }
 }
