@@ -21,13 +21,14 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
 
 
   val corpus = Corpus(scholiaDelimited,"#")
-
+  /*
   "A corpus of citable nodes"  should "find the single previous node before a node" in {
     val u = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.comment")
     val prv = corpus.prev(u)
     assert(prv.size == 1)
     assert(prv(0).urn == CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma"))
   }
+
   it should "find the URN for single previous node before a node" in {
     val u = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.comment")
     val prv = corpus.prevUrn(u)
@@ -107,10 +108,35 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
     val nxt = corpus.nextUrn(middle)
     assert(nxt.get == CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.5.lemma-1.5.comment"))
   }
-
+*/
   "The companion object" should "make range URNs for a vector of citable nodes"  in {
     val range =  Corpus.passageUrn(corpus.nodes).get
     assert (range == CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma-1.5.comment"))
+  }
+
+  it should "honor limits of individual versions of texts" in {
+
+  val cdata = """
+urn:cts:greekLit:tlg5026.msAext.hmt:18.8.comment#πὸλλ' ἐπάλυνον
+urn:cts:greekLit:tlg5026.msAext.hmt:18.9.comment#ὁμαρτῇ
+urn:cts:greekLit:tlg5026.msAext.hmt:18.10.comment#ἄλλοτε δ'
+urn:cts:greekLit:tlg5026.msAext.hmt:19.2015office10_1.comment#ἡ δ' ἐκύει εἱστήκει
+urn:cts:greekLit:tlg5026.msAext.hmt:19.hc_1.comment#εὖτε
+urn:cts:greekLit:tlg5026.msAext.hmt:19.hc_2.comment#ἡνιοχῆας
+urn:cts:greekLit:tlg5026.msAext.hmt:19.hc_3.comment#ἕωμεν
+urn:cts:greekLit:tlg5026.msAext.hmt:19.hc_4.comment#αὐτόθι
+urn:cts:greekLit:tlg5026.msAil.hmt:1.143.comment#Αιολικον
+urn:cts:greekLit:tlg5026.msAil.hmt:1.144.comment#ορκικον ἐπίρρημα
+urn:cts:greekLit:tlg5026.msAil.hmt:1.145.comment#προθύμως
+"""
+    val corpus = Corpus(cdata,"#")
+    val rng = CtsUrn("urn:cts:greekLit:tlg5026.msAil.hmt:1.143-1.144")
+
+    assert(corpus.prevUrn(rng) == None)
+    corpus.nextUrn(rng) match {
+      case u: Some[CtsUrn] => assert(u.get == CtsUrn("urn:cts:greekLit:tlg5026.msAil.hmt:1.145.comment"))
+      case _ => fail("Got no urn for next")
+    }
   }
 
 }

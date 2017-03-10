@@ -229,36 +229,6 @@ case class Corpus (nodes: Vector[CitableNode]) {
   }
 
 
-  /** Find nodes preceding a passage.
-  * The number of nodes will equal the number of
-  * nodes in the passage unless fewer than that number of nodes precede
-  * the passage.  In that case, all preceding nodes will be
-  * returned.  If no nodes precede the passage, an empty
-  * vector is returned.
-  *
-  * @param filterUrn passage to find nodes before
-  */
-  def prev(filterUrn: CtsUrn): Vector[CitableNode] = {
-    val subselection = this ~~ filterUrn
-    if (subselection.nodes.isEmpty) {
-     Vector.empty
-
-    } else {
-      val idx = nodes.indexOf(subselection.firstNode)
-      val min = idx - subselection.size
-
-
-      min match {
-        case n if n >= 0 => {
-          nodes.slice(min,idx)
-        }
-        case _ => {
-          nodes.slice(0,idx)
-        }
-      }
-    }
-  }
-
   /** Find URN for nodes preceding a passage.
   *
   * @param filterUrn Passage to find nodes before.
@@ -286,18 +256,56 @@ case class Corpus (nodes: Vector[CitableNode]) {
   */
   def next(filterUrn: CtsUrn): Vector[CitableNode] = {
     val subselection = this ~~ filterUrn
+
     if (subselection.nodes.isEmpty) {
      Vector.empty
 
     } else {
-      val idx = nodes.indexOf(subselection.lastNode) + 1
+      val workCorpus = this ~~ filterUrn.dropPassage
+      val idx = workCorpus.nodes.indexOf(subselection.lastNode) + 1
       val max = idx + subselection.size
+      println("FILTERED ON " + filterUrn)
+      println("IDX: " + idx + " MAX: " + max + " in WORK SIZE " + workCorpus.size)
+println(workCorpus)
       max match {
-        case n if n < nodes.size => nodes.slice(idx,max)
-        case _ => nodes.slice(idx,nodes.size)
+        case n if n < workCorpus.nodes.size => workCorpus.nodes.slice(idx,max)
+        case _ => workCorpus.nodes.slice(idx,workCorpus.nodes.size)
       }
     }
   }
+
+
+
+    /** Find nodes preceding a passage.
+    * The number of nodes will equal the number of
+    * nodes in the passage unless fewer than that number of nodes precede
+    * the passage.  In that case, all preceding nodes will be
+    * returned.  If no nodes precede the passage, an empty
+    * vector is returned.
+    *
+    * @param filterUrn passage to find nodes before
+    */
+    def prev(filterUrn: CtsUrn): Vector[CitableNode] = {
+      val subselection = this ~~ filterUrn
+      if (subselection.nodes.isEmpty) {
+       Vector.empty
+
+      } else {
+        val workCorpus = this ~~ filterUrn.dropPassage
+        val idx = workCorpus.nodes.indexOf(subselection.firstNode)
+        val min = idx - subselection.size
+
+
+        min match {
+          case n if n >= 0 => {
+            workCorpus.nodes.slice(min,idx)
+          }
+          case _ => {
+            workCorpus.nodes.slice(0,idx)
+          }
+        }
+      }
+    }
 
   /** Create a vector of [[edu.holycross.shot.ohco2.XfRow]]
   * instances equivalent to the present corpus.
