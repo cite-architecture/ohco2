@@ -1,6 +1,10 @@
 #ohco2: release notes
 
-**6.5.1**: Fixes a bug when next/prev requests extend beyond limits of work in a multiwork corpus.
+**6.6**: Reimplements `~~` on a `Corpus` in hopes of coaxing a little more performance out of JS version.
+
+**6.5.3**: Minor bug fix.
+
+**6.5.2**: Fixes a bug when next/prev requests extend beyond limits of work in a multiwork corpus.
 
 **6.5.1**: Fixes a bug in handling blank lines in text input to Catalog builder.
 

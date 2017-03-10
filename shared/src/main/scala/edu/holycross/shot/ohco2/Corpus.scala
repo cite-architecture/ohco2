@@ -81,12 +81,45 @@ case class Corpus (nodes: Vector[CitableNode]) {
   */
   def ~~(filterUrn: CtsUrn) : Corpus = {
     filterUrn.isRange match {
+
+      case false =>  {
+        Corpus(nodes.filter(_.urn ~~ filterUrn))
+      }
       // range filter:
       case true => {
-        val u1 = CtsUrn(filterUrn.dropPassage.toString + filterUrn.rangeBeginRef)
-        val u2 = CtsUrn(filterUrn.dropPassage.toString + filterUrn.rangeEndRef)
+        val singleWork = this ~~ filterUrn.dropPassage
+        val originUrn = CtsUrn(filterUrn.dropPassage.toString + filterUrn.rangeBeginRef)
+        val terminalUrn = CtsUrn(filterUrn.dropPassage.toString + filterUrn.rangeEndRef)
+        
+
+        val c1 = singleWork ~~ originUrn
+        val c2 = singleWork ~~ terminalUrn
+        if (c1.isEmpty || c2.isEmpty) {
+          Corpus(Vector.empty)
+
+        } else {
+          val u1 = c1.firstNode.urn
+          val u2 = c2.lastNode.urn
+
+          var u1seen = false
+          var u2NotSeen = true
+
+          val matchedNodes = singleWork.nodes.withFilter{ cn => if (cn.urn == u1) u1seen = true; if (cn.urn == u2) u2NotSeen = false; (u1seen && u2NotSeen)}.map(x => x)
+
+          val lastNode = singleWork ~~ u2
+          Corpus(matchedNodes) ++ lastNode
+        }
+      }
+    }
+  }
+
+      //  Corpus(Vector(u1) ++ matchedNodes ++ Vector(u2))
+        /*
+
+
 
         try {
+
           val filt1 = this ~~ u1
           val filt2 = this ~~ u2
 
@@ -98,13 +131,13 @@ case class Corpus (nodes: Vector[CitableNode]) {
         } catch {
           case oe: Ohco2Exception => Corpus(Vector.empty[CitableNode])
         }
-      }
       //node filter:
       case false =>  {
        Corpus(nodes.filter(_.urn ~~ filterUrn))
      }
     }
   }
+  */
 
   /** Create a new corpus of nodes matching any of URN in a given vector of URNs.
   * Note that this can be thought of as filtering by
@@ -264,9 +297,6 @@ case class Corpus (nodes: Vector[CitableNode]) {
       val workCorpus = this ~~ filterUrn.dropPassage
       val idx = workCorpus.nodes.indexOf(subselection.lastNode) + 1
       val max = idx + subselection.size
-      println("FILTERED ON " + filterUrn)
-      println("IDX: " + idx + " MAX: " + max + " in WORK SIZE " + workCorpus.size)
-println(workCorpus)
       max match {
         case n if n < workCorpus.nodes.size => workCorpus.nodes.slice(idx,max)
         case _ => workCorpus.nodes.slice(idx,workCorpus.nodes.size)

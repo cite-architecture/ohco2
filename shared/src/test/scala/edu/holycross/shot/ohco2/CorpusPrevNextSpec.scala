@@ -21,7 +21,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
 
 
   val corpus = Corpus(scholiaDelimited,"#")
-  /*
+
   "A corpus of citable nodes"  should "find the single previous node before a node" in {
     val u = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.comment")
     val prv = corpus.prev(u)
@@ -108,7 +108,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
     val nxt = corpus.nextUrn(middle)
     assert(nxt.get == CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.5.lemma-1.5.comment"))
   }
-*/
+
   "The companion object" should "make range URNs for a vector of citable nodes"  in {
     val range =  Corpus.passageUrn(corpus.nodes).get
     assert (range == CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma-1.5.comment"))
