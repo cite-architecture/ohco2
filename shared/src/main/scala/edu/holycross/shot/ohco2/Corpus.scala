@@ -347,8 +347,8 @@ case class Corpus (nodes: Vector[CitableNode]) {
     citableGrams.filter(_._2.contains(gram)).map(_._1)
   }
 
-  /** Create a histogram of ngrams of size [[n]],
-  * occurring more than [[threshold]] times.
+  /** Create a histogram of ngrams of size n,
+  * occurring more than threshold times.
   *
   * @param strings Vector  of strings
   * @param n size of ngram desired
