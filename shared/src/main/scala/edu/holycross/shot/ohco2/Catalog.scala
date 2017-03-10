@@ -38,6 +38,22 @@ case class CatalogEntry(urn: CtsUrn, citationScheme: String, groupName: String, 
 
     }
   }
+
+  /** Pretty print a catalog entry.
+  */
+  override def toString = {
+    val baseString = s"${groupName}, ${workTitle}"
+    exemplarLabel match {
+      case lbl: Some[String] => baseString + s" (${versionLabel}: ${lbl.get})"
+      case None => baseString + s" (${versionLabel})"
+    }
+  }
+
+  /** Pretty print with URN.
+  */
+  def label = {
+    toString + s". ${urn}"
+  }
 }
 
 
