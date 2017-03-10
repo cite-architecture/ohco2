@@ -94,7 +94,7 @@ case class Corpus (nodes: Vector[CitableNode]) {
           val idx2 = nodes.indexOf(lastNode(u2)) + 1
 
           Corpus(nodes.slice(idx1,idx2))
-          
+
         } catch {
           case oe: Ohco2Exception => Corpus(Vector.empty[CitableNode])
         }

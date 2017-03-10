@@ -43,19 +43,45 @@ urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main s
     val catalogTexts = repo.catalog.texts.map(_.urn)
     assert(repo.corpus.citedWorks.toSet == catalogTexts.toSet)
   }
-  it should "throw an Ohco2 exception if works cataloged as online do not appear in the corpus"  in pending /* {
-    val corpusSource = "shared/src/test/resources/shortscholia.tsv"
-    val corpus = Corpus(corpusSource)
-    val catalogSource = "shared/src/test/resources/scholiacatalog.txt"
-    val catalog = Catalog(catalogSource)
-    try {
-      TextRepository(corpus, catalog)
-    } catch {
-        case e : IllegalArgumentException => assert(e.getMessage() == "requirement failed: Online catalog (6 texts) did not match works appearing in corpus (1 texts)")
-    }
-  }*/
+  it should "throw an Ohco2 exception if works cataloged as online do not appear in the corpus"  in {
+    val hdr = "urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online"
 
-  it should "throw an Ohco2 exception if works in the corpus do not appear in the catalog as online"  in pending /*{
+    val entry = "urn:cts:greekLit:tlg0012.tlg001.msA:#book/line#Homeric poetry#the Iliad A#the Venetus A manuscript##true"
+
+    val badCatalogSrc =  hdr + "\n" + entry + "\n"
+    val wrongCatalog = Catalog(badCatalogSrc)
+
+    try {
+      TextRepository(corpus, wrongCatalog)
+      fail ("Should not have made a repository.")
+    } catch {
+      case exc: IllegalArgumentException => assert(exc.getMessage() ==   "requirement failed: Online catalog (1 texts) did not match works appearing in corpus (1 texts)")
+      case otherExc: Throwable => throw otherExc
+    }
+  }
+
+  it should "throw an Ohco2 exception if works in the corpus do not appear in the catalog as online"  in {
+    val hdr = "urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online"
+
+    val entry = "urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##false"
+
+    val badCatalogSrc =  hdr + "\n" + entry + "\n"
+    val shortCatalog = Catalog(badCatalogSrc)
+
+    try {
+      TextRepository(corpus, shortCatalog)
+      fail ("Should not have made a repository.")
+    } catch {
+      case exc: IllegalArgumentException => assert(exc.getMessage() ==   "requirement failed: Online catalog (0 texts) did not match works appearing in corpus (1 texts)")
+      case otherExc: Throwable => throw otherExc
+    }
+  }
+
+
+
+
+
+  /*{
     val corpusSource = "shared/src/test/resources/scholia-twocolumns.tsv"
     val corpus = Corpus(corpusSource)
     val catalogSource = "shared/src/test/resources/shortcatalog.txt"
