@@ -259,6 +259,21 @@ case class Corpus (nodes: Vector[CitableNode]) {
     }
   }
 
+  /** Find URN for nodes preceding a passage.
+  *
+  * @param filterUrn Passage to find nodes before.
+  */
+  def prevUrn(filterUrn: CtsUrn): Option[CtsUrn] = {
+    Corpus.passageUrn(prev(filterUrn))
+  }
+
+  /** Find URN for nodes following a passage.
+  *
+  * @param filterUrn Passage to find nodes after.
+  */
+  def nextUrn(filterUrn: CtsUrn): Option[CtsUrn] = {
+    Corpus.passageUrn(next(filterUrn))
+  }
 
   /** Find nodes following a passage.
   * The number of nodes will equal the number of
@@ -390,8 +405,6 @@ object Corpus {
     Corpus(citableNodes)
   }
 
-
-
   /** Create a sequence of ngrams for a sequence of toknes.
   *
   * @param v Strings to make ngrams from
@@ -400,6 +413,22 @@ object Corpus {
   */
   def ngrams(v: Vector[String], n: Int): Vector[String] = {
     v.sliding(n,1).toVector.map(_.mkString(" "))
+  }
+
+  /** Create range URN for a vector of [[CitableNode]]s.
+  *
+  * @param Vector of citable nodes to identify with a range expression.
+  */
+  def passageUrn(v: Vector[CitableNode]) : Option[CtsUrn] = {
+    v.size match {
+      case 0 => None
+      case 1 => Some(v(0).urn)
+      case _ => {
+        val u1 = v(0).urn
+        val u2 = v.last.urn
+        Some(CtsUrn(u1.toString + "-" + u2.passageComponent))
+      }
+    }
   }
 
 }
