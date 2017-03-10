@@ -1,5 +1,7 @@
 #ohco2: release notes
 
+**6.5**: Add functions for finding URNs for passages preceding or following other passages.
+
 **6.4**: Add pretty printing of catalog entries.
 
 **6.3**: Permit blank lines in input to constructor for Corpus.
