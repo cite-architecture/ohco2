@@ -1,5 +1,8 @@
 #ohco2: release notes
 
+
+**6.8**:  Add size function on Catalog.
+
 **6.7**:  Add functions for searching corpora. Allow empty lines in input to `CorpusSource.fromFile`.
 
 **6.6**: Reimplements `~~` on a `Corpus` in hopes of coaxing a little more performance out of JS version.

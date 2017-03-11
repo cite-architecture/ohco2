@@ -27,6 +27,10 @@ urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad
   it  should "have a non-empty vector of catalog entries" in {
     assert(catalog.texts.size > 0)
   }
+
+  it should "have a size function" in {
+    assert(catalog.size == 6)
+  }
   it  should "have a convenience method to get entries by URN" in {
     val mainScholiaUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:")
     val mainScholia = catalog.entriesForUrn(mainScholiaUrn)

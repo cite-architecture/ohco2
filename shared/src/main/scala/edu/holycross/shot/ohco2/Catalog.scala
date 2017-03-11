@@ -70,6 +70,12 @@ case class Catalog (texts: Vector[CatalogEntry]) {
   def entriesForUrn(filterUrn: CtsUrn): Vector[CatalogEntry] = {
     texts.filter(_.urn.~~(filterUrn))
   }
+
+  /** Number of entries in catalog.
+  */
+  def size: Int = {
+    texts.size
+  }
 }
 
 /** Factory for making catalogs from text sources.
