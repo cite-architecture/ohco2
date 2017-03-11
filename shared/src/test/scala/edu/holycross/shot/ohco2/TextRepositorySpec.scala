@@ -92,4 +92,11 @@ urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main s
       case _ => fail("Failed to make a catalog")
     }
   }
+
+  it should "provide labels for URNs" in {
+    val repo = TextRepository(corpus, catalog)
+    val psg = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.3.lemma")
+    assert (repo.label(psg) == "Scholia to the Iliad, Main scholia of the Venetus A (HMT project edition) 1.3.lemma")
+  }
+
 }

@@ -51,7 +51,7 @@ case class CatalogEntry(urn: CtsUrn, citationScheme: String, groupName: String, 
 
   /** Pretty print with URN.
   */
-  def label = {
+  def fullLabel = {
     toString + s". ${urn}"
   }
 }
@@ -76,6 +76,12 @@ case class Catalog (texts: Vector[CatalogEntry]) {
   def size: Int = {
     texts.size
   }
+
+
+  def label(urn: CtsUrn) : String = {
+    entriesForUrn(urn).map(_.toString).mkString("\n")
+  }
+
 }
 
 /** Factory for making catalogs from text sources.

@@ -9,8 +9,21 @@ import edu.holycross.shot.cite._
 * @param catalog The catalog
 */
 case class TextRepository (corpus: Corpus, catalog: Catalog) {
+
+  /** Create a new catalog containing only online texts.
+  */
+  def online: Catalog = Catalog(catalog.texts.filter(_.online))
+
+  /** Create label for passage identified by URN.
+  */
+  def label(urn: CtsUrn): String = {
+    catalog.label(urn.dropPassage) + " " + urn.passageComponent
+  }
+
   // enforce 1-1 relation of texts cataloged as online
   // and texts cited in the corpus
-  val online = catalog.texts.filter(_.online)
-  require(online.map(_.urn).toSet == corpus.citedWorks.toSet, "Online catalog (" + online.size + " texts) did not match works appearing in corpus (" + corpus.citedWorks.size + " texts)")
+  require(online.texts.map(_.urn).toSet == corpus.citedWorks.toSet, "Online catalog (" + online.size + " texts) did not match works appearing in corpus (" + corpus.citedWorks.size + " texts)")
+
+
+
 }

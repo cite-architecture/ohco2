@@ -1,7 +1,7 @@
 #ohco2: release notes
 
 
-**6.8**:  Add size function on Catalog.
+**6.8**:  Add size and labelling functions on Catalog.
 
 **6.7**:  Add functions for searching corpora. Allow empty lines in input to `CorpusSource.fromFile`.
 

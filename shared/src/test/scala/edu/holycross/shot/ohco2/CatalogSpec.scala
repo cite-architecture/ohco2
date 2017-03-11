@@ -151,7 +151,7 @@ urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad
   it should "support pretty printing with URNs, too" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:")
     val catalogEntry = CatalogEntry(urn,"book/line","Homeric poetry","Iliad","the Venetus A manuscript",None,true)
-    assert (catalogEntry.label == "Homeric poetry, Iliad (the Venetus A manuscript). urn:cts:greekLit:tlg0012.tlg001.msA:")
+    assert (catalogEntry.toString == "Homeric poetry, Iliad (the Venetus A manuscript). urn:cts:greekLit:tlg0012.tlg001.msA:")
   }
 
 
