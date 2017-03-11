@@ -90,7 +90,7 @@ case class Corpus (nodes: Vector[CitableNode]) {
         val singleWork = this ~~ filterUrn.dropPassage
         val originUrn = CtsUrn(filterUrn.dropPassage.toString + filterUrn.rangeBeginRef)
         val terminalUrn = CtsUrn(filterUrn.dropPassage.toString + filterUrn.rangeEndRef)
-        
+
 
         val c1 = singleWork ~~ originUrn
         val c2 = singleWork ~~ terminalUrn
@@ -418,6 +418,19 @@ case class Corpus (nodes: Vector[CitableNode]) {
     val histogram = grams.groupBy(phr => phr).map{ case (k,v) => StringCount(k,v.size) }.toSeq.filter(_.count > threshhold).sortBy(_.count).reverse
     StringHistogram(histogram.toVector)
   }
+
+  def find(str: String): Vector[CitableNode] = {
+    this.nodes.filter(_.text.contains(str))
+  }
+
+
+
+
+/*
+  def ngramHisto(n: Int, threshhold: Int = 2, dropPunctuation: Boolean = true, str: String): StringHistogram = {
+    val searchCorpus = Corpus(this.nodes.filter(_.text.contains(str)))
+    searchCorpus.ngramHisto(n,threshhold,dropPunctuation)
+  }*/
 
 }
 
