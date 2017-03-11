@@ -419,8 +419,14 @@ case class Corpus (nodes: Vector[CitableNode]) {
     StringHistogram(histogram.toVector)
   }
 
-  def find(str: String): Vector[CitableNode] = {
-    this.nodes.filter(_.text.contains(str))
+  /** Create a corpus containing only citable nodes
+  * with content matching a given string.
+  *
+  * @param str String to search for.
+  * @return A Corpus object.
+  */
+  def find(str: String): Corpus = {
+    Corpus(this.nodes.filter(_.text.contains(str)))
   }
 
 
