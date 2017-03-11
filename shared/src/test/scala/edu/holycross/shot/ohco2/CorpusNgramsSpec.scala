@@ -32,9 +32,8 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.10.comment#Ἀρίσταρχος συνάπτ
   val corpus = Corpus(scholiaDelimited,"#")
 
 
-
   "A citable corpus" should "compute n-grams over the corpus" in {
-    val histo = corpus.ngramHisto(3,1)
+    val histo = corpus.ngramHisto(3,1,true)
     val expectedVect = Vector(
       StringCount("καὶ διὰ τὸ",2),
       StringCount("Διὸς δ' ἐτελείετο", 2),
@@ -46,5 +45,13 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.10.comment#Ἀρίσταρχος συνάπτ
     assert (histo == expected)
   }
 
+  it should "do filtered search of ngrams" in {
+    val histo = corpus.ngramHisto(3,1,true)
+    histo match {
+      case h: StringHistogram => println("Its a string hist!")
+      case _ => println("Dont understand " )
+    }
+    //println("NOW FILTER")
+  }
 
 }

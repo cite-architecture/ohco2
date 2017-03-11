@@ -27,7 +27,7 @@ import js.annotation.JSExport
   *
   * @param s2 String to match.
   */
-  def stringMatch(s2: String) = {
+  def stringMatch(s2: String): StringHistogram = {
     StringHistogram(histogram.filter(_.s.contains(s2)))
   }
 

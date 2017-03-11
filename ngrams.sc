@@ -21,9 +21,10 @@ val nHisto = corpus.ngramHisto(n, threshhold, dropPunctuation)
 
 //BUT... searching is almost instantaneous and returns a new
 // corpus, so this is wicked fast:
-val gr = corpus.find(" γρ")
-val grBigraHist = gr.ngramHisto(n,threshhold, dropPunctuation)
+val nHistoGr = corpus.ngramHisto(" γρ",n, threshhold, dropPunctuation)
 
 
-
-//val nHistoGr = corpus.ngramHisto(n, threshhold, dropPunctuation," γρ")
+// If you want to pre-filter by URN, do just create a selected corpus
+// by twiddling.  This should be fast for any single work in the corpus.
+val hdt = corpus ~~ CtsUrn("urn:cts:greekLit:tlg0016.tlg001.grc:")
+val hdtTrigr = hdt.ngramHisto(3,threshhold, dropPunctuation)

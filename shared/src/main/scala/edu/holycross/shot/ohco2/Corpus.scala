@@ -409,7 +409,7 @@ case class Corpus (nodes: Vector[CitableNode]) {
   * @param dropPunctuation true if punctuation should be omitted from ngrams
   * @return a vector of word+count pairs sorted from high to low
   */
-  def ngramHisto(n: Int, threshhold: Int = 2, dropPunctuation: Boolean = true): StringHistogram = {
+  def ngramHisto(n: Int, threshhold: Int, dropPunctuation: Boolean): StringHistogram = {
     val words = passagesToWords(dropPunctuation)
     val allGrams = words.map(v => Corpus.ngrams(v,n)).filterNot(_.isEmpty).flatten
     // guarantee length after filtering empties:
@@ -432,11 +432,12 @@ case class Corpus (nodes: Vector[CitableNode]) {
 
 
 
-/*
-  def ngramHisto(n: Int, threshhold: Int = 2, dropPunctuation: Boolean = true, str: String): StringHistogram = {
+
+  def ngramHisto(str: String, n: Int, threshhold: Int, dropPunctuation: Boolean ): StringHistogram = {
     val searchCorpus = Corpus(this.nodes.filter(_.text.contains(str)))
-    searchCorpus.ngramHisto(n,threshhold,dropPunctuation)
-  }*/
+    val hist  = searchCorpus.ngramHisto(n,threshhold,dropPunctuation)
+    hist.stringMatch(str)
+  }
 
 }
 
