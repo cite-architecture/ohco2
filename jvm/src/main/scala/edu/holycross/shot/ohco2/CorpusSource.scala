@@ -11,7 +11,7 @@ import java.io._
 
 object CorpusSource {
   def fromFile(f: String, delimiter: String = "\t"): Corpus = {
-    val stringPairs = Source.fromFile(f).getLines.toVector.map(_.split(delimiter))
+    val stringPairs = Source.fromFile(f).getLines.toVector.filter(_.nonEmpty).map(_.split(delimiter))
     val citableNodes = stringPairs.map( arr => CitableNode(CtsUrn(arr(0)), arr(1)))
     Corpus(citableNodes)
   }
