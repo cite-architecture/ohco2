@@ -46,12 +46,13 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.10.comment#Ἀρίσταρχος συνάπτ
   }
 
   it should "do filtered search of ngrams" in {
-    val histo = corpus.ngramHisto(3,1,true)
+    val histo = corpus.ngramHisto("βουλή",3,1,true)
     histo match {
-      case h: StringHistogram => println("Its a string hist!")
-      case _ => println("Dont understand " )
+      case h: StringHistogram => assert(true)
+      case _ =>fail("Failed to create histogram")
     }
-    //println("NOW FILTER")
+    assert(histo.size == 1)
+    assert(histo.histogram(0).count == 2)
   }
 
 }

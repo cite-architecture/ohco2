@@ -31,6 +31,11 @@ import js.annotation.JSExport
     StringHistogram(histogram.filter(_.s.contains(s2)))
   }
 
+  /** Number of entries in string counts in histogram.*/
+  def size: Int =  {
+    histogram.size
+  }
+
   /** Override default toString function.
   */
   override def toString = {
