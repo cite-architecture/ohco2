@@ -12,8 +12,6 @@ import com.quantifind.charts.Highcharts._
 val srcFile = "shared/src/test/resources/million.tsv"
 val corpus = CorpusSource.fromFile(srcFile,"\t")
 
-
-
 // Settings:
 val n = 2
 val threshhold = 3
@@ -34,15 +32,5 @@ val hdt = corpus ~~ CtsUrn("urn:cts:greekLit:tlg0016.tlg001.grc:")
 val hdtTrigr = hdt.ngramHisto(3,threshhold, dropPunctuation)
 
 
-//val topWords = Array(("alpha", 14), ("beta", 23), ("omega", 18))
-def ngramBar(histo: StringHistogram, max : Int) = {
-  val topWords = histo.histogram.map(s => (s.s, s.count)).take(max).toArray
-  val numberedColumns = column(topWords.map(_._2).toList)
-  delete
-  val axisType: com.quantifind.charts.highcharts.AxisType.Type = "category"
-  val namedColumns = numberedColumns.copy(xAxis = numberedColumns.xAxis.map {
-    axisArray => axisArray.map { _.copy(axisType = Option(axisType),
-                                         categories = Option(topWords.map(_._1))) }
-  })
-  plot(namedColumns)
-}
+// Draw a bar graph with the 20 top trigrams in Hdt:
+WispDriver.bar(hdtTrigr,20)
