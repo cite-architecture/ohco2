@@ -52,4 +52,14 @@ urn:cts:greekLit:tlg0016.tlg001.eng:1.7#Now the supremacy which had belonged to 
     )
     assert(expectedCooccurrences == res1.nodes.map(_.urn))
   }
+
+  it should "search a corpus for a vector of white-space delimited tokens within a given distance from each other" in {
+    val res1 = corpus.findTokensWithin(Vector("Showing","Inquiry"), 5)
+    assert (res1.size == 1)
+    val res2 = corpus.findTokensWithin(Vector("Showing","Herodotus"), 2)
+    assert(res2.size == 0)
+    val res3 = corpus.findTokensWithin(Vector("Showing","Herodotus","forth"), 10)
+    assert(res3.size == 1)
+
+  }
 }

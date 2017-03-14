@@ -1,5 +1,7 @@
 #ohco2: release notes
 
+**6.11**: adds functions for searching for tokens to `Corpus` class.
+
 **6.10**: Adds `kwic` display to `CitableNode`.
 
 **6.9.1**: Fixes bugs matching URNs at a notional work level.

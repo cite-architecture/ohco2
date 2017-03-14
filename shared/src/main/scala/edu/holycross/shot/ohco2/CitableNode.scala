@@ -49,6 +49,8 @@ import scala.annotation.tailrec
     }
   }
 
+
+  // REWRiT to AVOID USING CitableNode object here
   def tokensWithin( v: Vector[String], distance: Int): Boolean = {
     val wds = text.split(" ").toVector
     val seq = wds.dropWhile(! v.contains(_)).reverse.dropWhile(! v.contains(_)).reverse
