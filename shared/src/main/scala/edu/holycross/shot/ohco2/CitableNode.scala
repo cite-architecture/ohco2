@@ -30,20 +30,35 @@ import scala.annotation.tailrec
     (this.text.contains(s))
   }
 
-  //@tailrec final
-  def tokensWithin(src: Vector[String], v: Vector[String], distance: Int) : Boolean = {
-    false
+  // use of CiableNode in this function is a hideous kludge.
+  // get rid of it.
+  @tailrec final def tokensWithin(src: Vector[String], v: Vector[String], distance: Int) : Boolean = {
+
+    val stripStart = src.drop(1).dropWhile(! v.contains(_))
+    stripStart.size match {
+      case n if (n <= distance) => CitableNode(urn,stripStart.mkString(" ")).matches(v,true)
+      case _ => {
+        val stripEnd = stripStart.reverse.drop(1).dropWhile(! v.contains(_)).reverse
+        stripEnd.size match {
+          case n2 if (n2 <= distance) =>
+            CitableNode(urn,stripEnd.mkString(" ")).matches(v,true)
+          case _ =>   tokensWithin(stripEnd,v,distance)
+        }
+      }
+
+    }
   }
 
   def tokensWithin( v: Vector[String], distance: Int): Boolean = {
     val wds = text.split(" ").toVector
     val seq = wds.dropWhile(! v.contains(_)).reverse.dropWhile(! v.contains(_)).reverse
-    if (seq.size <= distance) {
-      true
+    if (CitableNode(urn,seq.mkString(" ")).matches(v)) {
+      if (seq.size <= distance) {
+        true
+      } else {
+        tokensWithin(wds, v, distance)
+      }
     } else {
-      val checkStart = tokensWithin(wds.drop(1), v, distance)
-      // here's where we need to work on recursively
-      // alternatively checkStart/checkEnd
       false
     }
   }

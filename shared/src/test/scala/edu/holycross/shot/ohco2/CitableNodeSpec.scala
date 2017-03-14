@@ -56,6 +56,14 @@ class CitableNodeSpec extends FlatSpec {
     assert (hdtproem.tokenMatches(Vector("Hellenes", "Barbarians")))
   }
 
+  it should "find coocurrences within a given distance" in {
+    assert(hdtproem.tokensWithin(Vector("Showing","Inquiry"), 5))
+    assert(hdtproem.tokensWithin(Vector("Showing","Herodotus"), 3) == false)
+  }
+  it should "find report false when a token is absent" in {
+    assert(hdtproem.tokensWithin(Vector("Showing","Thucydides"), 5) == false)
+  }
+
   "The constructor for a citable text node" should "throw an Ohco2 exception if text content is empty" in {
     try {
       CitableNode(CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1"), "")
