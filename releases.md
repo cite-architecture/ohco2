@@ -1,6 +1,8 @@
 #ohco2: release notes
 
-**6.9**: In JVM subproject, add WispDriver class for plotting directly from CITE data structures using WIPS. 
+**6.9.1**: Fixes bugs matching URNs at a notional work level.
+
+**6.9**: In JVM subproject, add WispDriver class for plotting directly from CITE data structures using WIPS.
 
 **6.8**:  Add size and labelling functions on Catalog.
 

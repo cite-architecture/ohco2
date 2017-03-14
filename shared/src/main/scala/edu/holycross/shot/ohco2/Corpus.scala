@@ -73,13 +73,15 @@ case class Corpus (nodes: Vector[CitableNode]) {
 
 
   /** Create a new corpus of nodes matching a given URN.
-  * Note that chaining these filters therefore successively
-  * filters the corpus and can be thought of as filtering by
-  * logically ANDing the URNs.
+  * Note that `filterUrn` must identify a passage at the
+  * level of the work hierarchy where it is cited in this
+  * corpus (either Version or Exemplar level).  Use the
+  * [[~~]] function to create a corpus at any level of the
+  * the hierarchy.
   *
-  * @param filterUrn URN identifying a set of nodes to select from this corpus.
+  *  @param filterUrn URN identifying a set of nodes to select from this corpus.
   */
-  def ~~(filterUrn: CtsUrn) : Corpus = {
+  private def versionTwiddle(filterUrn: CtsUrn): Corpus = {
     filterUrn.isRange match {
 
       case false =>  {
@@ -113,31 +115,43 @@ case class Corpus (nodes: Vector[CitableNode]) {
     }
   }
 
-      //  Corpus(Vector(u1) ++ matchedNodes ++ Vector(u2))
-        /*
 
-
-
-        try {
-
-          val filt1 = this ~~ u1
-          val filt2 = this ~~ u2
-
-          val idx1 = nodes.indexOf(firstNode(u1))
-          val idx2 = nodes.indexOf(lastNode(u2)) + 1
-
-          Corpus(nodes.slice(idx1,idx2))
-
-        } catch {
-          case oe: Ohco2Exception => Corpus(Vector.empty[CitableNode])
-        }
-      //node filter:
-      case false =>  {
-       Corpus(nodes.filter(_.urn ~~ filterUrn))
-     }
+  /** Create a single [[Corpus]] by summing up the contents of
+  * a vector of corpora.
+  *
+  * @param corpora [[Corpus]] instances to concatenate.
+  */
+  @tailrec final def sumCorpora(corpora: Vector[Corpus], sumCorpus: Corpus): Corpus = {
+    if (corpora.isEmpty) {
+      sumCorpus
+    } else {
+      sumCorpora(corpora.drop(1), sumCorpus ++ corpora(0))
     }
   }
+
+  /** Create a new corpus of nodes matching a given URN.
+  * Collect all texts where this URN is cited, then
+  * collect citable nodes for the cited version by
+  * invoking [[versionTwiddle]].
+  * Note that chaining these filters therefore successively
+  * filters the corpus and can be thought of as filtering by
+  * logically ANDing the URNs.
+  *
+  * @param filterUrn URN identifying a set of nodes to select from this corpus.
   */
+  def ~~(filterUrn: CtsUrn) : Corpus = {
+    val psgRef = filterUrn.passageComponentOption match {
+      case None => ""
+      case s: Option[String] => s.get
+    }
+
+    val corpora = for (cw <- this.citedWorks.filter(_ ~~ filterUrn)) yield {
+      versionTwiddle(CtsUrn(cw.toString + psgRef))
+    }
+    sumCorpora(corpora,Corpus(Vector.empty))
+
+  }
+
 
   /** Create a new corpus of nodes matching any of URN in a given vector of URNs.
   * Note that this can be thought of as filtering by
@@ -175,7 +189,7 @@ case class Corpus (nodes: Vector[CitableNode]) {
   */
   def validReff(filterUrn: CtsUrn): Vector[CtsUrn]
  = {
-   val filtered = nodes.filter(_.urn.~~(filterUrn))
+   val filtered = nodes.filter(_.urn ~~ filterUrn)
    filtered.map(_.urn)
   }
 
@@ -377,9 +391,9 @@ case class Corpus (nodes: Vector[CitableNode]) {
   * @param return sequence of word vectors.
   */
   def passagesToWords(skipPunct: Boolean = true): Vector[Vector[String]] = {
-// """··.,:"⁚‡·—-;"""
+    //Original list:  """··.,:"⁚‡·—-;"""
     if (skipPunct) {
-      contents.map(_.replaceAll("""[\p{Punct}&&[^']]""", "").replaceAll("""[···]""","")).map(_.split("\\s+").toVector)
+      contents.map(_.replaceAll("""[\p{Punct}&&[^']]""", "").replaceAll("""[···,]""","")).map(_.split("\\s+").toVector)
 
     } else {
       contents.map(_.split("\\s+").toVector)

@@ -1,6 +1,10 @@
 name := "OHCO2 text library"
 
-crossScalaVersions := Seq("2.10.6","2.11.8", "2.12.1")
+//crossScalaVersions := Seq("2.10.6","2.11.8", "2.12.1")
+
+
+
+crossScalaVersions := Seq("2.10.6","2.11.8")
 
 
 lazy val root = project.in(file(".")).
@@ -15,7 +19,7 @@ lazy val crossed = crossProject.in(file(".")).
     settings(
       name := "ohco2",
       organization := "edu.holycross.shot",
-      version := "6.9.0",
+      version := "6.9.1",
       licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
       resolvers += Resolver.jcenterRepo,
       resolvers += Resolver.bintrayRepo("neelsmith", "maven"),

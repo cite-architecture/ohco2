@@ -43,7 +43,9 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.10.comment#Ἀρίσταρχος συνάπτ
     val expected = StringHistogram(expectedVect)
     assert(histo.histogram.contains(expectedVect(0)))
     assert(histo.histogram.contains(expectedVect(1)))
-    require (histo == expected,fail("Actual:\n" + StringHistogram(expectedVect) + "\n\nexpected:\n" + expected))
+    assert(histo.histogram.contains(expectedVect(2)))
+    assert(histo.histogram.contains(expectedVect(3)))
+    assert(histo.size == 4)
   }
 
   it should "do filtered search of ngrams" in {

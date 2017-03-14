@@ -6,7 +6,7 @@
 
 `ohco2` is a cross-platform library for working with corpora of citable texts.
 
-##Current version: 6.9
+##Current version: 6.9.1
 
 Status:  **active development**. [Release notes](releases.md)
 
@@ -16,7 +16,7 @@ Status:  **active development**. [Release notes](releases.md)
 
 ## Using, building, testing
 
-`ohco2` compiled for both the JVM and ScalaJS using scala versions 2.10, 2.11 and 2.12.  Binaries for all platforms are available from jcenter.  If you are using sbt, include `Resolver.jcenterRepo`in your list of resolvers
+`ohco2` compiled for both the JVM and ScalaJS using scala versions 2.10 and 2.11.  Binaries for all platforms are available from jcenter.  If you are using sbt, include `Resolver.jcenterRepo`in your list of resolvers
 
     resolvers += Resolver.jcenterRepo
 
