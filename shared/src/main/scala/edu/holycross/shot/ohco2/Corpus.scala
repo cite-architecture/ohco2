@@ -377,9 +377,10 @@ case class Corpus (nodes: Vector[CitableNode]) {
   * @param return sequence of word vectors.
   */
   def passagesToWords(skipPunct: Boolean = true): Vector[Vector[String]] = {
-    val punctList = """··.,:"⁚‡·—-;""".toList.map(_.toString)
+// """··.,:"⁚‡·—-;"""
     if (skipPunct) {
-      contents.map(_.split("\\s+").toVector.filterNot(punctList.contains(_)))
+      contents.map(_.replaceAll("""[\p{Punct}&&[^']]""", "").replaceAll("""[···]""","")).map(_.split("\\s+").toVector)
+
     } else {
       contents.map(_.split("\\s+").toVector)
     }

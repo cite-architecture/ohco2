@@ -41,8 +41,9 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.10.comment#Ἀρίσταρχος συνάπτ
       StringCount("ἢ ἀπό τῆς",2)
     )
     val expected = StringHistogram(expectedVect)
-
-    assert (histo == expected)
+    assert(histo.histogram.contains(expectedVect(0)))
+    assert(histo.histogram.contains(expectedVect(1)))
+    require (histo == expected,fail("Actual:\n" + StringHistogram(expectedVect) + "\n\nexpected:\n" + expected))
   }
 
   it should "do filtered search of ngrams" in {
