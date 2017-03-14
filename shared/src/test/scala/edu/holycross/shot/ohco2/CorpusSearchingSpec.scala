@@ -47,7 +47,6 @@ urn:cts:greekLit:tlg0016.tlg001.eng:1.7#Now the supremacy which had belonged to 
 
   it should "search a corpus for a vector of white-space delimited tokens" in {
     val res1 = corpus.findTokens(Vector("Hellenes","Barbarians"))
-    println("MATCHES: " + res1.nodes.map(_.urn))
     val expectedCooccurrences = Vector(
       CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.0"), CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.2"), CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.4"), CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.6")
     )

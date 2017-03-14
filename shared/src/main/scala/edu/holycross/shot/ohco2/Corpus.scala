@@ -519,10 +519,22 @@ case class Corpus (nodes: Vector[CitableNode]) {
     }
   }
 
-/*
-findTokensWithin(v: Vector[String], distance: Int): Corpus
+  /** Create a new corpus containing citable nodes
+  * with content matching all of a list of
+  * whitespace-delimited tokens with a given number of words
+  * of each other.
+  *
+  * @param v Vector of tokens.
+  * @param distance Maximum size of consecutive tokens all tokens
+  * in v must fall within.
+  */
+  def findTokensWithin(v: Vector[String], distance: Int): Corpus = {
+    val matches = findTokens(v)
 
-*/
+
+    matches
+  }
+
 
 
 

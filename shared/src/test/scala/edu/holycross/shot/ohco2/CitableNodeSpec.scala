@@ -39,6 +39,11 @@ class CitableNodeSpec extends FlatSpec {
     assert (hdtproem.matches("Showing"))
   }
 
+  it should "support searching for lists of searching" in {
+    assert (hdtproem.matches(Vector("Showing", "Hellenes")))
+    assert (hdtproem.matches(Vector("Thucydides", "Hellenes")) == false)
+  }
+
   it should "support searching for white-space delimited tokens" in {
     assert (hdtproem.matches("Hellene"))
     assert (hdtproem.tokenMatches("Hellene") == false)
