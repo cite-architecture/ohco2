@@ -25,10 +25,17 @@ urn:cts:greekLit:tlg0016.tlg001.eng:1.7#Now the supremacy which had belonged to 
     assert(reslt.nodes(0).urn == CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.7"))
   }
 
-  it should "find the number of matching citable nodes" in {
+  it should "find the number of citable nodes matching a string" in {
     val reslt = corpus.find("Croesus")
     assert(reslt.size == 2)
     val expectedUrns = Vector(CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.6"), CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.7"))
     assert (reslt.nodes.map(_.urn) == expectedUrns)
+  }
+
+  it should "search a corpus for a list of strings" in {
+    val reslt = corpus.find(Vector("Persians", "Croesus"))
+    assert(reslt.size == 6)
+    val expectedUrns = Vector(CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.1"),CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.2"),CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.4"),CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.5"),CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.6"), CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.7"))
+    assert(reslt.nodes.map(_.urn) == expectedUrns)
   }
 }

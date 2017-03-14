@@ -22,7 +22,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
 
   val corpus = Corpus(scholiaDelimited,"#")
 
-/*  "A corpus of citable nodes"  should  "filter the corpus contents against a URN with matching work and passage hierarchies" in {
+  "A corpus of citable nodes"  should  "filter the corpus contents against a URN with matching work and passage hierarchies" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma")
     val filtered = corpus.~~(urn)
     // result should be a single node with same URN:
@@ -75,8 +75,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
   }
 
   // filtering on range URNS:
-  it should */
-  "A corpus of citable nodes"  should "filter the corpus contents against a range URN with matching work hierarchy and matching range end points" in  {
+  it should "filter the corpus contents against a range URN with matching work hierarchy and matching range end points" in  {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma-1.2.comment")
     val filtered = corpus.~~(urn)
     assert (filtered.nodes.size == 4)
@@ -194,6 +193,6 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
   }
 
   it should "correctly extract passages from multiple versions when twiddling on a notional work" in {
-    
+
   }
 }

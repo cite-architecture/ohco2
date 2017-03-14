@@ -443,11 +443,24 @@ case class Corpus (nodes: Vector[CitableNode]) {
   def find(str: String): Corpus = {
     Corpus(this.nodes.filter(_.text.contains(str)))
   }
+
+
+  /** Create a new corpus containing citable nodes
+  * with content matching any of a list of strings.
+  * Order of citable nodes in original corpus is
+  * not preserved.
+  *
+  * @param v Strings to search for.
+  */
+  def find(v: Vector[String]): Corpus = {
+    val corpora = for (s <- v) yield {
+      this.find(s)
+    }
+    val summation = sumCorpora(corpora,Corpus(Vector.empty))
+    // ensure no duplicates
+    Corpus(summation.nodes.distinct)
+  }
 /*
-
-
-find(v: Vector[String]): Corpus
-
 findToken(t: String): Corpus
 
 findTokens(v: Vector[String]): Corpus
