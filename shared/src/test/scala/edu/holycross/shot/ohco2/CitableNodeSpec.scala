@@ -50,6 +50,12 @@ class CitableNodeSpec extends FlatSpec {
     assert (hdtproem.tokenMatches("Hellenes"))
   }
 
+  it should "support searching for vectors of white-space delimited tokens" in {
+
+    assert (hdtproem.tokenMatches(Vector("Hellene", "Barbarians")) == false)
+    assert (hdtproem.tokenMatches(Vector("Hellenes", "Barbarians")))
+  }
+
   "The constructor for a citable text node" should "throw an Ohco2 exception if text content is empty" in {
     try {
       CitableNode(CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1"), "")

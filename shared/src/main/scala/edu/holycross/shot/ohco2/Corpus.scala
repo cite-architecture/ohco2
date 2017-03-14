@@ -530,9 +530,9 @@ case class Corpus (nodes: Vector[CitableNode]) {
   */
   def findTokensWithin(v: Vector[String], distance: Int): Corpus = {
     val matches = findTokens(v)
+    val closeBy = Corpus(matches.nodes.filter(_.tokensWithin(v,distance)))
 
-
-    matches
+    closeBy
   }
 
 

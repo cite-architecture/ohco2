@@ -30,6 +30,24 @@ import scala.annotation.tailrec
     (this.text.contains(s))
   }
 
+  //@tailrec final
+  def tokensWithin(src: Vector[String], v: Vector[String], distance: Int) : Boolean = {
+    false
+  }
+
+  def tokensWithin( v: Vector[String], distance: Int): Boolean = {
+    val wds = text.split(" ").toVector
+    val seq = wds.dropWhile(! v.contains(_)).reverse.dropWhile(! v.contains(_)).reverse
+    if (seq.size <= distance) {
+      true
+    } else {
+      val checkStart = tokensWithin(wds.drop(1), v, distance)
+      // here's where we need to work on recursively
+      // alternatively checkStart/checkEnd
+      false
+    }
+  }
+
 
   /** True if text content matches all strings in a given list.
   * Recursively compares each string in the list, and sets a
@@ -50,8 +68,30 @@ import scala.annotation.tailrec
     }
   }
 
+  /** True if text content includes all whitespace-delimited
+  * tokens in a given list.
+  * Recursively compares each string in the list, and sets a
+  * flag to false if there is no match.
+  *
+  * @param v List of string to test for.
+  * @param checkBox True if all strings seen so far have matched.
+  */
+  @tailrec final def tokenMatches(v: Vector[String], checkBox: Boolean = true): Boolean = {
+    if (v.isEmpty) {
+      checkBox
+    } else {
+      if (tokenMatches(v(0))) {
+        tokenMatches(v.drop(1), checkBox)
+      } else {
+        tokenMatches(v.drop(1),false)
+      }
+    }
+  }
+
   /** True if text content includes a given whitespace-delimited
   * token.
+  *
+  * @param t Token to test for.
   */
   def tokenMatches(t: String): Boolean = {
     val tokens = this.text.split(" ")
