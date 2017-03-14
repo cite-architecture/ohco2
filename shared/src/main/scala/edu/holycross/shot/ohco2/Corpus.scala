@@ -132,7 +132,7 @@ case class Corpus (nodes: Vector[CitableNode]) {
   /** Create a new corpus of nodes matching a given URN.
   * Collect all texts where this URN is cited, then
   * collect citable nodes for the cited version by
-  * invoking [[versionTwiddle]].
+  * invoking `versionTwiddle`.
   * Note that chaining these filters therefore successively
   * filters the corpus and can be thought of as filtering by
   * logically ANDing the URNs.
