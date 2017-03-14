@@ -443,7 +443,18 @@ case class Corpus (nodes: Vector[CitableNode]) {
   def find(str: String): Corpus = {
     Corpus(this.nodes.filter(_.text.contains(str)))
   }
+/*
 
+
+find(v: Vector[String]): Corpus
+
+findToken(t: String): Corpus
+
+findTokens(v: Vector[String]): Corpus
+
+findTokensWithin(v: Vector[String], distance: Int): Corpus
+
+*/
 
 
 

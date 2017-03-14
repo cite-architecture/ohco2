@@ -21,4 +21,42 @@ import js.annotation.JSExport
   def ~~ (urn2: CtsUrn): Boolean = {
     (this.urn ~~ urn2)
   }
+
+
+  def firstNCharsKwic(s: String, n: Int): String = {
+    if (n >= s.size) {
+      s
+    } else {
+      s.slice(0, n) + "..."
+    }
+  }
+
+  def lastNCharsKwic(s: String, n: Int): String = {
+    if (n >= s.size) {
+      s
+    } else {
+      "..."+ s.slice(s.size - n, s.size)
+    }
+  }
+  /** Format a string extracting a given white-space delimited word token
+  * surrounded by a given number of neighboring word tokens.
+  * If `wordToken` is not present in [[text]], an empty String
+  * is returned.
+  *
+  * @param wordToken String to match.
+  * @param context Number of characters to include on either side of
+  * the match.
+  */
+  def kwic(s: String, context: Int = 20): String = {
+    if (s == text) {
+      s
+    } else {
+      val chunks = text.split(s)
+      val leadString = lastNCharsKwic(chunks(0), context)
+      val trailString = firstNCharsKwic(chunks(1),context)
+
+      leadString + "**" + s + "**" + trailString
+    }
+  }
+
 }
