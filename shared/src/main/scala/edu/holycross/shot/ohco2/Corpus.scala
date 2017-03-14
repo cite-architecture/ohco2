@@ -445,33 +445,97 @@ case class Corpus (nodes: Vector[CitableNode]) {
   }
 
 
+  /** Filter a corpus for nodes containing each of a list
+  * of strings by recursively finding matches for the first
+  * string in the list.
+  *
+  * @param v Strings to search for.
+  * @param currentCorpus Corpus to search in.
+  */
+  @tailrec final  def find(v: Vector[String], currentCorpus: Corpus): Corpus = {
+    if (v.isEmpty) {
+      currentCorpus
+    } else {
+      find(v.drop(1), currentCorpus.find(v(0)))
+    }
+  }
+
   /** Create a new corpus containing citable nodes
-  * with content matching any of a list of strings.
-  * Order of citable nodes in original corpus is
-  * not preserved.
+  * with content matching all of a list of strings.
+  * This is equivalent to successively filtering
+  * from a given corpus for nodes matching each string.
+  * E.g., corpus.find (Vector[s1,s2]) is equivalent to
+  * corpus.find(s1).find(s2).
   *
   * @param v Strings to search for.
   */
   def find(v: Vector[String]): Corpus = {
-    val corpora = for (s <- v) yield {
-      this.find(s)
+    if (v.isEmpty) {
+      Corpus(Vector.empty)
+    } else {
+      find(v.drop(1), this.find(v(0)))
     }
-    val summation = sumCorpora(corpora,Corpus(Vector.empty))
-    // ensure no duplicates
-    Corpus(summation.nodes.distinct)
   }
+
+  /** Create a new corpus containing citable nodes
+  * with content matching a white-space delimited token.
+  *
+  * @param v Strings to search for.
+  */
+  def findToken(t: String): Corpus = {
+    Corpus(nodes.filter(_.tokenMatches(t)))
+  }
+
+  /** Filter a corpus for nodes containing each of a list
+  * of whitespace-delimited tokens by recursively finding matches
+  * for the first token in the list.
+  *
+  * @param v Tokens to search for.
+  * @param currentCorpus Corpus to search in.
+  */
+  @tailrec final  def findTokens(v: Vector[String], currentCorpus: Corpus): Corpus = {
+    if (v.isEmpty) {
+      currentCorpus
+    } else {
+      findTokens(v.drop(1), currentCorpus.findToken(v(0)))
+    }
+  }
+
+  /** Create a new corpus containing citable nodes
+  * with content matching all of a list of
+  * whitespace-delimited tokens.
+  * This is equivalent to successively filtering
+  * from a given corpus for nodes matching each token.
+  * E.g., corpus.findTokens (Vector[s1,s2]) is equivalent to
+  * corpus.findTokens(s1).findTokens(s2).
+  *
+  * @param v Strings to search for.
+  */
+  def findTokens(v: Vector[String]): Corpus = {
+    if (v.isEmpty) {
+      Corpus(Vector.empty)
+    } else {
+      findTokens(v.drop(1), this.findToken(v(0)))
+    }
+  }
+
 /*
-findToken(t: String): Corpus
-
-findTokens(v: Vector[String]): Corpus
-
 findTokensWithin(v: Vector[String], distance: Int): Corpus
 
 */
 
 
 
-
+/** Create a histogram of ngrams of size n,
+* occurring more than threshold times, and including
+* a specified string.
+*
+* @param str String that must be part of indexed ngram.
+* @param n size of ngram desired
+* @param threshhold
+* @param dropPunctuation true if punctuation should be omitted from ngrams
+* @return a vector of word+count pairs sorted from high to low
+*/
   def ngramHisto(str: String, n: Int, threshhold: Int, dropPunctuation: Boolean ): StringHistogram = {
     val searchCorpus = Corpus(this.nodes.filter(_.text.contains(str)))
     val hist  = searchCorpus.ngramHisto(n,threshhold,dropPunctuation)

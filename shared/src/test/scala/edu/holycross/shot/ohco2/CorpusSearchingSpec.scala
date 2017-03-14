@@ -33,9 +33,24 @@ urn:cts:greekLit:tlg0016.tlg001.eng:1.7#Now the supremacy which had belonged to 
   }
 
   it should "search a corpus for a list of strings" in {
-    val reslt = corpus.find(Vector("Persians", "Croesus"))
-    assert(reslt.size == 6)
-    val expectedUrns = Vector(CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.1"),CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.2"),CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.4"),CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.5"),CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.6"), CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.7"))
+    val reslt = corpus.find(Vector("Persian", "Hellene"))
+    assert(reslt.size == 4)
+    val expectedUrns = Vector(CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.1"),CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.2"),CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.4"),CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.5"))
     assert(reslt.nodes.map(_.urn) == expectedUrns)
+  }
+
+  it should "search a corpus for white-space delimited tokens" in {
+    val res1 = corpus.findToken("Hellenes")
+    assert(corpus.size == 8)
+    assert(res1.size == 8)
+  }
+
+  it should "search a corpus for a vector of white-space delimited tokens" in {
+    val res1 = corpus.findTokens(Vector("Hellenes","Barbarians"))
+    println("MATCHES: " + res1.nodes.map(_.urn))
+    val expectedCooccurrences = Vector(
+      CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.0"), CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.2"), CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.4"), CtsUrn("urn:cts:greekLit:tlg0016.tlg001.eng:1.6")
+    )
+    assert(expectedCooccurrences == res1.nodes.map(_.urn))
   }
 }

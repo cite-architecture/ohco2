@@ -34,7 +34,17 @@ class CitableNodeSpec extends FlatSpec {
       assert (cn ~~ iliad1)
 
   }
-  
+
+  it should "support string searching" in {
+    assert (hdtproem.matches("Showing"))
+  }
+
+  it should "support searching for white-space delimited tokens" in {
+    assert (hdtproem.matches("Hellene"))
+    assert (hdtproem.tokenMatches("Hellene") == false)
+    assert (hdtproem.tokenMatches("Hellenes"))
+  }
+
   "The constructor for a citable text node" should "throw an Ohco2 exception if text content is empty" in {
     try {
       CitableNode(CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1"), "")

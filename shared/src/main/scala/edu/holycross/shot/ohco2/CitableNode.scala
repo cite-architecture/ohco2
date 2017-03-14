@@ -22,7 +22,28 @@ import js.annotation.JSExport
     (this.urn ~~ urn2)
   }
 
+  /** True if text content matches a given string.
+  *
+  * @param s String to test for.
+  */
+  def matches(s: String): Boolean = {
+    (this.text.contains(s))
+  }
 
+  /** True if text content includes a given whitespace-delimited
+  * token.
+  */
+  def tokenMatches(t: String): Boolean = {
+    val tokens = this.text.split(" ")
+    (tokens.contains(t))
+  }
+
+  /** Format first n characters of a string for KWIC
+  * display.
+  *
+  * @param s String to extract characters from.
+  * @param n Number of characters to include.
+  */
   def firstNCharsKwic(s: String, n: Int): String = {
     if (n >= s.size) {
       s
@@ -31,6 +52,12 @@ import js.annotation.JSExport
     }
   }
 
+  /** Format last n characters of a string for KWIC
+  * display.
+  *
+  * @param s String to extract characters from.
+  * @param n Number of characters to include.
+  */
   def lastNCharsKwic(s: String, n: Int): String = {
     if (n >= s.size) {
       s
@@ -38,6 +65,7 @@ import js.annotation.JSExport
       "..."+ s.slice(s.size - n, s.size)
     }
   }
+  
   /** Format a string extracting a given white-space delimited word token
   * surrounded by a given number of neighboring word tokens.
   * If `wordToken` is not present in [[text]], an empty String
