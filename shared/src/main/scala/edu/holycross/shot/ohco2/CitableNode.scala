@@ -51,11 +51,23 @@ import js.annotation.JSExport
     if (s == text) {
       s
     } else {
-      val chunks = text.split(s)
-      val leadString = lastNCharsKwic(chunks(0), context)
-      val trailString = firstNCharsKwic(chunks(1),context)
+      val chunks = text.split(s).filter(_.nonEmpty)
 
-      leadString + "**" + s + "**" + trailString
+      chunks.size match {
+        case 1 =>  {
+          if (text.startsWith(s)) {
+            "**" + s + "**" + firstNCharsKwic(chunks(0), context)
+          } else {
+            lastNCharsKwic(chunks(0), context) + "**" + s + "**"
+          }
+
+        }
+        case n: Int => {
+          val trailString = firstNCharsKwic(chunks(1),context)
+          //println("TRAIL ON " + chunks(1) + " at " + context + " yields " + trailString)
+          lastNCharsKwic(chunks(0), context) + "**" + s + "**"  + firstNCharsKwic(chunks(1), context)
+        }
+      }
     }
   }
 
