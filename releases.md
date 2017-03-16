@@ -1,5 +1,7 @@
 #ohco2: release notes
 
+**6.12**: Exposes main classes of entire library to JS environment.
+
 **6.11**: adds functions for searching for tokens to `Corpus` class.
 
 **6.10**: Adds `kwic` display to `CitableNode`.
