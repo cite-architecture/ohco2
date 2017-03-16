@@ -4,12 +4,15 @@ import edu.holycross.shot.cite._
 import edu.holycross.shot.orca._
 import scala.annotation.tailrec
 
+import scala.scalajs.js
+import js.annotation.JSExport
+
 /** A corpus of citable texts.
 *
 * @constructor create a new corpus with a vector of CitableNode objects.
 * @param nodes contents of the citable corpus
 */
-case class Corpus (nodes: Vector[CitableNode]) {
+@JSExport  case class Corpus (nodes: Vector[CitableNode]) {
 
   /** Project all URNs in the corpus to a vector.
   */

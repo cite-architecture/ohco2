@@ -5,6 +5,9 @@ import scala.io.Source
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Try
 
+import scala.scalajs.js
+import js.annotation.JSExport
+
 
 /** Entry for a single concrete version of a text.
 *
@@ -17,7 +20,7 @@ import scala.util.Try
 * @param exemplarLabel Label for optional exemplar, or None.
 * @param online True if the text is present in the cataloged [[Corpus]].
 */
-case class CatalogEntry(urn: CtsUrn, citationScheme: String, groupName: String, workTitle: String, versionLabel: String, exemplarLabel: Option[String] = None, online: Boolean = true) {
+@JSExport case class CatalogEntry(urn: CtsUrn, citationScheme: String, groupName: String, workTitle: String, versionLabel: String, exemplarLabel: Option[String] = None, online: Boolean = true) {
   require(citationScheme.nonEmpty,"citation scheme cannot be empty")
   require(groupName.nonEmpty,"text group name cannot be empty")
   require(workTitle.nonEmpty,"work title cannot be empty")

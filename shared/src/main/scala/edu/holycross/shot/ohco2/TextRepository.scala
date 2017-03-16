@@ -2,13 +2,14 @@ package edu.holycross.shot.ohco2
 
 import edu.holycross.shot.cite._
 
-
+import scala.scalajs.js
+import js.annotation.JSExport
 /** A cataloged corpus of texts.
 *
 * @param corpus The text contents.
 * @param catalog The catalog
 */
-case class TextRepository (corpus: Corpus, catalog: Catalog) {
+@JSExport  case class TextRepository (corpus: Corpus, catalog: Catalog) {
 
   /** Create a new catalog containing only online texts.
   */
