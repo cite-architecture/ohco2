@@ -1,4 +1,4 @@
-#ohco2: release notes
+# ohco2: release notes
 
 **6.12.2**: Changes matching of punctuation to an explicit list since regular expressions are broken in JS environment.
 
