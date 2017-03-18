@@ -396,10 +396,12 @@ import js.annotation.JSExport
   def passagesToWords(skipPunct: Boolean = true): Vector[Vector[String]] = {
     //Original list:  """··.,:"⁚‡·—-;"""
     if (skipPunct) {
-      contents.map(_.replaceAll("""[\p{Punct}&&[^']]""", "").replaceAll("""[···,]""","")).map(_.split("\\s+").toVector)
+      // A bunch of punctuation values"
+      val punctListRE = """[!"#$%&*+,-./:;?@^_`|~···,‡·—-]""".r
+      contents.map(punctListRE.replaceAllIn(_,"")).map(_.split("\\s+").toVector.filter(_.nonEmpty))
 
     } else {
-      contents.map(_.split("\\s+").toVector)
+      contents.map(_.split("\\s+").toVector.filter(_.nonEmpty))
     }
   }
 
