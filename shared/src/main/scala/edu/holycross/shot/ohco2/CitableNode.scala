@@ -32,11 +32,26 @@ import scala.annotation.tailrec
 
   // use of CiableNode in this function is a hideous kludge.
   // get rid of it.
+
+  /** True if all listed tokens fall within a specified
+  * distance in a vector of tokens.
+  *
+  * @param src Text to test on, as a vector of words.
+  * @param v  Vector of tokens to test for.
+  * @param distance Distance, in words, to test for.
+  */
   @tailrec final def tokensWithin(src: Vector[String], v: Vector[String], distance: Int) : Boolean = {
 
+    // strip off any leading words in the text *not*
+    // in the list to search for:
     val stripStart = src.drop(1).dropWhile(! v.contains(_))
     stripStart.size match {
-      case n if (n <= distance) => CitableNode(urn,stripStart.mkString(" ")).matches(v,true)
+      case n if (n <= distance) => {
+        // distance is short enough:  are all tokens present?
+        CitableNode(urn,stripStart.mkString(" ")).matches(v,true)
+      }
+
+
       case _ => {
         val stripEnd = stripStart.reverse.drop(1).dropWhile(! v.contains(_)).reverse
         stripEnd.size match {

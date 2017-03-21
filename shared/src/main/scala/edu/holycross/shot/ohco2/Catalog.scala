@@ -20,18 +20,29 @@ import js.annotation.JSExport
 * @param exemplarLabel Label for optional exemplar, or None.
 * @param online True if the text is present in the cataloged [[Corpus]].
 */
-@JSExport case class CatalogEntry(urn: CtsUrn, citationScheme: String, groupName: String, workTitle: String, versionLabel: String, exemplarLabel: Option[String] = None, online: Boolean = true) {
+@JSExport case class CatalogEntry(urn: CtsUrn, citationScheme: String, groupName: String, workTitle: String, versionLabel: Option[String], exemplarLabel: Option[String] = None, online: Boolean = true) {
   require(citationScheme.nonEmpty,"citation scheme cannot be empty")
   require(groupName.nonEmpty,"text group name cannot be empty")
   require(workTitle.nonEmpty,"work title cannot be empty")
-  require(versionLabel.nonEmpty,"version label cannot be empty")
+  //require(versionLabel.nonEmpty,"version label cannot be empty")
   urn.workLevel match {
+    case WorkLevel.Work => {
+      exemplarLabel match {
+        case None => // ok
+        case _ => throw Ohco2Exception("exemplar label must be none when URN is at notional level")
+      }
+
+      versionLabel match {
+        case None => // ok
+        case _ => throw Ohco2Exception("version label must be none when URN is at notional level")
+      }
+    }
+
     case WorkLevel.Version => {
       exemplarLabel match {
         case None => // ok
         case _ => throw Ohco2Exception("exemplar label must be none when URN is at version level")
       }
-
     }
     case WorkLevel.Exemplar => {
       exemplarLabel match {
@@ -46,10 +57,19 @@ import js.annotation.JSExport
   */
   override def toString = {
     val baseString = s"${groupName}, ${workTitle}"
-    exemplarLabel match {
-      case lbl: Some[String] => baseString + s" (${versionLabel}: ${lbl.get})"
-      case None => baseString + s" (${versionLabel})"
+    versionLabel match {
+      case vers: Some[String] =>
+        exemplarLabel match {
+          case lbl: Some[String] => baseString + s" (${versionLabel.get}: ${lbl.get})"
+          case None => baseString + s" (${versionLabel.get})"
+        }
+
+      case None => baseString
     }
+
+    /*
+
+    */
   }
 
   /** Pretty print with URN.
@@ -107,7 +127,15 @@ object Catalog {
       val citation = row(1)
       val group = row(2)
       val work = row(3)
-      val vers = row(4)
+      val vers = {
+
+        if (row(4).isEmpty) {
+          None
+        } else {
+          Some(row(4))
+        }
+      }
+
       val online = Try(row(6).toBoolean).getOrElse(false)
       if (row(5).isEmpty) {
         entries += CatalogEntry(urn,citation,group,work,vers,None,online)

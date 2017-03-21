@@ -14,7 +14,7 @@ class ExportTest extends FlatSpec {
 
   it should "expose the text catalog" in {
     val urn  = CtsUrn("urn:cts:demo:g.w.ed:")
-    val catalogEntry = CatalogEntry(urn,"chunk","Demo texts","made up work","edition",None,false)
+    val catalogEntry = CatalogEntry(urn,"chunk","Demo texts","made up work",Some("edition"),None,false)
     assert(catalogEntry.urn == urn)
   }
   it should "expose the Corpus object" in {
