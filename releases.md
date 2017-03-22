@@ -1,5 +1,7 @@
 # `ohco2`: release notes
 
+**7.0.1**: Updated dependency on `xcite` library fixes bug in URN matching.
+
 
 **7.0.0**: Allows for cataloging of notional works.  This breaks API of `Catalog` constructor, although this is opaque when a `Catalog` is loaded from, e.g., a File source rather than directly constructed from Scala objects.
 
