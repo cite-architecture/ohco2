@@ -2,6 +2,7 @@ package edu.holycross.shot.ohco2
 
 import edu.holycross.shot.cite._
 
+
 import scala.scalajs.js
 import js.annotation.JSExport
 /** A cataloged corpus of texts.

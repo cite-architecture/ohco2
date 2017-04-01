@@ -15,6 +15,8 @@ urn:cts:greekLit:tlg5026.msAext.hmt:#book/scholion/part#Scholia to the Iliad#Ext
 urn:cts:greekLit:tlg5026.msAil.hmt:#book/scholion/part#Scholia to the Iliad#Interlinear scholia of the Venetus A#HMT project edition##true
 urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad#Later intermarginal scholia of the Venetus A#HMT project edition##true
 """
+
+
   val catalog = Catalog(catalogData)
   "A catalog of citable nodes" should "offer a constructor signature for instantiating a corpus from delimited text content" in {
 
