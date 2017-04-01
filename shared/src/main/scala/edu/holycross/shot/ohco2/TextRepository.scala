@@ -22,6 +22,11 @@ import js.annotation.JSExport
     catalog.label(urn.dropPassage) + " " + urn.passageComponent
   }
 
+
+  def cex(delimiter: String = "\t") : String = {
+    s"""#!ctscatalog\n${catalog.cex(delimiter)}#!ctsdata\n${corpus.cex(delimiter)}""" 
+  }
+
   // enforce 1-1 relation of texts cataloged as online
   // and texts cited in the corpus
   require(online.texts.map(_.urn).toSet == corpus.citedWorks.toSet, "Online catalog (" + online.size + " texts) did not match works appearing in corpus (" + corpus.citedWorks.size + " texts)")

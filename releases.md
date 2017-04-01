@@ -1,5 +1,7 @@
 # `ohco2`: release notes
 
+**7.1.0**: All objects support serialization to CITE Exchange format (`.cex` ).
+
 **7.0.1**: Updated dependency on `xcite` library fixes bug in URN matching.
 
 

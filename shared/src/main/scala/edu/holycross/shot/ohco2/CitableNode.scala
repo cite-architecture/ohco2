@@ -191,4 +191,9 @@ import scala.annotation.tailrec
     }
   }
 
+
+  def cex(delimiter: String = "\t"): String = {
+    s"""${urn}${delimiter}${text}"""
+  }
+
 }

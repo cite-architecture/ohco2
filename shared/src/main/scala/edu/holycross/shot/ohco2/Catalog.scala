@@ -34,6 +34,13 @@ case class Catalog (texts: Vector[CatalogEntry]) {
     entriesForUrn(urn).map(_.toString).mkString("\n")
   }
 
+
+  def cex(delimiter: String = "\t") : String = {
+    val header =        s"""urn${delimiter}citationScheme${delimiter}groupName${delimiter}workTitle${delimiter}versionLabel${delimiter}exemplarLabel${delimiter}online"""
+    val cexEntries = texts.map(_.cex(delimiter))
+
+    (header +:  cexEntries).mkString("\n") + "\n"
+  }
 }
 
 /** Factory for making catalogs from text sources.

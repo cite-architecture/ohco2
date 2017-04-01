@@ -559,6 +559,10 @@ import js.annotation.JSExport
     hist.stringMatch(str)
   }
 
+
+  def cex(delimiter: String = "\t"): String = {
+    nodes.map(_.cex(delimiter)).mkString("\n") + "\n"
+  }
 }
 
 /** Factory for [[edu.holycross.shot.ohco2.Corpus]] instances.
