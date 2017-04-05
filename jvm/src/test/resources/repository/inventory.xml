@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="../schemas/TextInventory.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="./schemas/TextInventory.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <TextInventory  tiid="hmt"  tiversion="6.0.0"  xmlns="http://chs.harvard.edu/xmlns/cts"  xmlns:dc="http://purl.org/dc/elements/1.1/">
   <ctsnamespace    abbr="greekLit"    ns="http://chs.harvard.edu/ctsns/greekLit">
     <description      xml:lang="eng"> The &quot;First Thousand Years of Greek&quot; project's inventory of Greek      texts. </description>
@@ -15,10 +15,7 @@
         <label xml:lang="eng">Greek. For testing</label>
         <description xml:lang="eng">3 books, 10 sections.</description>
         <online/>
-        <label xml:lang="eng">Greek. Tokenized. For testing</label>
-        <description xml:lang="eng">Greek. 3 books, 10 sections each.</description>
-        <online/>
-      </exemplar>
+        
     </edition>
   </work>
 </textgroup>
