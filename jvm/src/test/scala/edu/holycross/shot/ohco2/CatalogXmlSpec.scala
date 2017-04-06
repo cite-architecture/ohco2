@@ -41,7 +41,7 @@ class CatalogXmlSpec extends FlatSpec {
 """
 
 
-  val catalog = Catalog.fromXml(catalogXml, citeConfXml)
+  val catalog = TextRepositorySource.catalogFromXml(catalogXml, citeConfXml)
 
   "A catalog of citable nodes" should "be instantiated from an XML string" in  {
     assert(catalog.size > 0)

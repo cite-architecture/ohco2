@@ -6,7 +6,6 @@ import scala.collection.mutable.ArrayBuffer
 import scala.util.Try
 
 
-import scala.xml._
 
 import scala.scalajs.js
 import js.annotation.JSExport
@@ -16,7 +15,7 @@ import js.annotation.JSExport
 *
 * @param texts Set of catalog entries.
 */
-case class Catalog (texts: Vector[CatalogEntry]) {
+@JSExport case class Catalog (texts: Vector[CatalogEntry]) {
 
   /** Find catalog entries by URN.
   *
@@ -66,102 +65,6 @@ object Catalog {
       */
 
 
-
-  def titleFromNode(n: Node) = {
-    val titleNodes = n \\ "title"
-    titleNodes(0).text
-  }
-  def groupNameFromNode(n: Node)= {
-    val nameNodes = n \\ "groupname"
-    nameNodes(0).text
-  }
-  def labelFromNode(n: Node): Option[String] = {
-    val labelNodes = n \\ "label"
-    labelNodes.size match {
-      case 0 => None
-      case _ => Some(labelNodes(0).text)
-    }
-  }
-
-
-  def formatForString(s: String): DocumentFormat = {
-    s match {
-      case "xml" => Wf_Xml
-      case "markdown" => Markdown
-      case "twocol" => Two_Column
-      case "82xf" => Oxf
-    }
-  }
-
-
-  // get a vector of [[OnlineDocument]]s
-  def onlineDocsFromXml(root: Node): Vector[OnlineDocument] = {
-
-    var onlines = scala.collection.mutable.ArrayBuffer.empty[OnlineDocument]
-    val onlineNodes = root \\ "online"
-
-    for (n <- onlineNodes) {
-      val urnAttrs = n \\ "@urn"
-      val urn = CtsUrn(urnAttrs(0).text)
-
-      val formatAttrs = n \\ "@type"
-      val format = formatForString(formatAttrs(0).text)
-
-      val docNameAttrs = n \\ "@docname"
-      val docName = docNameAttrs(0).text
-      onlines +=  OnlineDocument(urn,format,docName)
-    }
-
-    onlines.toVector
-  }
-
-  def fromXml (xmlInventory: String, xmlCitationConf: String) : Catalog = {
-
-    var entries = scala.collection.mutable.ArrayBuffer.empty[CatalogEntry]
-
-
-    val citeConfRoot = XML.loadString(xmlCitationConf)
-    val onlineVector = onlineDocsFromXml(citeConfRoot)
-
-    val invRoot = XML.loadString(xmlInventory)
-
-    val tgs = invRoot \\ "textgroup"
-
-    for (tg <- tgs) {
-      val urnAttrs = tg \\ "@urn"
-      val urn = CtsUrn(urnAttrs(0).text)
-      val groupName = groupNameFromNode(tg)
-      println(groupName + " " + urn)
-
-      val wks = tg \\ "work"
-      for (wk <- wks) {
-        val title = titleFromNode(wk)
-
-        val edd = wk \\ "edition"
-        for (ed <- edd) {
-          val versionLabel = labelFromNode(ed)
-          val exemplars = ed \\ "exemplar"
-          for (ex <- exemplars) {
-            val exLabel = labelFromNode(ex)
-          }
-        }
-
-        val xlations = wk \\ "translation"
-        for (xlate <- xlations) {
-          val versionLabel = labelFromNode(xlate)
-          val exemplars = xlate \\ "exemplar"
-          for (ex <- exemplars) {
-            val exLabel = labelFromNode(ex)
-
-            // CHECK in onlineVector...
-            // figure out something for citation scheme...
-            // and create new CatalogEntry!
-          }
-        }
-      }
-    }
-    Catalog(entries.toVector)
-  }
 
 
 
