@@ -23,8 +23,12 @@ import js.annotation.JSExport
   }
 
 
+  /** Serialize repository to CITE Exchange format.
+  *
+  * @param delimiter String value to use as delimiter between columns.
+  */
   def cex(delimiter: String = "\t") : String = {
-    s"""#!ctscatalog\n${catalog.cex(delimiter)}#!ctsdata\n${corpus.cex(delimiter)}""" 
+    s"""#!ctscatalog\n${catalog.cex(delimiter)}#!ctsdata\n${corpus.cex(delimiter)}"""
   }
 
   // enforce 1-1 relation of texts cataloged as online

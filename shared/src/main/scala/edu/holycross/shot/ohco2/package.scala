@@ -30,6 +30,38 @@ package object ohco2 {
   }
 
 
+  /** Create two-column OHCO2 representation from
+  * a string formatted in the tabular format of the hocuspocus class. Note that input
+  * must already be ordered.
+  *
+  * @param xf String in tabular form used by hocuspocus.
+  * @param inputDelimiter String delimiting columns
+  * of hocuspocus input.
+  * @param outputDelimiter String to use to delimit
+  * columns in two-column output.
+  */
+  def twoColumnsFromHocusPocus(hpString: String, inputDelimiter: String = "#", outputDelimiter: String = "#"): String = {
+    val lines = hpString.split("\n").toVector.map(_.split(inputDelimiter).toVector)
+
+    val twoColumns = lines.map(v => {
+      v.size match {
+        case n if n == 8 =>  {
+          val two = v(0) + outputDelimiter + v(5)
+          two
+        }
+        case firstlast if firstlast == 7 =>  {
+          val two = v(0) + outputDelimiter + v(4)
+          two
+        }
+        //ignore empty or ill-formed lines
+        case _ => ""
+        }
+      }
+    )
+    twoColumns.mkString("\n")
+  }
+
+
   /** Format directory plus file as a path String.
   *
   * @param dir Directory name.

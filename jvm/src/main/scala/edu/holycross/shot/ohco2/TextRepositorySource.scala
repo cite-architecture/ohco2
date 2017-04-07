@@ -17,30 +17,65 @@ import scala.xml._
 */
 object TextRepositorySource {
 
-  /** Convert an online document to a two-column string.
+  /** Convert an online text documented by an [[OnlineDocument]] to a two-column string.
   *
-  * @param doc Document to convert.
+  * @param doc Documentation of the text to convert.
   */
-  def cefFromDocument(doc: OnlineDocument): String = {
+  def cexForDocument(doc: OnlineDocument, invFile: String, confFile: String): String = {
     println(doc.docName)
     doc.format match {
-      case Wf_Xml => "XML CONvERTED"
+      case Wf_Xml => cexForXml(doc, invFile, confFile)
       case _ => ""
     }
   }
 
+  def cexForXml(doc: OnlineDocument, invFile: String, confFile: String): String = {
+    val urn = new HpUrn(doc.urn.toString)
+    val f = new File(doc.docName)
+
+    val inventory = new TextInventory(new File(invFile))
+    val citationConfig = new CitationConfigurationFileReader(new File(confFile))
+
+    val xmlTab = new XmlTabulator()
+    val tabString =  xmlTab.tabulateFile(urn, inventory, citationConfig, f)
 
 
+    val oxf = tabString.split("\n").filterNot(_.contains("namespace")).toVector
+    //println("Convrt oxf " + oxf.mkString("\n"))
+
+    val twocols =   twoColumnsFromHocusPocus(oxf.mkString("\n"), "#","\t")
+
+    //println("Result = " + twocols)
+    twocols
+    // to 2 column...
+  }
+
+  /** Find title string for a notional work in a TextInventory's `work` XML node.
+  *
+  * @param n Parsed `work` node.
+  */
   def titleFromNode(n: Node) = {
     val titleNodes = n \\ "title"
     titleNodes(0).text
   }
 
+
+  /** Find string name for a text group in a TextInventory's XML `textgroup` node.
+  *
+  * @param n Parsed `textgroup` node.
+  */
   def groupNameFromNode(n: Node)= {
     val nameNodes = n \\ "groupname"
     nameNodes(0).text
   }
 
+
+  /** Find label for optional components of
+  * OHCO2 work hierarchy  in a TextInventory's
+  * node for `edition`, `translation` or `exemplar`.
+  *
+  * @param n Parsed XML node for `edition`, `translation` or `exemplar`.
+  */
   def labelFromNode(n: Node): Option[String] = {
     val labelNodes = n \\ "label"
     labelNodes.size match {
@@ -123,7 +158,7 @@ object TextRepositorySource {
               exemplarLabel = None,
               online =     true)
             catalogEntries += catEntry
-            //println("Add entry; total now " + catalogEntries)
+
           } else {}
 
           val exemplars = ed \\ "exemplar"
@@ -182,10 +217,20 @@ object TextRepositorySource {
         }
       }
     }
-    //println("Create catalog from vector of " + catalogEntries.size + " entries.")
     Catalog(catalogEntries.toVector)
   }
 
+
+  /** Create a [[Catalog]] from its XML
+  * representation in a text inventory
+  * and accompanying citation configuration
+  * document.
+  *
+  * @param invFile XML file validating against
+  * the CTS TextInventory schema.
+  * @param citationConfFile XML file validating against
+  * the CTS CitationConfiguration schema.
+  */
   def catalogFromXmlFile(invFile: String, citationConfFile: String) = {
     val inv = Source.fromFile(invFile).getLines.mkString("\n")
     val cites = Source.fromFile(citationConfFile).getLines.mkString("\n")
@@ -193,14 +238,14 @@ object TextRepositorySource {
   }
 
 
-  /** Create complete CEF representation of
+  /** Create complete CEX representation of
   * a text repository from local files.
   *
   * @param invFileName Name of file with basic inventory of texts and their citation schemes.
   * @param configFileName Name of file with details about location and format of files.
   * @param baseDirectoryName Name of root directory where local files are found.
   */
-  def cef(invFileName: String,
+  def cex(invFileName: String,
     configFileName: String,
     baseDirectoryName: String) = {
       val v = onlineVector(configFileName, baseDirectoryName)
@@ -249,6 +294,8 @@ object TextRepositorySource {
   def fromFiles(invFileName: String,
     configFileName: String,
     baseDirectoryName: String) = {
+
+
   }
 
 

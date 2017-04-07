@@ -17,6 +17,14 @@ urn:cts:aflibre:aflibre.ah.hc:19420614.p2#urn:cts:aflibre:aflibre.ah.hc:19420614
     assert (twos.split("\n").size == 3)
   }
 
-  it should "convert hocuspocus column format Strings to 2-column Strings" in pending
+  it should "convert hocuspocus column format Strings to 2-column Strings" in {
+
+    val hp = """urn:cts:greekLit:tlg0016.tlg001.grcTest:1.0#1##2#/tei:TEI/tei:text/tei:body/tei:div[@type='book' and @n='1']#<div xmlns="http://www.tei-c.org/ns/1.0" n="0" type="chapter"> <p> Ἡροδότου Ἁλικαρνησσέος ἱστορίης ἀπόδεξις ἥδε , ὡς μήτε τὰ γενόμενα ἐξ ἀνθρώπων τῷ χρόνῳ ἐξίτηλα γένηται , μήτε ἔργα μεγάλα τε καὶ θωμαστά , τὰ μὲν Ἕλλησι τὰ δὲ βαρβάροισι ἀποδεχθέντα , ἀκλεᾶ γένηται , τά τε ἄλλα καὶ δι᾽ ἣν αἰτίην ἐπολέμησαν ἀλλήλοισι . </p> </div>#/tei:TEI/tei:text/tei:body/tei:div[@type='book' and @n='?']/tei:div[@type='chapter' and @n='?']# xmlns:tei='http://www.tei-c.org/ns/1.0'
+urn:cts:greekLit:tlg0016.tlg001.grcTest:1.1#2#1#3#/tei:TEI/tei:text/tei:body/tei:div[@type='book' and @n='1']#<div xmlns="http://www.tei-c.org/ns/1.0" n="1" type="chapter"> <p> Περσέων μέν νυν οἱ λόγιοι Φοίνικας αἰτίους φασὶ γενέσθαι τῆς διαφορῆς · τούτους γάρ , ἀπὸ τῆς Ἐρυθρῆς καλεομένης θαλάσσης ἀπικομένους ἐπὶ τήνδε τὴν θάλασσαν καὶ οἰκήσαντας τοῦτον τὸν χῶρον τὸν καὶ νῦν οἰκέουσι , αὐτίκα ναυτιλίῃσι μακρῇσι ἐπιθέσθαι , ἀπαγινέοντας δὲ φορτία Αἰγύπτιά τε καὶ Ἀσσύρια τῇ τε ἄλλῃ χώρῃ ἐσαπικνέεσθαι καὶ δὴ καὶ ἐς Ἄργος · τὸ δὲ Ἄργος τοῦτον τὸν χρόνον προεῖχε ἅπασι τῶν ἐν τῇ νῦν Ἑλλάδι καλεομένῃ χώρῃ . Ἀπικομένους δὲ τοὺς Φοίνικας ἐς δὴ τὸ Ἄργος τοῦτο διατίθεσθαι τὸν φόρτον . Πέμπτῃ δὲ ἢ ἕκτῃ ἡμέρῃ ἀπ᾽ ἧς ἀπίκοντο , ἐξεμπολημένων σφι σχεδὸν πάντων , ἐλθεῖν ἐπὶ τὴν θάλασσαν γυναῖκας ἄλλας τε πολλὰς καὶ δὴ καὶ τοῦ βασιλέος θυγατέρα · τὸ δέ οἱ οὔνομα εἶναι , κατὰ τὠυτὸ τὸ καὶ Ἕλληνες λέγουσι , Ἰοῦν τὴν Ἰνάχου . Ταύτας στάσας κατὰ πρύμνην τῆς νεὸς ὠνέεσθαι τῶν φορτίων τῶν σφι ἦν θυμὸς μάλιστα , καὶ τοὺς Φοίνικας διακελευσαμένους ὁρμῆσαι ἐπ᾽ αὐτάς . Τὰς μὲν δὴ πλέονας τῶν γυναικῶν ἀποφυγεῖν , τὴν δὲ Ἰοῦν σὺν ἄλλῃσι ἁρπασθῆναι · ἐσβαλομένους δὲ ἐς τὴν νέα οἴχεσθαι ἀποπλέοντας ἐπ᾽ Αἰγύπτου . </p> </div>#/tei:TEI/tei:text/tei:body/tei:div[@type='book' and @n='?']/tei:div[@type='chapter' and @n='?']# xmlns:tei='http://www.tei-c.org/ns/1.0'
+"""
+    val twos = twoColumnsFromHocusPocus(hp)
+    assert (twos.split("\n").size == 2)
+
+  }
 
 }

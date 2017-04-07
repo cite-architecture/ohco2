@@ -48,12 +48,6 @@ class CatalogXmlSpec extends FlatSpec {
     assert(catalog.size == 1)
   }
 
-  it should "be instantianted from a file with valid XML" in {
-    val inv = "jvm/src/test/resources/repository/inventory.xml"
-    val citeconf = "jvm/src/test/resources/repository/citationconfig.xml"
-    val catalog = TextRepositorySource.catalogFromXmlFile(inv,citeconf)
-    assert( catalog.size == 1)
-  }
 
 
 
