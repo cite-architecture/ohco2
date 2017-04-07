@@ -3,6 +3,7 @@ package edu.holycross.shot.ohco2
 import edu.holycross.shot.cite._
 import scala.io.Source
 import java.io._
+import scala.collection.mutable.ArrayBuffer
 
 import edu.harvard.chs.cite.{CtsUrn => HpUrn}
 import edu.holycross.shot.hocuspocus._
@@ -74,25 +75,29 @@ object TextRepositorySource {
     onlines.toVector
   }
 
+
+  /** Create a [[Catalog]] from it XML
+  * representation in a text inventory
+  * and accompanying citation configuration
+  * document.
+  *
+  * @param xmlInventory XML validating against
+  * the CTS TextInventory schema.
+  * @param xmlCitationConf XML validating against
+  * the CTS CitationConfiguration schema.
+  */
   def catalogFromXml (xmlInventory: String, xmlCitationConf: String) : Catalog = {
+    //var catalogEntries = ArrayBuffer[CatalogEntry]()
+
     val citeConfRoot = XML.loadString(xmlCitationConf)
     val onlineVector = onlineDocsFromXml(citeConfRoot)
 
-
-    var entries = scala.collection.mutable.ArrayBuffer.empty[CatalogEntry]
-
-
-
-
+    var catalogEntries = scala.collection.mutable.ArrayBuffer.empty[CatalogEntry]
     val invRoot = XML.loadString(xmlInventory)
 
     val tgs = invRoot \\ "textgroup"
-
     for (tg <- tgs) {
-      val urnAttrs = tg \\ "@urn"
-      val urn = CtsUrn(urnAttrs(0).text)
-      val groupName = groupNameFromNode(tg)
-      println(groupName + " " + urn)
+      val textGroupName = groupNameFromNode(tg)
 
       val wks = tg \\ "work"
       for (wk <- wks) {
@@ -100,28 +105,85 @@ object TextRepositorySource {
 
         val edd = wk \\ "edition"
         for (ed <- edd) {
-          val versionLabel = labelFromNode(ed)
+          val versionOpt = labelFromNode(ed)
+          val urnAttrs = ed \\ "@urn"
+          val edUrn = CtsUrn(urnAttrs(0).text)
+          //println("Look at edition: " + edUrn)
+          val edOnline  = onlineVector.filter(_.urn == edUrn)
+          //println("Online vector mtched " + edOnline +  " editions.")
+          if (edOnline.size == 1) {
+            val online = edOnline(0)
+            val citeType = online.format.toString
+            val catEntry =  CatalogEntry(
+              urn = edUrn,
+              groupName = textGroupName,
+              citationScheme = citeType,
+              workTitle = title,
+              versionLabel = versionOpt,
+              exemplarLabel = None,
+              online =     true)
+            catalogEntries += catEntry
+            //println("Add entry; total now " + catalogEntries)
+          } else {}
+
           val exemplars = ed \\ "exemplar"
           for (ex <- exemplars) {
-            val exLabel = labelFromNode(ex)
+            val exemplarOpt = labelFromNode(ex)
+
+
+            val urnAttrs = ex \\ "@urn"
+            val exUrn = CtsUrn(urnAttrs(0).text)
+
+            val exOnline  = onlineVector.filter(_.urn == exUrn)
+            if (exOnline.size == 1) {
+              val online = exOnline(0)
+              val citeType = online.format.toString
+              val catEntry =  CatalogEntry(
+                urn = exUrn,
+                groupName = textGroupName,
+                citationScheme = citeType,
+                workTitle = title,
+                versionLabel = versionOpt,
+                exemplarLabel = exemplarOpt,
+                online =     true)
+              catalogEntries += catEntry
+            } else {}
+
+
           }
         }
 
         val xlations = wk \\ "translation"
         for (xlate <- xlations) {
-          val versionLabel = labelFromNode(xlate)
+          val versionOpt = labelFromNode(xlate)
+
           val exemplars = xlate \\ "exemplar"
           for (ex <- exemplars) {
-            val exLabel = labelFromNode(ex)
-            
-            // CHECK in onlineVector...
-            // figure out something for citation scheme...
-            // and create new CatalogEntry!
+            val exemplarOpt = labelFromNode(ex)
+
+            val urnAttrs = ex \\ "@urn"
+            val xlateUrn = CtsUrn(urnAttrs(0).text)
+
+            val xlateOnline  = onlineVector.filter(_.urn == xlateUrn)
+            if (xlateOnline.size == 1) {
+              val online = xlateOnline(0)
+              val citeType = online.format.toString
+              val catEntry =  CatalogEntry(
+                urn = xlateUrn,
+                groupName = textGroupName,
+                citationScheme = citeType,
+                workTitle = title,
+                versionLabel = versionOpt,
+                exemplarLabel = exemplarOpt,
+                online =  true)
+              catalogEntries += catEntry
+            } else {}
           }
         }
       }
     }
-    Catalog(entries.toVector)
+    //println("Create catalog from vector of " + catalogEntries.size + " entries.")
+    Catalog(catalogEntries.toVector)
   }
 
   def catalogFromXmlFile(invFile: String, citationConfFile: String) = {

@@ -5,11 +5,8 @@ import scala.io.Source
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Try
 
-
-
 import scala.scalajs.js
 import js.annotation.JSExport
-
 
 /** Catalog for an entire text repository.
 *
