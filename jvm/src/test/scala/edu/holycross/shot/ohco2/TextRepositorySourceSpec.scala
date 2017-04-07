@@ -8,29 +8,35 @@ import scala.xml._
 
 class TextRepositorySourceSpec extends FlatSpec {
 
-  "The TextRepositorySource object"  should  "create CEF for an XML file" in  {
+
+  val inv = "jvm/src/test/resources/repository/inventory.xml"
+  val citeConf = "jvm/src/test/resources/repository/citationconfig.xml"
+  val baseDir = "jvm/src/test/resources/repository/texts"
+
+
+  "The TextRepositorySource object"  should  "create two-column CEF for an XML file" in  {
     // first get OnlineDocument Vector
-    val citeconf = "jvm/src/test/resources/repository/citationconfig.xml"
-    val inv = "jvm/src/test/resources/repository/inventory.xml"
-    val baseDir = "jvm/src/test/resources/repository/texts"
-    val olDocs = TextRepositorySource.onlineVector(citeconf, baseDir)
+
+    val olDocs = TextRepositorySource.onlineVector(citeConf, baseDir)
     val hdt = olDocs(0)
 
-    val cex = TextRepositorySource.cexForDocument(hdt,inv,citeconf)
-    println("HDT: " + cex)
-
-
+    val cex = TextRepositorySource.cexForDocument(hdt,inv,citeConf)
+    val lines = cex.split("\n")
+    val expectedLines = 33
+    assert(lines.size == expectedLines)
   }
   it should "create CEF for a markdown file" in pending
   it should "create CEF for a two-column file" in pending
   it should "create CEF for an 82XF file" in pending
 
   it should "create a Catalog from XML sources" in {
-    val inv = "jvm/src/test/resources/repository/inventory.xml"
-    val citeconf = "jvm/src/test/resources/repository/citationconfig.xml"
-    val catalog = TextRepositorySource.catalogFromXmlFile(inv,citeconf)
+    val catalog = TextRepositorySource.catalogFromXmlFile(inv,citeConf)
     assert( catalog.size == 1)
   }
 
-  it should "create a TextRepository from local files cataloged by XML documents" in pending
+  it should "create a TextRepository from local files cataloged by XML documents" in {
+    val repo = TextRepositorySource.fromFiles(inv,citeConf,baseDir)
+    assert(repo.catalog.size == 1)
+    assert(repo.corpus.size == 33)
+  }
 }

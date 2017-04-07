@@ -20,16 +20,25 @@ object TextRepositorySource {
   /** Convert an online text documented by an [[OnlineDocument]] to a two-column string.
   *
   * @param doc Documentation of the text to convert.
+  * @param invFile File of old-school hocuspocus TextInventory XML.
+  * @param confFile File of old-school hocuspocus CitationConfiguration XML.
   */
-  def cexForDocument(doc: OnlineDocument, invFile: String, confFile: String): String = {
-    println(doc.docName)
+  def cexForDocument(doc: OnlineDocument, invFile: String, confFile: String,inputDelim: String = "#",outputDelim: String = "\t"): String = {
+    println("CEX FOR " + doc.docName)
     doc.format match {
       case Wf_Xml => cexForXml(doc, invFile, confFile)
       case _ => ""
     }
   }
 
-  def cexForXml(doc: OnlineDocument, invFile: String, confFile: String): String = {
+
+  /** Convert an online XML file to a two-column string.
+  *
+  * @param doc Documentation of the text to convert.
+  * @param invFile File of old-school hocuspocus TextInventory XML.
+  * @param confFile File of old-school hocuspocus CitationConfiguration XML.
+  */
+  def cexForXml(doc: OnlineDocument, invFile: String, confFile: String, inputDelim: String = "#",outputDelim: String = "\t"): String = {
     val urn = new HpUrn(doc.urn.toString)
     val f = new File(doc.docName)
 
@@ -39,15 +48,9 @@ object TextRepositorySource {
     val xmlTab = new XmlTabulator()
     val tabString =  xmlTab.tabulateFile(urn, inventory, citationConfig, f)
 
-
     val oxf = tabString.split("\n").filterNot(_.contains("namespace")).toVector
-    //println("Convrt oxf " + oxf.mkString("\n"))
-
-    val twocols =   twoColumnsFromHocusPocus(oxf.mkString("\n"), "#","\t")
-
-    //println("Result = " + twocols)
+    val twocols =   twoColumnsFromHocusPocus(oxf.mkString("\n"), inputDelim,outputDelim)
     twocols
-    // to 2 column...
   }
 
   /** Find title string for a notional work in a TextInventory's `work` XML node.
@@ -143,9 +146,8 @@ object TextRepositorySource {
           val versionOpt = labelFromNode(ed)
           val urnAttrs = ed \\ "@urn"
           val edUrn = CtsUrn(urnAttrs(0).text)
-          //println("Look at edition: " + edUrn)
+
           val edOnline  = onlineVector.filter(_.urn == edUrn)
-          //println("Online vector mtched " + edOnline +  " editions.")
           if (edOnline.size == 1) {
             val online = edOnline(0)
             val citeType = online.format.toString
@@ -249,6 +251,7 @@ object TextRepositorySource {
     configFileName: String,
     baseDirectoryName: String) = {
       val v = onlineVector(configFileName, baseDirectoryName)
+
       v
   }
 
@@ -293,7 +296,18 @@ object TextRepositorySource {
   */
   def fromFiles(invFileName: String,
     configFileName: String,
-    baseDirectoryName: String) = {
+    baseDirectoryName: String): TextRepository = {
+
+    val catalog = catalogFromXmlFile(invFileName, configFileName)
+
+    val onlines = onlineVector(configFileName, baseDirectoryName)
+    val twocols = onlines.map(cexForXml(_, invFileName, configFileName)).mkString("\n")
+    val corpus = Corpus(twocols)
+
+    TextRepository(corpus,catalog)
+
+    // get two-col for each online, and isntantiate
+    // corpus from that!
 
 
   }
