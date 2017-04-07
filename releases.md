@@ -1,6 +1,10 @@
 # `ohco2`: release notes
 
-**7.1.0**: All objects support serialization to CITE Exchange format (`.cex` ).
+
+**7.2.0**: Create catalog, corpus or text repository from local XML files with accompanying XML catalog, using `hocuspocus` library.
+
+**7.1.0**:
+ All objects support serialization to CITE Exchange format (`.cex` ).
 
 **7.0.1**: Updated dependency on `xcite` library fixes bug in URN matching.
 
