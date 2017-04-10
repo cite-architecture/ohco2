@@ -37,7 +37,7 @@ urn:cts:greekLit:tlg0016.tlg001.eng:1.7#Now the supremacy which had belonged to 
     assert(entry.cex("#") == expected)
   }
 
-  "A Catalog" should "offer a .cex seraliazation of the catalog" in {
+  "A Catalog" should "offer a .cex seralization of the catalog" in {
     val cex = catalog.cex("#")
     val rows = cex.split("\n")
     assert(rows.size == 7)

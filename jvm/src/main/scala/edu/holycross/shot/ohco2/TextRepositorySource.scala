@@ -24,7 +24,6 @@ object TextRepositorySource {
   * @param confFile File of old-school hocuspocus CitationConfiguration XML.
   */
   def cexForDocument(doc: OnlineDocument, invFile: String, confFile: String,inputDelim: String = "#",outputDelim: String = "\t"): String = {
-    println("CEX FOR " + doc.docName)
     doc.format match {
       case Wf_Xml => cexForXml(doc, invFile, confFile)
       case _ => ""

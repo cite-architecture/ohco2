@@ -5,7 +5,7 @@ name := "OHCO2 text library"
 
 
 crossScalaVersions := Seq("2.10.6","2.11.8")
-
+scalaVersion := "2.11.8"
 
 lazy val root = project.in(file(".")).
     aggregate(crossedJVM, crossedJS).
@@ -19,7 +19,7 @@ lazy val crossed = crossProject.in(file(".")).
     settings(
       name := "ohco2",
       organization := "edu.holycross.shot",
-      version := "7.2.0",
+      version := "7.2.1",
       licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
       resolvers += Resolver.jcenterRepo,
       resolvers += "beta" at "http://beta.hpcc.uh.edu/nexus/content/repositories/releases",

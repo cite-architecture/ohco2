@@ -1,6 +1,8 @@
 # `ohco2`: release notes
 
 
+**7.2.1**: Same functionality as `7.2.0`, but correctly published for use in all cross-comipled versions.
+
 **7.2.0**: Create catalog, corpus or text repository from local XML files with accompanying XML catalog, using `hocuspocus` library.
 
 **7.1.0**:

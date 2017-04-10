@@ -4,7 +4,7 @@
 
 `ohco2` is a cross-platform library for working with corpora of citable texts.
 
-## Current version: 7.2.0
+## Current version: 7.2.1
 
 
 Status:  **active development**. [Release notes](releases.md)
@@ -27,4 +27,6 @@ For maven, ivy or gradle equivalents, refer to <https://bintray.com/neelsmith/ma
 
 
 
-To build from source and test, use normal sbt commands (`compile`, `test` ...).
+To build from source and test for a given version, use normal sbt commands (`compile`, `test` ...).
+
+You can also test or run tasks against all versions, using `+` before the task name.  E.g., from within an `sbt` session, `+ test` runs the `test` task against all versions.
