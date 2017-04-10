@@ -305,34 +305,7 @@ object TextRepositorySource {
     val corpus = Corpus(twocols)
 
     TextRepository(corpus,catalog)
-
-    // get two-col for each online, and isntantiate
-    // corpus from that!
-
-
   }
 
 
 }
-      /*
-    val invFile = new File(invFileName)
-    val inventory = new TextInventory(invFile)
-
-    val confFile = new File(configFileName)
-    val citationConfig = new CitationConfigurationFileReader(confFile)
-*/
-
-
-/*
-val xmlTab = new XmlTabulator()
-
-
-val confFile = new File("testdata/xmlCorpus/xmlcitationconfig.xml")
-val citationConfig = new CitationConfigurationFileReader(confFile)
-
-val urn = new CtsUrn("urn:cts:greekLit:tlg0016.tlg001.grcTest:")
-
-val f = new File("testdata/xmlCorpus/xml/test-hdt-grc.xml")
-
-val tabString =  xmlTab.tabulateFile(urn, inventory, citationConfig, f)
-*/
