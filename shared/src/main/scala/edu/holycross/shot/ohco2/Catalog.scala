@@ -62,10 +62,6 @@ object Catalog {
       */
 
 
-
-
-
-
   /** Build a [[Catalog]] from delimited text source.
   *
   * @param data Delimited-text representation of a catalog.
