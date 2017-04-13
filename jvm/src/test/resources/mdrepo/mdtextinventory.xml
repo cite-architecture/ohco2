@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-model href="../schemas/TextInventory.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TextInventory
+  tiid="hmt"
+  tiversion="6.0.0"
+  xmlns="http://chs.harvard.edu/xmlns/cts"
+  xmlns:dc="http://purl.org/dc/elements/1.1/">
+  
+  <ctsnamespace
+    abbr="mddemo"
+    ns="http://cite-architecture.github.io/mddemo">
+    <description
+      xml:lang="eng">Demo of markdown in CTS.</description>
+  </ctsnamespace>
+  
+  
+  
+  <textgroup
+    urn="urn:cts:mddemo:demo:">
+    <groupname
+      xml:lang="eng">Demo docs</groupname>
+    <work
+      urn="urn:cts:mddemo:demo.powered:"
+      xml:lang="eng">
+      <title
+        xml:lang="nel">Powered  by OHCO2</title>
+      <edition
+        urn="urn:cts:mddemo:demo.powered.cite:">
+        <label
+          xml:lang="eng">Edition by the designers of the CITE architecture</label>
+        <description
+          
+          xml:lang="eng">Notes on how the OHCO2 model supports multiple text formats</description>
+        <online/>
+      </edition>
+    </work>
+  </textgroup>
+  
+</TextInventory>

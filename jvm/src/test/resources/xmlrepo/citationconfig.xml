@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- On-line configuration for inventory in testinventory2.xml -->
-<?xml-model href="./schemas/CitationConfiguration.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../schemas/CitationConfiguration.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
 <CitationConfiguration xmlns="http://chs.harvard.edu/xmlns/hocuspocus" tiversion="6.0.0">
   <online        urn="urn:cts:greekLit:tlg0016.tlg001.grcTest:"        type="xml"        docname="test-hdt-grc.xml">
     <namespaceMapping abbreviation="tei" nsURI="http://www.tei-c.org/ns/1.0"/>
