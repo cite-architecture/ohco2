@@ -56,24 +56,8 @@ object TextRepository {
   * in CEX data.
   */
   def apply(cexString: String, delimiter: String = "#") : TextRepository = {
-    /*
-    val sections = cex.split("#!").filter(_.nonEmpty)
-    val typeList = sections.map(_.split("\n")(0))
-
-    val catalogString = sections(typeList.indexOf("ctscatalog"))
-    val catalogData = catalogString.split("\n").drop(1).mkString("\n")
-    */
-
     val cex = CexParser(cexString)
-
     val catalog = Catalog(cex.blocks("ctscatalog"),delimiter)
-
-    /*
-
-
-    val corpusString = sections(typeList.indexOf("ctsdata"))
-    val corpusData = corpusString.split("\n").drop(1).mkString("\n")
-    */
     val corpus = Corpus(cex.blocks("ctsdata"), delimiter)
 
     TextRepository(corpus,catalog)
