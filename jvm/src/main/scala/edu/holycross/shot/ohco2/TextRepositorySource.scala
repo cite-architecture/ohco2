@@ -37,6 +37,7 @@ object TextRepositorySource {
   def cexForDocument(doc: OnlineDocument, invFile: String, confFile: String,inputDelim: String = "#",outputDelim: String = "\t"): String = {
     doc.format match {
       case Wf_Xml => cexForXml(doc, invFile, confFile)
+      case Markdown => cexForMarkdown(doc,invFile,confFile)
       case _ => ""
     }
   }
@@ -62,6 +63,17 @@ object TextRepositorySource {
     val twocols =   twoColumnsFromHocusPocus(oxf.mkString("\n"), inputDelim,outputDelim)
     twocols
   }
+
+  def cexForMarkdown(doc: OnlineDocument, invFile: String, confFile: String, inputDelim: String = "#",outputDelim: String = "#"): String = {
+
+    val f = new File(doc.docName)
+
+    val twoCols = MdTabulator.mdFileToTwoColumns(f, doc.urn.toString)
+
+    twoCols
+
+  }
+
 
   /** Find title string for a notional work in a TextInventory's `work` XML node.
   *
