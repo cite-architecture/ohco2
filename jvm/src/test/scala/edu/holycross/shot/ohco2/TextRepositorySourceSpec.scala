@@ -39,4 +39,13 @@ class TextRepositorySourceSpec extends FlatSpec {
     assert(repo.catalog.size == 1)
     assert(repo.corpus.size == 33)
   }
+
+  it should "create a TextRepository from a single file of CEX data" in {
+    val cex = "jvm/src/test/resources/million.cex"
+    val repo = TextRepositorySource.fromCexFile(cex,"#")
+    repo match {
+      case tr: TextRepository => assert(true)
+      case _ => fail("Should have created a TextRepository")
+    }
+  }
 }

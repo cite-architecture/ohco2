@@ -2,7 +2,6 @@ package edu.holycross.shot.ohco2
 
 import edu.holycross.shot.cite._
 
-
 import scala.scalajs.js
 import js.annotation.JSExport
 /** A cataloged corpus of texts.
@@ -35,6 +34,39 @@ import js.annotation.JSExport
   // and texts cited in the corpus
   require(online.texts.map(_.urn).toSet == corpus.citedWorks.toSet, "Online catalog (" + online.size + " texts) did not match works appearing in corpus (" + corpus.citedWorks.size + " texts)")
 
+/*
+  def find(s: String): TextRepository = {
+      val sCorpus = corpus.find(s)
+  }*/
+
+}
 
 
+/** Factory for constructing [[TextRepository]] fromFile
+* source data in CEX format.
+*/
+object TextRepository {
+
+
+  /** Create TextRepository from CEX data.
+  *
+  * @param cex Data in CEX format.
+  * @param delimiter String value delimiting columns
+  * in CEX data.
+  */
+  def apply(cex: String, delimiter: String = "#") : TextRepository = {
+    val sections = cex.split("#!").filter(_.nonEmpty)
+    val typeList = sections.map(_.split("\n")(0))
+
+    val catalogString = sections(typeList.indexOf("ctscatalog"))
+    val catalogData = catalogString.split("\n").drop(1).mkString("\n")
+    val catalog = Catalog(catalogData,delimiter)
+
+
+    val corpusString = sections(typeList.indexOf("ctsdata"))
+    val corpusData = corpusString.split("\n").drop(1).mkString("\n")
+    val corpus = Corpus(corpusData, delimiter)
+
+    TextRepository(corpus,catalog)
+  }
 }

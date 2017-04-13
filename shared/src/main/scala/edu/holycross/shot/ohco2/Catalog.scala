@@ -73,6 +73,9 @@ object Catalog {
     val columnsByRow = data.split("\n").toVector.filter(_.nonEmpty).map(_.split(sep)).drop(1)
 
     for (row <- columnsByRow) {
+      if (row.size < 7) {
+        throw Ohco2Exception(s"""Invalid CEX data for text catalog: too few columns (${row.size}) in row ${row.mkString}""")
+      }
       val urn = CtsUrn(row(0))
       val citation = row(1)
       val group = row(2)

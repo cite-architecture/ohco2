@@ -17,6 +17,17 @@ import scala.xml._
 */
 object TextRepositorySource {
 
+
+  /** Create [[TextRepository]] from file with CEX data.
+  *
+  * @param cexFile File with data in CEX format.
+  * @param delimiter String value used to delimit columns
+  * of CEX data.
+  */
+  def fromCexFile(cexFile: String, delimiter: String = "\ts"): TextRepository = {
+    TextRepository(Source.fromFile(cexFile).getLines.toVector.mkString("\n"))
+  }
+
   /** Convert an online text documented by an [[OnlineDocument]] to a two-column string.
   *
   * @param doc Documentation of the text to convert.
