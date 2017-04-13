@@ -1,5 +1,7 @@
 # `ohco2`: release notes
 
+**7.3.0**:  Adds support for citable text sources in Markdown format.  Switches to using the `CexParser` class to work with source data in `.cex` format.
+
 
 **7.2.1**: Same functionality as `7.2.0`, but correctly published for use in all cross-comipled versions.
 

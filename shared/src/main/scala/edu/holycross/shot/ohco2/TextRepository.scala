@@ -1,6 +1,7 @@
 package edu.holycross.shot.ohco2
 
 import edu.holycross.shot.cite._
+import edu.holycross.shot.cex._
 
 import scala.scalajs.js
 import js.annotation.JSExport
@@ -50,22 +51,30 @@ object TextRepository {
 
   /** Create TextRepository from CEX data.
   *
-  * @param cex Data in CEX format.
+  * @param cexString Data in CEX format.
   * @param delimiter String value delimiting columns
   * in CEX data.
   */
-  def apply(cex: String, delimiter: String = "#") : TextRepository = {
+  def apply(cexString: String, delimiter: String = "#") : TextRepository = {
+    /*
     val sections = cex.split("#!").filter(_.nonEmpty)
     val typeList = sections.map(_.split("\n")(0))
 
     val catalogString = sections(typeList.indexOf("ctscatalog"))
     val catalogData = catalogString.split("\n").drop(1).mkString("\n")
-    val catalog = Catalog(catalogData,delimiter)
+    */
+
+    val cex = CexParser(cexString)
+
+    val catalog = Catalog(cex.blocks("ctscatalog"),delimiter)
+
+    /*
 
 
     val corpusString = sections(typeList.indexOf("ctsdata"))
     val corpusData = corpusString.split("\n").drop(1).mkString("\n")
-    val corpus = Corpus(corpusData, delimiter)
+    */
+    val corpus = Corpus(cex.blocks("ctsdata"), delimiter)
 
     TextRepository(corpus,catalog)
   }
