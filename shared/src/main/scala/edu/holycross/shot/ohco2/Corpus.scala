@@ -20,6 +20,10 @@ import js.annotation.JSExport
     nodes.map(_.urn)
   }
 
+  val dupes = urns.groupBy(identity).collect { case (x,ys) if ys.lengthCompare(1) > 0 => x }
+  require(dupes.size == 0, s"""Duplicated URN values: ${dupes.mkString(",")}""")
+
+
   /** Project text contents of the corpus to a vector of Strings.
   */
   def contents : Vector[String] = {

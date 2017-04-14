@@ -15,9 +15,8 @@ urn:cts:greekLit:tlg5026.msAext.hmt:#book/scholion/part#Scholia to the Iliad#Ext
 urn:cts:greekLit:tlg5026.msAil.hmt:#book/scholion/part#Scholia to the Iliad#Interlinear scholia of the Venetus A#HMT project edition##true
 urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad#Later intermarginal scholia of the Venetus A#HMT project edition##true
 """
-
-
   val catalog = Catalog(catalogData)
+
   "A catalog of citable nodes" should "offer a constructor signature for instantiating a corpus from delimited text content" in {
 
     catalog match {
@@ -155,6 +154,21 @@ urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad
     val urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:")
     val catalogEntry = CatalogEntry(urn,"book/line","Homeric poetry","Iliad",Some("the Venetus A manuscript"),None,true)
     assert (catalogEntry.toString == "Homeric poetry, Iliad (the Venetus A manuscript)")
+  }
+
+  it should "object if there are duplicate URNs" in {
+    val duplicated = """urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online
+urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true
+urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Intermarginal scholia of the Venetus A#HMT project edition##true
+"""
+  try {
+    val c =  Catalog(duplicated)
+    fail("Should have thrown exception for duplicate entry")
+  } catch {
+    case dupe : IllegalArgumentException => assert(dupe.getMessage() == "requirement failed: Duplicated URN values: urn:cts:greekLit:tlg5026.msA.hmt:")
+
+    case e: Throwable => fail("Should have thrown IllegalArgumentException, not " + e)
+  }
 
   }
 

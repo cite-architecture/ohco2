@@ -14,6 +14,12 @@ import js.annotation.JSExport
 */
 @JSExport case class Catalog (texts: Vector[CatalogEntry]) {
 
+
+  // ensure unique urns
+  val urnList = texts.map(_.urn)
+  val dupes = urnList.groupBy(identity).collect { case (x,ys) if ys.lengthCompare(1) > 0 => x }
+  require(dupes.size == 0, s"""Duplicated URN values: ${dupes.mkString(",")}""")
+
   /** Find catalog entries by URN.
   *
   * @param filterUrn URN identifying text(s).
