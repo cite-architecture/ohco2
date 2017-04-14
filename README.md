@@ -29,4 +29,4 @@ For maven, ivy or gradle equivalents, refer to <https://bintray.com/neelsmith/ma
 
 To build from source and test for a given version, use normal sbt commands (`compile`, `test` ...).
 
-You can also test or run tasks against all versions, using `+` before the task name.  E.g., from within an `sbt` session, `+ test` runs the `test` task against all versions.
+You can also test or run tasks against all versions, using `+` before the task name.  E.g.,  `sbt "+ test"` runs the `test` task against all versions.
