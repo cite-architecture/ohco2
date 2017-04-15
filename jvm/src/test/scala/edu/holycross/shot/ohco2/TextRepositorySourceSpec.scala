@@ -35,8 +35,13 @@ class TextRepositorySourceSpec extends FlatSpec {
     val olDocs = TextRepositorySource.onlineVector(citeConf, baseDir)
     val demo = olDocs(0)
     val cex = TextRepositorySource.cexForDocument(demo,inv,citeConf)
-    println("CEX for MD DOC: " + cex)
-    //val repo = TextRepositorySource.fromFiles(inv,citeConf,baseDir)
+    val lines = cex.split("\n").toVector
+    
+    val expectedHeader = "urn:cts:mddemo:demo.powered.cite:1.h1# Powered by OHCO2"
+    assert(lines(0) == expectedHeader)
+
+    val expectedLines = 19
+    assert(lines.size == 19)
 
 
   }
