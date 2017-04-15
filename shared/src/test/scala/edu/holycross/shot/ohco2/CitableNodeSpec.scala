@@ -50,12 +50,12 @@ class CitableNodeSpec extends FlatSpec {
     assert (hdtproem.tokenMatches("Hellenes"))
   }
 
-/*
-  it should "support searching for vectors of white-space delimited tokens" in {
 
-    assert (hdtproem.tokenMatches(Vector("Hellene", "Barbarians")) == false)
-    assert (hdtproem.tokenMatches(Vector("Hellenes", "Barbarians")))
-  } */
+  it should "support searching for vectors of white-space delimited tokens" in pending/* {
+
+    assert (hdtproem.tokenMatches(Vector("Hellenes", "Barbarians")) == false)
+    assert (hdtproem.tokenMatches(Vector( "Hellenes,","Barbarians")))
+  }*/
 
   it should "find coocurrences within a given distance" in {
     assert(hdtproem.tokensWithin(Vector("Showing","Inquiry"), 5))
@@ -65,10 +65,10 @@ class CitableNodeSpec extends FlatSpec {
     assert(hdtproem.tokensWithin(Vector("Showing","Thucydides"), 5) == false)
   }
 
-  it should "be able to create a new citable node without punctuation character" in {
-    val stripped = hdtproem.omitPunctuation
-    val expectedText = "This is the Showing forth of the Inquiry of Herodotus of Halicarnassos to the end that neither the deeds of men may be forgotten by lapse of time nor the works great and marvellous which have been produced some by Hellenes and some by Barbarians may lose their renown and especially that the causes may be remembered for which these waged war with one another"
-    assert(stripped.text == expectedText)
+  it should "be able to strip punctuation characters out of the text contents" in {
+      val expectedText = "This is the Showing forth of the Inquiry of Herodotus of Halicarnassos to the end that neither the deeds of men may be forgotten by lapse of time nor the works great and marvellous which have been produced some by Hellenes and some by Barbarians may lose their renown and especially that the causes may be remembered for which these waged war with one another"
+
+      assert(hdtproem.stripPunctuation == expectedText)
   }
 
   "The constructor for a citable text node" should "throw an Ohco2 exception if text content is empty" in {
@@ -79,5 +79,11 @@ class CitableNodeSpec extends FlatSpec {
     }
   }
 
+
+  "The CitableNode object" should "be able to create a new citable node without punctuation characters from a given CitableNode" in {
+    val stripped = CitableNode.stripPunctuation(hdtproem)
+    val expectedText = "This is the Showing forth of the Inquiry of Herodotus of Halicarnassos to the end that neither the deeds of men may be forgotten by lapse of time nor the works great and marvellous which have been produced some by Hellenes and some by Barbarians may lose their renown and especially that the causes may be remembered for which these waged war with one another"
+    assert(stripped.text == expectedText)
+  }
 
 }

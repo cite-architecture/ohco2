@@ -191,6 +191,12 @@ import scala.annotation.tailrec
     }
   }
 
+  /** Strip all punctuation characters from text content.
+  */
+  def stripPunctuation: String = {
+    punctuationListRE.replaceAllIn(this.text, "")
+  }
+
   /** Two-column serialization of this as formated for
   * CEX format.
   *
@@ -200,13 +206,17 @@ import scala.annotation.tailrec
     s"""${urn}${delimiter}${text}"""
   }
 
+}
+
+
+/** Factory for citable nodes with punctuation stripped out.
+*/
+object CitableNode {
 
   /** Create a new citable with all punctuation characters
   * removed from text member.
   */
-  def omitPunctuation: CitableNode = {
-    val stripped = punctuationListRE.replaceAllIn(this.text, "")
-    CitableNode(this.urn,stripped)
+  def stripPunctuation(cn: CitableNode): CitableNode = {
+    CitableNode(cn.urn,cn.stripPunctuation)
   }
-
 }
