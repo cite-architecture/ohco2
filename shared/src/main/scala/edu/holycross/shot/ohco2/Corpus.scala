@@ -498,7 +498,7 @@ import js.annotation.JSExport
 
       Corpus(stripped.filter(_.tokenMatches(t)))
     } else {
-    
+
       println("Filtered to matching " + t + " and get " + nodes.filter(_.tokenMatches(t)))
       Corpus(nodes.filter(_.tokenMatches(t)))
     }
@@ -530,12 +530,22 @@ import js.annotation.JSExport
   *
   * @param v Strings to search for.
   */
-  def findTokens(v: Vector[String]): Corpus = {
+
+
+  /*
+  def findTokens(v: Vector[String], omitPunctuation: Boolean = true): Corpus = {
     if (v.isEmpty) {
       Corpus(Vector.empty)
     } else {
-      findTokens(v.drop(1), this.findToken(v(0)))
+      findTokens(v.drop(1), this.findToken(v(0)),omitPunctuation)
     }
+  }*/
+  def findWSTokens(v: Vector[String]): Corpus = {
+    findTokens(v.drop(1),this.findToken(v(0)),false )
+  }
+
+  def findWordTokens(v: Vector[String]): Corpus = {
+    findTokens(v.drop(1),this.findToken(v(0)),true )
   }
 
   /** Create a new corpus containing citable nodes
@@ -547,11 +557,18 @@ import js.annotation.JSExport
   * @param distance Maximum size of consecutive tokens all tokens
   * in v must fall within.
   */
-  def findTokensWithin(v: Vector[String], distance: Int): Corpus = {
-    val matches = findTokens(v)
-    val closeBy = Corpus(matches.nodes.filter(_.tokensWithin(v,distance)))
+  def findTokensWithin(v: Vector[String], distance: Int, omitPunctuation: Boolean = true): Corpus = {
+    if (omitPunctuation) {
 
-    closeBy
+
+      val matches = findWordTokens(v)
+      val closeBy = Corpus(matches.nodes.filter(_.tokensWithin(v,distance)))
+      closeBy
+    } else {
+      val matches = findWSTokens(v)
+      val closeBy = Corpus(matches.nodes.filter(_.tokensWithin(v,distance)))
+      closeBy
+    }
   }
 
 
