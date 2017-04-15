@@ -19,8 +19,7 @@ class CorpusSearchingPunctuationSpec extends FlatSpec {
 
     val punctuatedToken  ="Halicarnassos,"
     val punctuatedTokenLiteralMatch = proem.findToken(punctuatedToken, false)
-    assert(pun
-      ctuatedTokenLiteralMatch.size == 1)
+    assert(punctuatedTokenLiteralMatch.size == 1)
     val punctuatedTokeIgnorePunctuation = proem.findToken(punctuatedToken, true)
     assert(punctuatedTokeIgnorePunctuation.size == 0)
   }
