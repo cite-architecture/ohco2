@@ -1,5 +1,9 @@
 # `ohco2`: release notes
 
+**8.0.0**:  Adds a variety of functions related to ignoring punctuation while working with `CitablenNode`s .Removes `WispDriver` class.  WISP limits builds to Scala < 2.12.  WispDriver can be moved into a separate project for 2.11 users who want its functionality. With version 8.0.0, `ohco2` is still limited to building for Scala 2.11 because its depending on the `hocuspocus` library causes issues in 2.12.  Future versions should replace the `hocuspocus` dependency with 2.12-compatible options.
+
+**7.4.0**: `Catalog` and `Corpus` objects check for unique URN values.
+
 **7.3.0**:  Adds support for citable text sources in Markdown format.  Switches to using the `CexParser` class to work with source data in `.cex` format.
 
 
@@ -67,4 +71,4 @@
 
 **3.1**: introduces the twiddle operator `~~` for URN matching.
 
-**3.0**: initial release implementing the code library from https://github.com/cite-architecture/orca in a cross-compiling build.
+**3.0**: initial release implementing the code library from https://github.com/cite-architecture/ohco2 in a cross-compiling build.

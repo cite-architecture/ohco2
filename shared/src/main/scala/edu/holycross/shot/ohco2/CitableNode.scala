@@ -108,7 +108,7 @@ import scala.annotation.tailrec
   * @param v List of string to test for.
   * @param checkBox True if all strings seen so far have matched.
   */
-  @tailrec final def tokenMatches(v: Vector[String], checkBox: Boolean = true): Boolean = {
+  @tailrec final def tokenMatches(v: Vector[String], checkBox: Boolean = true, omitPunctuation: Boolean = true): Boolean = {
     if (v.isEmpty) {
       checkBox
     } else {
@@ -121,13 +121,19 @@ import scala.annotation.tailrec
   }
 
   /** True if text content includes a given whitespace-delimited
-  * token.
+  * token.  Optionally, ignore punctuation.
   *
   * @param t Token to test for.
+  * @param omitPunctuation True if punctuation should be ignored.
   */
+  //def tokenMatches(t: String, omitPunctuation: Boolean = true): Boolean = {
   def tokenMatches(t: String): Boolean = {
-    val tokens = this.text.split(" ")
-    (tokens.contains(t))
+  /*  if (omitPunctuation) {
+      true
+    } else { */
+      val tokens = this.text.split(" ")
+      (tokens.contains(t))
+  //  }
   }
 
   /** Format first n characters of a string for KWIC
@@ -191,9 +197,31 @@ import scala.annotation.tailrec
     }
   }
 
+  /** Strip all punctuation characters from text content.
+  */
+  def stripPunctuation: String = {
+    punctuationListRE.replaceAllIn(this.text, "")
+  }
 
+  /** Two-column serialization of this as formated for
+  * CEX format.
+  *
+  * @param delimiter String value to separate two columns.
+  */
   def cex(delimiter: String = "\t"): String = {
     s"""${urn}${delimiter}${text}"""
   }
 
+}
+
+/** Factory for citable nodes with punctuation stripped out.
+*/
+object CitableNode {
+
+  /** Create a new citable with all punctuation characters
+  * removed from text member.
+  */
+  def stripPunctuation(cn: CitableNode): CitableNode = {
+    CitableNode(cn.urn,cn.stripPunctuation)
+  }
 }

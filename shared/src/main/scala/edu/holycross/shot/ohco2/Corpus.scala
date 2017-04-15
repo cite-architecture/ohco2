@@ -20,6 +20,8 @@ import js.annotation.JSExport
     nodes.map(_.urn)
   }
 
+  /** Erroneously duplicated URN values.
+  */
   val dupes = urns.groupBy(identity).collect { case (x,ys) if ys.lengthCompare(1) > 0 => x }
   require(dupes.size == 0, s"""Duplicated URN values: ${dupes.mkString(",")}""")
 
@@ -393,17 +395,14 @@ import js.annotation.JSExport
 
 
   /** Convert strings to vectors of words, tokenizing on whitespace.
+  * Optionally, omit puncutation characters from result.
   *
   * @param skipPunct true if punctuation should be omitted.
   * @param return sequence of word vectors.
   */
   def passagesToWords(skipPunct: Boolean = true): Vector[Vector[String]] = {
-    //Original list:  """··.,:"⁚‡·—-;"""
     if (skipPunct) {
-      // A bunch of punctuation values"
-      val punctListRE = """[!"#$%&*+,-./:;?@^_`|~···,‡·—-]""".r
-      contents.map(punctListRE.replaceAllIn(_,"")).map(_.split("\\s+").toVector.filter(_.nonEmpty))
-
+      contents.map(punctuationListRE.replaceAllIn(_,"")).map(_.split("\\s+").toVector.filter(_.nonEmpty))
     } else {
       contents.map(_.split("\\s+").toVector.filter(_.nonEmpty))
     }
@@ -488,11 +487,21 @@ import js.annotation.JSExport
 
   /** Create a new corpus containing citable nodes
   * with content matching a white-space delimited token.
+  * Optionally, ignore punctuation characters.
   *
   * @param v Strings to search for.
+  * @param omitPunctuation True if punctuation should be ignored.
   */
-  def findToken(t: String): Corpus = {
-    Corpus(nodes.filter(_.tokenMatches(t)))
+  def findToken(t: String, omitPunctuation: Boolean = true): Corpus = {
+    if (omitPunctuation) {
+      val stripped = nodes.map(CitableNode.stripPunctuation(_))
+
+      Corpus(stripped.filter(_.tokenMatches(t)))
+    } else {
+
+      println("Filtered to matching " + t + " and get " + nodes.filter(_.tokenMatches(t)))
+      Corpus(nodes.filter(_.tokenMatches(t)))
+    }
   }
 
   /** Filter a corpus for nodes containing each of a list
@@ -502,11 +511,12 @@ import js.annotation.JSExport
   * @param v Tokens to search for.
   * @param currentCorpus Corpus to search in.
   */
-  @tailrec final  def findTokens(v: Vector[String], currentCorpus: Corpus): Corpus = {
+  @tailrec final  def findTokens(v: Vector[String], currentCorpus: Corpus, omitPunctuation: Boolean = true): Corpus = {
     if (v.isEmpty) {
       currentCorpus
     } else {
-      findTokens(v.drop(1), currentCorpus.findToken(v(0)))
+
+      findTokens(v.drop(1), currentCorpus.findToken(v(0)), omitPunctuation)
     }
   }
 
@@ -520,12 +530,22 @@ import js.annotation.JSExport
   *
   * @param v Strings to search for.
   */
-  def findTokens(v: Vector[String]): Corpus = {
+
+
+  /*
+  def findTokens(v: Vector[String], omitPunctuation: Boolean = true): Corpus = {
     if (v.isEmpty) {
       Corpus(Vector.empty)
     } else {
-      findTokens(v.drop(1), this.findToken(v(0)))
+      findTokens(v.drop(1), this.findToken(v(0)),omitPunctuation)
     }
+  }*/
+  def findWSTokens(v: Vector[String]): Corpus = {
+    findTokens(v.drop(1),this.findToken(v(0)),false )
+  }
+
+  def findWordTokens(v: Vector[String]): Corpus = {
+    findTokens(v.drop(1),this.findToken(v(0)),true )
   }
 
   /** Create a new corpus containing citable nodes
@@ -537,11 +557,18 @@ import js.annotation.JSExport
   * @param distance Maximum size of consecutive tokens all tokens
   * in v must fall within.
   */
-  def findTokensWithin(v: Vector[String], distance: Int): Corpus = {
-    val matches = findTokens(v)
-    val closeBy = Corpus(matches.nodes.filter(_.tokensWithin(v,distance)))
+  def findTokensWithin(v: Vector[String], distance: Int, omitPunctuation: Boolean = true): Corpus = {
+    if (omitPunctuation) {
 
-    closeBy
+
+      val matches = findWordTokens(v)
+      val closeBy = Corpus(matches.nodes.filter(_.tokensWithin(v,distance)))
+      closeBy
+    } else {
+      val matches = findWSTokens(v)
+      val closeBy = Corpus(matches.nodes.filter(_.tokensWithin(v,distance)))
+      closeBy
+    }
   }
 
 
