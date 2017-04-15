@@ -191,9 +191,22 @@ import scala.annotation.tailrec
     }
   }
 
-
+  /** Two-column serialization of this as formated for
+  * CEX format.
+  *
+  * @param delimiter String value to separate two columns.
+  */
   def cex(delimiter: String = "\t"): String = {
     s"""${urn}${delimiter}${text}"""
+  }
+
+
+  /** Create a new citable with all punctuation characters
+  * removed from text member.
+  */
+  def omitPunctuation: CitableNode = {
+    val stripped = punctuationListRE.replaceAllIn(this.text, "")
+    CitableNode(this.urn,stripped)
   }
 
 }
