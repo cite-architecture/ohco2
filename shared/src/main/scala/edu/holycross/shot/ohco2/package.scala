@@ -4,6 +4,13 @@ package object ohco2 {
 
   import edu.holycross.shot.cite._
 
+  /** Regular expression defining recognized punctuation characters.
+  * The list incudes all characters with the Unicode `Punctuation` prooerty
+  * plus a selection of other non-alphabetic characters known to be
+  * used as punctuation values in some digital editions.
+  */
+  val punctuationListRE = """[!"#$%&*+,-./:;?@^_`|~···,‡·—-]""".r
+
   /** Create two-column OHCO2 representation from
   * a string in 82XF form. Note that 82XF input
   * must already be ordered.
