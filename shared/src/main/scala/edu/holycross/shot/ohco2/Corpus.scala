@@ -85,7 +85,7 @@ import js.annotation.JSExport
   * Note that `filterUrn` must identify a passage at the
   * level of the work hierarchy where it is cited in this
   * corpus (either Version or Exemplar level).  Use the
-  * [[~~]] function to create a corpus at any level of the
+  * [[~~]] function to create a new corpus at any level of the
   * the hierarchy.
   *
   *  @param filterUrn URN identifying a set of nodes to select from this corpus.
@@ -442,7 +442,7 @@ import js.annotation.JSExport
     StringHistogram(histogram.toVector)
   }
 
-  /** Create a corpus containing citable nodes
+  /** Create a new corpus containing citable nodes
   * with content matching a given string.
   *
   * @param str String to search for.
@@ -453,7 +453,7 @@ import js.annotation.JSExport
   }
 
 
-  /** Create a corpus containing citable nodes with content
+  /** Create a new corpus containing citable nodes with content
   * matching all strings in a given list by recursively finding
   * matches for the first string in the list.
   *
@@ -528,20 +528,22 @@ import js.annotation.JSExport
   *
   * @param v Strings to search for.
   */
-
-
-  /*
-  def findTokens(v: Vector[String], omitPunctuation: Boolean = true): Corpus = {
-    if (v.isEmpty) {
-      Corpus(Vector.empty)
-    } else {
-      findTokens(v.drop(1), this.findToken(v(0)),omitPunctuation)
-    }
-  }*/
-  def findWSTokens(v: Vector[String]): Corpus = {
+  def findWhiteSpaceTokens(v: Vector[String]): Corpus = {
     findTokens(v.drop(1),this.findToken(v(0)),false )
   }
 
+
+  /** Create a new corpus containing citable nodes
+  * with content matching all of a list of
+  * whitespace-delimited tokens, ignoring punctuation
+  * ("word" tokens).
+  * This is equivalent to successively filtering
+  * from a given corpus for nodes matching each token.
+  * E.g., corpus.findTokens (Vector[s1,s2]) is equivalent to
+  * corpus.findTokens(s1).findTokens(s2).
+  *
+  * @param v Strings to search for.
+  */
   def findWordTokens(v: Vector[String]): Corpus = {
     findTokens(v.drop(1),this.findToken(v(0)),true )
   }
@@ -563,7 +565,7 @@ import js.annotation.JSExport
       val closeBy = Corpus(matches.nodes.filter(_.tokensWithin(v,distance)))
       closeBy
     } else {
-      val matches = findWSTokens(v)
+      val matches = findWhiteSpaceTokens(v)
       val closeBy = Corpus(matches.nodes.filter(_.tokensWithin(v,distance)))
       closeBy
     }
