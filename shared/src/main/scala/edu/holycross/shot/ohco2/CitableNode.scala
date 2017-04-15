@@ -108,7 +108,7 @@ import scala.annotation.tailrec
   * @param v List of string to test for.
   * @param checkBox True if all strings seen so far have matched.
   */
-  @tailrec final def tokenMatches(v: Vector[String], checkBox: Boolean = true): Boolean = {
+  @tailrec final def tokenMatches(v: Vector[String], checkBox: Boolean = true, omitPunctuation: Boolean = true): Boolean = {
     if (v.isEmpty) {
       checkBox
     } else {
@@ -121,13 +121,19 @@ import scala.annotation.tailrec
   }
 
   /** True if text content includes a given whitespace-delimited
-  * token.
+  * token.  Optionally, ignore punctuation.
   *
   * @param t Token to test for.
+  * @param omitPunctuation True if punctuation should be ignored.
   */
+  //def tokenMatches(t: String, omitPunctuation: Boolean = true): Boolean = {
   def tokenMatches(t: String): Boolean = {
-    val tokens = this.text.split(" ")
-    (tokens.contains(t))
+  /*  if (omitPunctuation) {
+      true
+    } else { */
+      val tokens = this.text.split(" ")
+      (tokens.contains(t))
+  //  }
   }
 
   /** Format first n characters of a string for KWIC
