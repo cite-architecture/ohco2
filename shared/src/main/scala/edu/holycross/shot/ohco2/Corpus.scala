@@ -495,11 +495,8 @@ import js.annotation.JSExport
   def findToken(t: String, omitPunctuation: Boolean = true): Corpus = {
     if (omitPunctuation) {
       val stripped = nodes.map(CitableNode.stripPunctuation(_))
-
       Corpus(stripped.filter(_.tokenMatches(t)))
     } else {
-
-      println("Filtered to matching " + t + " and get " + nodes.filter(_.tokenMatches(t)))
       Corpus(nodes.filter(_.tokenMatches(t)))
     }
   }
