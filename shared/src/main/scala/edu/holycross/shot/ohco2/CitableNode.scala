@@ -208,7 +208,6 @@ import scala.annotation.tailrec
 
 }
 
-
 /** Factory for citable nodes with punctuation stripped out.
 */
 object CitableNode {
