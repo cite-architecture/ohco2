@@ -203,8 +203,8 @@ import scala.annotation.tailrec
     punctuationListRE.replaceAllIn(this.text, "")
   }
 
-  /** Two-column serialization of this as formated for
-  * CEX format.
+  /** Two-column serialization of this node as formated for
+  * CEX serialization.
   *
   * @param delimiter String value to separate two columns.
   */

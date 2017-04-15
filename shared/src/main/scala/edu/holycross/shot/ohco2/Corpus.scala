@@ -9,8 +9,8 @@ import js.annotation.JSExport
 
 /** A corpus of citable texts.
 *
-* @constructor create a new corpus with a vector of CitableNode objects.
-* @param nodes contents of the citable corpus
+* @constructor Create a new corpus with a vector of CitableNode objects.
+* @param nodes Contents of the citable corpus
 */
 @JSExport  case class Corpus (nodes: Vector[CitableNode]) {
 
@@ -442,7 +442,7 @@ import js.annotation.JSExport
     StringHistogram(histogram.toVector)
   }
 
-  /** Create a corpus containing only citable nodes
+  /** Create a corpus containing citable nodes
   * with content matching a given string.
   *
   * @param str String to search for.
@@ -453,9 +453,9 @@ import js.annotation.JSExport
   }
 
 
-  /** Filter a corpus for nodes containing each of a list
-  * of strings by recursively finding matches for the first
-  * string in the list.
+  /** Create a corpus containing citable nodes with content
+  * matching all strings in a given list by recursively finding
+  * matches for the first string in the list.
   *
   * @param v Strings to search for.
   * @param currentCorpus Corpus to search in.
@@ -501,12 +501,13 @@ import js.annotation.JSExport
     }
   }
 
-  /** Filter a corpus for nodes containing each of a list
-  * of whitespace-delimited tokens by recursively finding matches
-  * for the first token in the list.
+  /** Create a new corpus with nodes containing all tokens in a
+  * given list by recursively finding matches for the first token in the list.
+  * Optionally omit or include punctuation in token definition.
   *
   * @param v Tokens to search for.
   * @param currentCorpus Corpus to search in.
+  * @param omitPunctuation True if punctuation should be omitted from tokens.
   */
   @tailrec final  def findTokens(v: Vector[String], currentCorpus: Corpus, omitPunctuation: Boolean = true): Corpus = {
     if (v.isEmpty) {
@@ -588,6 +589,11 @@ import js.annotation.JSExport
   }
 
 
+  /** Two-column serialization of this Corpus as formated for
+  * CEX serialization.
+  *
+  * @param delimiter String value to separate two columns.
+  */
   def cex(delimiter: String = "\t"): String = {
     nodes.map(_.cex(delimiter)).mkString("\n") + "\n"
   }
