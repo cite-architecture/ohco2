@@ -37,7 +37,7 @@ object TextRepositorySource {
   def cexForDocument(doc: OnlineDocument, invFile: String, confFile: String,inputDelim: String = "#",outputDelim: String = "\t"): String = {
     doc.format match {
       case Wf_Xml => cexForXml(doc, invFile, confFile)
-      case Markdown => cexForMarkdown(doc,invFile,confFile)
+      case Markdown => cexForMarkdown(doc,invFile,confFile,outputDelim)
       case _ => ""
     }
   }
@@ -64,14 +64,14 @@ object TextRepositorySource {
     twocols
   }
 
-  def cexForMarkdown(doc: OnlineDocument, invFile: String, confFile: String, inputDelim: String = "#",outputDelim: String = "#"): String = {
 
+
+  def cexForMarkdown(doc: OnlineDocument, invFile: String, confFile: String, outputDelim: String = "#"): String = {
     val f = new File(doc.docName)
 
-    val twoCols = MdTabulator.mdFileToTwoColumns(f, doc.urn.toString)
+    val twoCols = MdTabulator.mdFileToTwoColumns(f, doc.urn.toString, outputDelim)
 
     twoCols
-
   }
 
 
@@ -318,13 +318,18 @@ object TextRepositorySource {
   */
   def fromFiles(invFileName: String,
     configFileName: String,
-    baseDirectoryName: String): TextRepository = {
+    baseDirectoryName: String,
+    outputDelimiter: String = "#"): TextRepository = {
 
     val catalog = catalogFromXmlFile(invFileName, configFileName)
 
     val onlines = onlineVector(configFileName, baseDirectoryName)
-    val twocols = onlines.map(cexForXml(_, invFileName, configFileName)).mkString("\n")
-    val corpus = Corpus(twocols)
+
+    val twocols = for(doc <-onlines) yield {
+      cexForDocument(doc,invFileName,configFileName,"#", outputDelimiter)
+    }
+
+    val corpus = Corpus(twocols.mkString("\n"), outputDelimiter)
 
     TextRepository(corpus,catalog)
   }

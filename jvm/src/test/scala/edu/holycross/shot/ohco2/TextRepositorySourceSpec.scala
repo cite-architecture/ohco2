@@ -27,24 +27,7 @@ class TextRepositorySourceSpec extends FlatSpec {
   }
 
 
-  it should "create CEF for a markdown file" in {
-    val inv = "jvm/src/test/resources/mdrepo/mdtextinventory.xml"
-    val citeConf = "jvm/src/test/resources/mdrepo/mdtextconfig.xml"
-    val baseDir = "jvm/src/test/resources/mdrepo/archive"
 
-    val olDocs = TextRepositorySource.onlineVector(citeConf, baseDir)
-    val demo = olDocs(0)
-    val cex = TextRepositorySource.cexForDocument(demo,inv,citeConf)
-    val lines = cex.split("\n").toVector
-    
-    val expectedHeader = "urn:cts:mddemo:demo.powered.cite:1.h1# Powered by OHCO2"
-    assert(lines(0) == expectedHeader)
-
-    val expectedLines = 19
-    assert(lines.size == 19)
-
-
-  }
   it should "create CEF for a two-column file" in pending
   it should "create CEF for an 82XF file" in pending
 
@@ -52,16 +35,17 @@ class TextRepositorySourceSpec extends FlatSpec {
     val catalog = TextRepositorySource.catalogFromXmlFile(inv,citeConf)
     assert( catalog.size == 1)
   }
-/*
-  it should "create a TextRepository from local files cataloged by XML documents" in {
-  "
 
-
+  it should "create a TextRepository from local XML files cataloged by XML documents" in {
     val repo = TextRepositorySource.fromFiles(inv,citeConf,baseDir)
     assert(repo.catalog.size == 1)
     assert(repo.corpus.size == 33)
   }
-*/
+
+
+
+
+
   it should "create a TextRepository from a single file of CEX data" in {
     val cex = "jvm/src/test/resources/million.cex"
     val repo = TextRepositorySource.fromCexFile(cex,"#")
