@@ -1,5 +1,9 @@
 # `ohco2`: release notes
 
+
+**8.0.1**:  Fixes a bug where generating a corpus from local files used a default value rather than a specified string for delimiting string in CEX output.
+
+
 **8.0.0**:  Adds a variety of functions related to ignoring punctuation while working with `CitablenNode`s .Removes `WispDriver` class.  WISP limits builds to Scala < 2.12.  WispDriver can be moved into a separate project for 2.11 users who want its functionality. With version 8.0.0, `ohco2` is still limited to building for Scala 2.11 because its depending on the `hocuspocus` library causes issues in 2.12.  Future versions should replace the `hocuspocus` dependency with 2.12-compatible options.
 
 **7.4.0**: `Catalog` and `Corpus` objects check for unique URN values.

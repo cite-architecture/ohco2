@@ -22,8 +22,6 @@ class TextRepositorySourceMdSpec extends FlatSpec {
     val olDocs = TextRepositorySource.onlineVector(citeConf, baseDir)
     val demo = olDocs(0)
 
-
-    println("CEXFORDOC: " + demo + ":" + inv + ":" + citeConf)
     val cex = TextRepositorySource.cexForDocument(demo,inv,citeConf,outputDelim = "#")
     val lines = cex.split("\n").toVector
 

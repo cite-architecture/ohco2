@@ -36,7 +36,7 @@ object TextRepositorySource {
   */
   def cexForDocument(doc: OnlineDocument, invFile: String, confFile: String,inputDelim: String = "#",outputDelim: String = "\t"): String = {
     doc.format match {
-      case Wf_Xml => cexForXml(doc, invFile, confFile)
+      case Wf_Xml => cexForXml(doc, invFile, confFile,outputDelim = outputDelim )
       case Markdown => cexForMarkdown(doc,invFile,confFile,outputDelim)
       case _ => ""
     }
