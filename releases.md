@@ -66,7 +66,6 @@
 
 **4.3**:  Adds filtering by `OrcaCollection`
 
-
 **4.2**: Adds `urns` and `texts` functions to `Corpus`.
 
 **4.1**: To `Corpus`, adds `++` and `--` functions, and application of `~~` to Vectors of CTS URNs.
