@@ -17,7 +17,7 @@ Status:  **active development**. [Release notes](releases.md)
 
 `ohco2` is compiled for both the JVM and ScalaJS using scala 2.11.  Binaries for all platforms are available from jcenter.  If you are using sbt, include `Resolver.jcenterRepo`in your list of resolvers
 
-    resolvers += Resolver.jcenterR
+    resolvers += Resolver.jcenter
 
 and  add this to your library dependencies:
 
