@@ -36,6 +36,8 @@ lazy val crossed = crossProject.in(file(".")).
 
         "edu.holycross.shot" %%% "orca" % "3.0.0",
         "edu.holycross.shot" %%% "cex" % "1.0.0",
+        "edu.holycross.shot" %%% "seqcomp" % "1.0.0",
+
         "edu.holycross.shot" % "hocuspocus" % "2.1.5"
       )
     ).
