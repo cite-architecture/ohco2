@@ -26,7 +26,7 @@ import js.annotation.JSExport
   require(citationScheme.nonEmpty,"citation scheme cannot be empty")
   require(groupName.nonEmpty,"text group name cannot be empty")
   require(workTitle.nonEmpty,"work title cannot be empty")
-  require(lang.size == 3, "Value for 'lang' should be an ISO 639-2 3-letter language code.")
+  require(lang.size == 3, "Value for 'lang' should be an ISO 639-2 3-letter language code, but was " + lang)
   //require(versionLabel.nonEmpty,"version label cannot be empty")
   urn.workLevel match {
     case WorkLevel.Work => {

@@ -178,7 +178,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Interm
         val urn  = CtsUrn("urn:cts:demo:g.w.ed:")
         val tooLong = CatalogEntry(urn,"book/chapter","english-language text","Demo texts","made up work",Some("edition"),None,false)
     } catch {
-      case ia: IllegalArgumentException => assert(ia.getMessage() == "requirement failed: Value for 'lang' should be an ISO 639-2 3-letter language code.")
+      case ia: IllegalArgumentException => assert(ia.getMessage() == "requirement failed: Value for 'lang' should be an ISO 639-2 3-letter language code, but was english-language text")
       case t: Throwable => fail("Should have thrown IllegalArgumentExcpetion but threw " + t)
     }
   }
