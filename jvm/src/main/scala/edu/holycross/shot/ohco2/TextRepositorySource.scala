@@ -163,6 +163,8 @@ object TextRepositorySource {
       for (wk <- wks) {
         val title = titleFromNode(wk)
 
+        val attMap = wk.attributes.asAttrMap
+        val workLang = attMap("xml:lang")
         val edd = wk \\ "edition"
         for (ed <- edd) {
           val versionOpt = labelFromNode(ed)
@@ -180,7 +182,8 @@ object TextRepositorySource {
               workTitle = title,
               versionLabel = versionOpt,
               exemplarLabel = None,
-              online =     true)
+              online =     true,
+              lang = workLang )
             catalogEntries += catEntry
 
           } else {}
@@ -204,7 +207,9 @@ object TextRepositorySource {
                 workTitle = title,
                 versionLabel = versionOpt,
                 exemplarLabel = exemplarOpt,
-                online =     true)
+                online =     true,
+                lang = workLang
+              )
               catalogEntries += catEntry
             } else {}
 
@@ -214,6 +219,10 @@ object TextRepositorySource {
 
         val xlations = wk \\ "translation"
         for (xlate <- xlations) {
+          val attMap = xlate.attributes.asAttrMap
+          val xlateLang = attMap("xml:lang")
+          
+
           val versionOpt = labelFromNode(xlate)
 
           val exemplars = xlate \\ "exemplar"
@@ -234,7 +243,8 @@ object TextRepositorySource {
                 workTitle = title,
                 versionLabel = versionOpt,
                 exemplarLabel = exemplarOpt,
-                online =  true)
+                online =  true,
+                lang = xlateLang)
               catalogEntries += catEntry
             } else {}
           }

@@ -53,21 +53,6 @@ import js.annotation.JSExport
 object Catalog {
 
 
-  /*
-  urn: CtsUrn,
-  groupName: String,
-  workTitle: String,
-
-  versionLabel: Option[String],
-  exemplarLabel: Option[String] = None,
-
-  citationScheme: String,
-
-  online: Boolean = true
-
-      */
-
-
   /** Build a [[Catalog]] from delimited text source.
   *
   * @param data Delimited-text representation of a catalog.
@@ -79,13 +64,14 @@ object Catalog {
     val columnsByRow = data.split("\n").toVector.filter(_.nonEmpty).map(_.split(sep)).drop(1)
 
     for (row <- columnsByRow) {
-      if (row.size < 7) {
+      if (row.size < 8) {
         throw Ohco2Exception(s"""Invalid CEX data for text catalog: too few columns (${row.size}) in row ${row.mkString}""")
       }
       val urn = CtsUrn(row(0))
       val citation = row(1)
       val group = row(2)
       val work = row(3)
+
       val vers = {
 
         if (row(4).isEmpty) {
@@ -96,10 +82,11 @@ object Catalog {
       }
 
       val online = Try(row(6).toBoolean).getOrElse(false)
+      val lang = row(7)
       if (row(5).isEmpty) {
-        entries += CatalogEntry(urn,citation,group,work,vers,None,online)
+        entries += CatalogEntry(urn,citation,lang,group,work,vers,None,online)
       } else {
-        entries += CatalogEntry(urn,citation,group,work,vers,Some(row(5)),online)
+        entries += CatalogEntry(urn,citation,lang,group,work,vers,Some(row(5)),online)
 
       }
     }

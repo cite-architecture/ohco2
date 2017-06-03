@@ -8,12 +8,12 @@ import edu.holycross.shot.cite._
 class CatalogSpec extends FlatSpec {
 
   val catalogData = """urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online
-urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true
-urn:cts:greekLit:tlg5026.msAim.hmt:#book/scholion/part#Scholia to the Iliad#Intermarginal scholia of the Venetus A#HMT project edition##true
-urn:cts:greekLit:tlg5026.msAint.hmt:#book/scholion/part#Scholia to the Iliad#Interior scholia of the Venetus A#HMT project edition##true
-urn:cts:greekLit:tlg5026.msAext.hmt:#book/scholion/part#Scholia to the Iliad#Exterior scholia of the Venetus A#HMT project edition##true
-urn:cts:greekLit:tlg5026.msAil.hmt:#book/scholion/part#Scholia to the Iliad#Interlinear scholia of the Venetus A#HMT project edition##true
-urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad#Later intermarginal scholia of the Venetus A#HMT project edition##true
+urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true#grc
+urn:cts:greekLit:tlg5026.msAim.hmt:#book/scholion/part#Scholia to the Iliad#Intermarginal scholia of the Venetus A#HMT project edition##true#grc
+urn:cts:greekLit:tlg5026.msAint.hmt:#book/scholion/part#Scholia to the Iliad#Interior scholia of the Venetus A#HMT project edition##true#grc
+urn:cts:greekLit:tlg5026.msAext.hmt:#book/scholion/part#Scholia to the Iliad#Exterior scholia of the Venetus A#HMT project edition##true#grc
+urn:cts:greekLit:tlg5026.msAil.hmt:#book/scholion/part#Scholia to the Iliad#Interlinear scholia of the Venetus A#HMT project edition##true#grc
+urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad#Later intermarginal scholia of the Venetus A#HMT project edition##true#grc
 """
   val catalog = Catalog(catalogData)
 
@@ -73,7 +73,7 @@ urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad
   it should "throw an Ohco2 error if an empty citation scheme is given" in {
     try {
       val urn  = CtsUrn("urn:cts:demo:g.w.ed:")
-      CatalogEntry(urn,"","Demo texts","made up work",Some("edition"),None,false)
+      CatalogEntry(urn,"","eng","Demo texts","made up work",Some("edition"),None,false)
     } catch {
       case ex: IllegalArgumentException => assert(ex.getMessage() == "requirement failed: citation scheme cannot be empty")
     }
@@ -81,7 +81,7 @@ urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad
   it should "throw an Ohco2 error if an empty group name is given" in {
     try {
       val urn  = CtsUrn("urn:cts:demo:g.w.ed:")
-      CatalogEntry(urn,"book/chapter","","made up work",Some("edition"),None,false)
+      CatalogEntry(urn,"book/chapter","eng","","made up work",Some("edition"),None,false)
     } catch {
       case ex: IllegalArgumentException => assert(ex.getMessage() == "requirement failed: text group name cannot be empty")
     }
@@ -89,7 +89,7 @@ urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad
   it should "throw an Ohco2 error if an empty work title is given" in {
     try {
       val urn  = CtsUrn("urn:cts:demo:g.w.ed:")
-      CatalogEntry(urn,"book/chapter","Demo texts","",Some("edition"),None,false)
+      CatalogEntry(urn,"book/chapter","eng","Demo texts","",Some("edition"),None,false)
     } catch {
       case ex: IllegalArgumentException => assert(ex.getMessage() == "requirement failed: work title cannot be empty")
     }
@@ -97,7 +97,7 @@ urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad
   it should "throw an Ohco2 error if an empty version label is given" in {
     try {
       val urn  = CtsUrn("urn:cts:demo:g.w.ed:")
-      CatalogEntry(urn,"book/chapter","Demo texts","made up work",None,None,false)
+      CatalogEntry(urn,"book/chapter","eng","Demo texts","made up work",None,None,false)
     } catch {
       case ex: IllegalArgumentException => assert(ex.getMessage() == "requirement failed: version label cannot be empty")
     }
@@ -106,7 +106,7 @@ urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad
   it should "have a none option for exemplarLabel when the urn is a version-level URN " in {
 
     val urn  = CtsUrn("urn:cts:demo:g.w.ed:")
-    val catalogEntry = CatalogEntry(urn,"book/chapter","Demo texts","made up work",Some("edition"),None,false)
+    val catalogEntry = CatalogEntry(urn,"book/chapter","eng","Demo texts","made up work",Some("edition"),None,false)
     assert(catalogEntry.urn.workLevel == WorkLevel.Version)
     catalogEntry.exemplarLabel match {
       case None => assert(true)
@@ -115,7 +115,7 @@ urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad
   }
   it should "have a non-empty option for exemplarLabel when the urn is an exemplar-level URN " in {
     val urn  = CtsUrn("urn:cts:demo:g.w.ed.exempl:")
-    val catalogEntry = CatalogEntry(urn,"book/chapter","Demo texts","made up work",Some("edition"),Some("exemplar label"),false)
+    val catalogEntry = CatalogEntry(urn,"book/chapter","eng","Demo texts","made up work",Some("edition"),Some("exemplar label"),false)
     assert(catalogEntry.urn.workLevel == WorkLevel.Exemplar)
     catalogEntry.exemplarLabel match {
       case None => fail("Exemplar option cannot be None when URN is at exemplar level")
@@ -126,7 +126,7 @@ urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad
   it should "throw an Ohco2 exception if the URN is at a version level but an exemplar label is given" in {
     val urn  = CtsUrn("urn:cts:demo:g.w.ed:")
     try {
-      val catalogEntry = CatalogEntry(urn,"book/chapter","Demo texts","made up work",Some("edition"),Some("exemplar label"),false)
+      val catalogEntry = CatalogEntry(urn,"book/chapter","eng","Demo texts","made up work",Some("edition"),Some("exemplar label"),false)
       fail("Should not have created catalog entry")
     } catch {
       case oe: Ohco2Exception => assert(oe.message == "exemplar label must be none when URN is at version level")
@@ -136,7 +136,7 @@ urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad
   it should "throw an Ohco2 exception if the URN is at an exemplar level but the exemplar option is none" in {
     val urn  = CtsUrn("urn:cts:demo:g.w.ed.exemplar:")
     try {
-      val catalogEntry = CatalogEntry(urn,"book/chapter","Demo texts","made up work",Some("edition"),None,false)
+      val catalogEntry = CatalogEntry(urn,"book/chapter","eng","Demo texts","made up work",Some("edition"),None,false)
       fail("Should not have created catalog entry")
     } catch {
       case oe: Ohco2Exception => assert(oe.message == "exemplar label cannot be none when URN is at exemplar level")
@@ -146,20 +146,20 @@ urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad
 
   it should "support pretty printing of catalog entries" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:")
-    val catalogEntry = CatalogEntry(urn,"book/line","Homeric poetry","Iliad",Some("the Venetus A manuscript"),None,true)
+    val catalogEntry = CatalogEntry(urn,"book/line","grc","Homeric poetry","Iliad",Some("the Venetus A manuscript"),None,true)
     assert (catalogEntry.toString == "Homeric poetry, Iliad (the Venetus A manuscript)")
   }
 
   it should "support pretty printing with URNs, too" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:")
-    val catalogEntry = CatalogEntry(urn,"book/line","Homeric poetry","Iliad",Some("the Venetus A manuscript"),None,true)
+    val catalogEntry = CatalogEntry(urn,"book/line","grc","Homeric poetry","Iliad",Some("the Venetus A manuscript"),None,true)
     assert (catalogEntry.toString == "Homeric poetry, Iliad (the Venetus A manuscript)")
   }
 
   it should "object if there are duplicate URNs" in {
     val duplicated = """urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online
-urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true
-urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Intermarginal scholia of the Venetus A#HMT project edition##true
+urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true#grc
+urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Intermarginal scholia of the Venetus A#HMT project edition##true#grc
 """
   try {
     val c =  Catalog(duplicated)
@@ -172,6 +172,15 @@ urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Interm
 
   }
 
+  it should "throw an exception is language value is not a 3-letter code" in {
+    try {
 
+        val urn  = CtsUrn("urn:cts:demo:g.w.ed:")
+        val tooLong = CatalogEntry(urn,"book/chapter","english-language text","Demo texts","made up work",Some("edition"),None,false)
+    } catch {
+      case ia: IllegalArgumentException => assert(ia.getMessage() == "requirement failed: Value for 'lang' should be an ISO 639-2 3-letter language code.")
+      case t: Throwable => fail("Should have thrown IllegalArgumentExcpetion but threw " + t)
+    }
+  }
 
 }

@@ -19,7 +19,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
 """
     val corpus = Corpus(scholiaDelimited,"#")
     val catalogSource = """urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online
-urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true
+urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true#grc
 """
   val catalog = Catalog(catalogSource)
 
@@ -46,7 +46,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main s
   it should "throw an Ohco2 exception if works cataloged as online do not appear in the corpus"  in {
     val hdr = "urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online"
 
-    val entry = "urn:cts:greekLit:tlg0012.tlg001.msA:#book/line#Homeric poetry#the Iliad A#the Venetus A manuscript##true"
+    val entry = "urn:cts:greekLit:tlg0012.tlg001.msA:#book/line#Homeric poetry#the Iliad A#the Venetus A manuscript##true#grc"
 
     val badCatalogSrc =  hdr + "\n" + entry + "\n"
     val wrongCatalog = Catalog(badCatalogSrc)
@@ -63,7 +63,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main s
   it should "throw an Ohco2 exception if works in the corpus do not appear in the catalog as online"  in {
     val hdr = "urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online"
 
-    val entry = "urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##false"
+    val entry = "urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##false#grc"
 
     val badCatalogSrc =  hdr + "\n" + entry + "\n"
     val shortCatalog = Catalog(badCatalogSrc)
@@ -84,7 +84,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.4.comment#<div xmlns="http://www.tei-c.org/ns
 """
     val tinyCatalog = """
 urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online
-urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true
+urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true#grc
 """
     val catalog = Catalog(tinyCatalog)
     catalog match {
@@ -106,7 +106,7 @@ version#2017.1
 license#CC Share Alike.  For details, see more info.
 #!ctscatalog
 urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online
-urn:cts:citedemo:arabic.quran.v1:#surah/ayah#Classical Arabic examples#The Quran#Arabic. Text from http://tanzil.net. Creative Commons Attribution 3.0 License##true
+urn:cts:citedemo:arabic.quran.v1:#surah/ayah#Classical Arabic examples#The Quran#Arabic. Text from http://tanzil.net. Creative Commons Attribution 3.0 License##true#ara
 #!ctsdata
 urn:cts:citedemo:arabic.quran.v1:1.1#بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
 urn:cts:citedemo:arabic.quran.v1:1.2#الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ

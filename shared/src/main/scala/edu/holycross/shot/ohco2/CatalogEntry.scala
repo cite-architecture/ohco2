@@ -13,17 +13,20 @@ import js.annotation.JSExport
 *
 * @param urn URN for the version.
 * @param citationScheme Label for citation scheme, with levels
-* separated by "/", e.g., "book/chapter".
+* separated by a delimiter.
+* @param lang ISO 639-2 three-letter language code.
 * @param groupName Label for text group.
 * @param workTitle Title of notional work.
 * @param versionLabel Label for edition or translation.
 * @param exemplarLabel Label for optional exemplar, or None.
 * @param online True if the text is present in the cataloged [[Corpus]].
+
 */
-@JSExport case class CatalogEntry(urn: CtsUrn, citationScheme: String, groupName: String, workTitle: String, versionLabel: Option[String], exemplarLabel: Option[String] = None, online: Boolean = true) {
+@JSExport case class CatalogEntry(urn: CtsUrn, citationScheme: String, lang: String, groupName: String, workTitle: String, versionLabel: Option[String], exemplarLabel: Option[String] = None, online: Boolean = true) {
   require(citationScheme.nonEmpty,"citation scheme cannot be empty")
   require(groupName.nonEmpty,"text group name cannot be empty")
   require(workTitle.nonEmpty,"work title cannot be empty")
+  require(lang.size == 3, "Value for 'lang' should be an ISO 639-2 3-letter language code.")
   //require(versionLabel.nonEmpty,"version label cannot be empty")
   urn.workLevel match {
     case WorkLevel.Work => {
@@ -83,6 +86,6 @@ import js.annotation.JSExport
   * @param delimiter String to use as column separator.
   */
   def cex(delimiter: String = "\t"): String = {
-    s"""${urn}${delimiter}${citationScheme}${delimiter}${groupName}${delimiter}${workTitle}${delimiter}${versionLabel.getOrElse("")}${delimiter}${exemplarLabel.getOrElse("")}${delimiter}${online}"""
+    s"""${urn}${delimiter}${citationScheme}${delimiter}${groupName}${delimiter}${workTitle}${delimiter}${versionLabel.getOrElse("")}${delimiter}${exemplarLabel.getOrElse("")}${delimiter}${online}${delimiter}${lang}"""
   }
 }
