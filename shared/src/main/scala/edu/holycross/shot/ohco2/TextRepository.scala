@@ -24,6 +24,19 @@ import js.annotation.JSExport
     )
   }
 
+
+  /** Create a new repository by subtracting a second repository from this one.
+  *
+  * @param repo2 Catalog to add to this one.
+  */
+  def -- (repo2: TextRepository): TextRepository = {
+    TextRepository(
+      corpus -- repo2.corpus,
+      catalog -- repo2.catalog
+    )
+  }
+
+
   /** Create a new catalog containing only online texts.
   */
   def online: Catalog = Catalog(catalog.texts.filter(_.online))
