@@ -35,12 +35,42 @@ import js.annotation.JSExport
   }
 
 
+  /** Create a new catalog by adding a second corpus to this one.
+  *
+  * @param catalog2 Catalog to add to this one.
+  */
+  def ++(catalog2: Catalog): Catalog= {
+    val newEntries = texts ++ catalog2.texts
+    Catalog(newEntries.distinct)
+  }
+
+
+
+  /** Create a new catalog by subtracting a catalog corpus from this one.
+  *
+  * @ catalog2 second catalog with contents to be removed from this one.
+  */
+  def --(catalog2: Catalog) : Catalog= {
+      Catalog( texts diff catalog2.texts)
+  }
+
+
+  /** Create string label for catalog entries matching a
+  * given URN.
+  *
+  * @param urn Urn to match.
+  */
   def label(urn: CtsUrn) : String = {
     entriesForUrn(urn).map(_.toString).mkString("\n")
   }
 
 
-  def cex(delimiter: String = "\t") : String = {
+
+  /** Serialize catalog to a String in CEX format.
+  *
+  * @param delimiter String value to use as column delimiter.
+  */
+  def cex(delimiter: String = "#") : String = {
     val header =        s"""urn${delimiter}citationScheme${delimiter}groupName${delimiter}workTitle${delimiter}versionLabel${delimiter}exemplarLabel${delimiter}online"""
     val cexEntries = texts.map(_.cex(delimiter))
 
