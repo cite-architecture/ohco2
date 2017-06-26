@@ -1,6 +1,13 @@
 # `ohco2`: release notes
 
 
+**9.1.0**:  Adds fucntion for adding and substracting catalogs and text repositories.
+
+**9.0.1**:  Improved exception messages.
+
+**9.0.0**: Supports version 2.0 of the CEX specification, requiring breaking changes in construction of `CatalogEntry`s.
+
+
 **8.0.1**:  Fixes a bug where generating a corpus from local files used a default value rather than a specified value for delimiting string in CEX output.
 
 

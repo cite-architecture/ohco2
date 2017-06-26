@@ -12,6 +12,31 @@ import js.annotation.JSExport
 */
 @JSExport  case class TextRepository (corpus: Corpus, catalog: Catalog) {
 
+
+  /** Create a new repository by adding a second repository to this one.
+  *
+  * @param repo2 Catalog to add to this one.
+  */
+  def ++(repo2: TextRepository): TextRepository = {
+    TextRepository(
+      corpus ++ repo2.corpus,
+      catalog ++ repo2.catalog
+    )
+  }
+
+
+  /** Create a new repository by subtracting a second repository from this one.
+  *
+  * @param repo2 Catalog to add to this one.
+  */
+  def -- (repo2: TextRepository): TextRepository = {
+    TextRepository(
+      corpus -- repo2.corpus,
+      catalog -- repo2.catalog
+    )
+  }
+
+
   /** Create a new catalog containing only online texts.
   */
   def online: Catalog = Catalog(catalog.texts.filter(_.online))

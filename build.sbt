@@ -22,7 +22,7 @@ lazy val crossed = crossProject.in(file(".")).
     settings(
       name := "ohco2",
       organization := "edu.holycross.shot",
-      version := "8.0.1",
+      version := "9.1.0",
       licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
       resolvers += Resolver.jcenterRepo,
       resolvers += "beta" at "http://beta.hpcc.uh.edu/nexus/content/repositories/releases",
@@ -32,10 +32,12 @@ lazy val crossed = crossProject.in(file(".")).
         "org.scalatest" %%% "scalatest" % "3.0.1" % "test",
 
         "org.scala-lang.modules" %% "scala-xml" % "1.0.6",
-        "edu.holycross.shot.cite" %%% "xcite" % "2.2.3",
+        "edu.holycross.shot.cite" %%% "xcite" % "2.5.0",
 
         "edu.holycross.shot" %%% "orca" % "3.0.0",
         "edu.holycross.shot" %%% "cex" % "1.0.0",
+        "edu.holycross.shot" %%% "seqcomp" % "1.0.0",
+
         "edu.holycross.shot" % "hocuspocus" % "2.1.5"
       )
     ).

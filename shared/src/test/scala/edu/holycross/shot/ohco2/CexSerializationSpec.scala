@@ -8,12 +8,12 @@ import edu.holycross.shot.cite._
 class CexSerializationSpec extends FlatSpec {
 
   val catalogData = """urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online
-urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true
-urn:cts:greekLit:tlg5026.msAim.hmt:#book/scholion/part#Scholia to the Iliad#Intermarginal scholia of the Venetus A#HMT project edition##true
-urn:cts:greekLit:tlg5026.msAint.hmt:#book/scholion/part#Scholia to the Iliad#Interior scholia of the Venetus A#HMT project edition##true
-urn:cts:greekLit:tlg5026.msAext.hmt:#book/scholion/part#Scholia to the Iliad#Exterior scholia of the Venetus A#HMT project edition##true
-urn:cts:greekLit:tlg5026.msAil.hmt:#book/scholion/part#Scholia to the Iliad#Interlinear scholia of the Venetus A#HMT project edition##true
-urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad#Later intermarginal scholia of the Venetus A#HMT project edition##true
+urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true#grc
+urn:cts:greekLit:tlg5026.msAim.hmt:#book/scholion/part#Scholia to the Iliad#Intermarginal scholia of the Venetus A#HMT project edition##true#grc
+urn:cts:greekLit:tlg5026.msAint.hmt:#book/scholion/part#Scholia to the Iliad#Interior scholia of the Venetus A#HMT project edition##true#grc
+urn:cts:greekLit:tlg5026.msAext.hmt:#book/scholion/part#Scholia to the Iliad#Exterior scholia of the Venetus A#HMT project edition##true#grc
+urn:cts:greekLit:tlg5026.msAil.hmt:#book/scholion/part#Scholia to the Iliad#Interlinear scholia of the Venetus A#HMT project edition##true#grc
+urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad#Later intermarginal scholia of the Venetus A#HMT project edition##true#grc
 """
 
 
@@ -33,7 +33,7 @@ urn:cts:greekLit:tlg0016.tlg001.eng:1.7#Now the supremacy which had belonged to 
   "A CatalogEntry" should "offer .cex formatting" in {
     val entry = catalog.texts(0)
 
-    val expected = s"""urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true"""
+    val expected = s"""urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true#grc"""
     assert(entry.cex("#") == expected)
   }
 
@@ -43,7 +43,7 @@ urn:cts:greekLit:tlg0016.tlg001.eng:1.7#Now the supremacy which had belonged to 
     assert(rows.size == 7)
     assert(rows(0) == "urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online")
 
-    assert (rows(1) == "urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true")
+    assert (rows(1) == "urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true#grc")
   }
 
 
@@ -64,7 +64,7 @@ urn:cts:greekLit:tlg0016.tlg001.eng:1.7#Now the supremacy which had belonged to 
   "A TextRepository" should "offer .cex serialization of the whole repository" in {
 
     val shortCatalogText = s"""urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online
-urn:cts:greekLit:tlg0012.tlg001.msA:#book/line#Homeric poetry#The Iliad#HMT edition of the Venetus A manuscript##true"""
+urn:cts:greekLit:tlg0012.tlg001.msA:#book/line#Homeric poetry#The Iliad#HMT edition of the Venetus A manuscript##true#grc"""
     val shortCatalog = Catalog(shortCatalogText)
 
     val urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1")

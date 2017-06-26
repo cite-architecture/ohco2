@@ -14,7 +14,7 @@ class ExportTest extends FlatSpec {
 
   it should "expose the text catalog" in {
     val urn  = CtsUrn("urn:cts:demo:g.w.ed:")
-    val catalogEntry = CatalogEntry(urn,"chunk","Demo texts","made up work",Some("edition"),None,false)
+    val catalogEntry = CatalogEntry(urn,"chunk","eng","Demo texts","made up work",Some("edition"),None,false)
     assert(catalogEntry.urn == urn)
   }
   it should "expose the Corpus object" in {
@@ -41,7 +41,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.3.comment#<div xmlns="http://www.tei-c.org/ns
 """
     val corpus = Corpus(scholiaDelimited,"#")
     val catalogSource = """urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online
-urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true
+urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true#grc
 """
     val catalog = Catalog(catalogSource)
     val repo = TextRepository(corpus,catalog)
