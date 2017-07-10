@@ -208,11 +208,15 @@ import js.annotation.JSExport
   * @param filterUrn URN identifying passage to select
   * @param connector String value separating citable nodes in the resulting string.
   */
-  def textContents(filterUrn: CtsUrn, connector: String = "\n"): String = {
+  def textContents(filterUrn: CtsUrn, connector: String ): String = {
     val matching = this ~~ filterUrn
     matching.nodes.map(_.text).mkString(connector)
   }
 
+  def textContents(filter: String, connector: String = "\n"): String = {
+    val matching = this.find(filter)
+    matching.nodes.map(n => n.urn.toString + " " + n.text).mkString(connector)
+  }
 
   /** Find first citable node in a passage.
   * Option is None if no citable nodes are found for

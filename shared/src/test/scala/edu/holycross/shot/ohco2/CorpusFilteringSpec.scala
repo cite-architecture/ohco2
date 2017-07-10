@@ -188,8 +188,14 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
 
 
   it should "offer simultaneously filtering and text formatting" in {
-    val strFromFilter = corpus.textContents(CtsUrn("urn:cts:greekLit:tlg5026.msA:1.3-1.4"))
+    val strFromFilter = corpus.textContents(CtsUrn("urn:cts:greekLit:tlg5026.msA:1.3-1.4"), "\n")
     assert(strFromFilter.split("\n").size == 4)
+  }
+
+  it should "simultaneously offer searching and text formatting" in {
+    val searchRes = corpus.textContents("ἐγκώμια")
+    val expectedMatches = 1
+    assert (searchRes.split("\n").size == expectedMatches)
   }
 
   it should "correctly extract passages from multiple versions when twiddling on a notional work" in {

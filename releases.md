@@ -1,6 +1,10 @@
 # `ohco2`: release notes
 
 
+**9.3.0**: Enhances layout of `textContents` function value.
+
+**9.2.0**: Adds function to `Corpus` for formatted text results of string search.
+
 **9.1.0**:  Adds fucntion for adding and substracting catalogs and text repositories.
 
 **9.0.1**:  Improved exception messages.

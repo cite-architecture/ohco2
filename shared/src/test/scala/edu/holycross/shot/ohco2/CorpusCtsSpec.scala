@@ -38,7 +38,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
 
   it should "offer a convenience method for extracting the string contents from a list of citable nodes as a single string" in {
     val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2")
-    val actualText = corpus.textContents(filterUrn)
+    val actualText = corpus.textContents(filterUrn, "\n")
 
     // sample beginning and end of long text:
     val expectedOpening = """<div xmlns="http://www.tei-c.org/ns/1.0" n="lemma"> <p> μῆνις</p>"""
