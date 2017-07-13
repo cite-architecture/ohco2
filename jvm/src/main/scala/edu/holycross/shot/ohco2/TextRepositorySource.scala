@@ -34,7 +34,7 @@ object TextRepositorySource {
   * @param invFile File of old-school hocuspocus TextInventory XML.
   * @param confFile File of old-school hocuspocus CitationConfiguration XML.
   */
-  def cexForDocument(doc: OnlineDocument, invFile: String, confFile: String,inputDelim: String = "#",outputDelim: String = "\t"): String = {
+  def cexForDocument(doc: OnlineDocument, invFile: String, confFile: String,inputDelim: String = "#",outputDelim: String = "#"): String = {
     doc.format match {
       case Wf_Xml => cexForXml(doc, invFile, confFile,outputDelim = outputDelim )
       case Markdown => cexForMarkdown(doc,invFile,confFile,outputDelim)
@@ -49,16 +49,16 @@ object TextRepositorySource {
   * @param invFile File of old-school hocuspocus TextInventory XML.
   * @param confFile File of old-school hocuspocus CitationConfiguration XML.
   */
-  def cexForXml(doc: OnlineDocument, invFile: String, confFile: String, inputDelim: String = "#",outputDelim: String = "\t"): String = {
+  def cexForXml(doc: OnlineDocument, invFile: String, confFile: String, inputDelim: String = "#",outputDelim: String = "#"): String = {
     val urn = new HpUrn(doc.urn.toString)
     val f = new File(doc.docName)
 
     val inventory = new TextInventory(new File(invFile))
     val citationConfig = new CitationConfigurationFileReader(new File(confFile))
-
+    println("CITATION CONF: "+ citationConfig)
     val xmlTab = new XmlTabulator()
     val tabString =  xmlTab.tabulateFile(urn, inventory, citationConfig, f)
-
+    println("TAB STRING " + tabString)
     val oxf = tabString.split("\n").filterNot(_.contains("namespace")).toVector
     val twocols =   twoColumnsFromHocusPocus(oxf.mkString("\n"), inputDelim,outputDelim)
     twocols
@@ -221,7 +221,7 @@ object TextRepositorySource {
         for (xlate <- xlations) {
           val attMap = xlate.attributes.asAttrMap
           val xlateLang = attMap("xml:lang")
-          
+
 
           val versionOpt = labelFromNode(xlate)
 

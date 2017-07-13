@@ -1,5 +1,6 @@
 # `ohco2`: release notes
 
+**9.3.1**:  Correctly publish cross-compiled versions.
 
 **9.3.0**: Enhances layout of `textContents` function value.
 
