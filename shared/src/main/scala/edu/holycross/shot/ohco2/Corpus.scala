@@ -67,22 +67,6 @@ import js.annotation.JSExport
     Corpus( nodes diff corpus2.nodes)
   }
 
-
-  /** Create a new corpus of texts matching an OrcaCollection.
-  * The resulting corpus contains all text nodes in the current
-  * corpus appearing as analyzed texts in orca.  Before filtering
-  * a Corpus with an OrcaCollection, the OrcaCollection should
-  * be expanded to explicit mapping of leaf-node values.
-  *
-  * @param orca a collection of orca analyses.
-  */
-
-  /*
-  def ~~(orca: OrcaCollection) : Corpus = {
-    this ~~ orca.texts
-  }
-*/
-
   /** Create a new corpus of nodes matching a given URN.
   * Note that `filterUrn` must identify a passage at the
   * level of the work hierarchy where it is cited in this

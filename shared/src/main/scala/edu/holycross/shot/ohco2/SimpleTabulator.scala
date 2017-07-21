@@ -1,7 +1,6 @@
 package edu.holycross.shot.ohco2
 
 import edu.holycross.shot.cite._
-import edu.holycross.shot.orca._
 import scala.annotation.tailrec
 
 import scala.scalajs.js

@@ -5,8 +5,6 @@ import scala.io.Source
 import java.io._
 import scala.collection.mutable.ArrayBuffer
 
-//import edu.harvard.chs.cite.{CtsUrn => HpUrn}
-//import edu.holycross.shot.hocuspocus._
 
 import scala.xml._
 

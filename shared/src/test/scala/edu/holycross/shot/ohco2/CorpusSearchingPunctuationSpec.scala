@@ -2,7 +2,7 @@ package edu.holycross.shot.ohco2
 import org.scalatest.FlatSpec
 import edu.holycross.shot.cite._
 
-import edu.holycross.shot.orca._
+
 
 class CorpusSearchingPunctuationSpec extends FlatSpec {
 

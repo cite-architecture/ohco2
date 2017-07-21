@@ -82,8 +82,8 @@ object TextRepository {
   */
   def apply(cexString: String, delimiter: String = "#") : TextRepository = {
     val cex = CexParser(cexString)
-    val catalog = Catalog(cex.blocks("ctscatalog"),delimiter)
-    val corpus = Corpus(cex.blocks("ctsdata"), delimiter)
+    val catalog = Catalog(cex.blockString("ctscatalog"),delimiter)
+    val corpus = Corpus(cex.blockString("ctsdata"), delimiter)
 
     TextRepository(corpus,catalog)
   }

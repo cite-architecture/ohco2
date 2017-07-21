@@ -100,7 +100,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main s
   }
 
   it should "be constructable from CEX data" in {
-    val cex = """#!citerepo
+    val cex = """#!citelibrary
 name#demo
 version#2017.1
 license#CC Share Alike.  For details, see more info.
