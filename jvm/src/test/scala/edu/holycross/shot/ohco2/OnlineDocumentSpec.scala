@@ -27,13 +27,13 @@ class OnLineDocumentSpec extends FlatSpec {
   </CitationConfiguration>
   """
 
-  "A TextRepositorySource" should "recognize  OnlineDocuments from XML citation configuration" in {
+  "A TextRepositorySource" should "recognize  OnlineDocuments from XML citation configuration" in  pending /*{
     val root = XML.loadString(citeConfXml)
     val online = TextRepositorySource.onlineDocsFromXml(root)
     assert(online.size == 2)
-  }
+  }*/
 
-  it should "be able to twiddle the resulting vector" in {
+  it should "be able to twiddle the resulting vector" in  pending /*{
     val root = XML.loadString(citeConfXml)
     val online = TextRepositorySource.onlineDocsFromXml(root)
 
@@ -42,6 +42,6 @@ class OnLineDocumentSpec extends FlatSpec {
 
     assert (hdt.size == 2)
     assert (eng.size == 1)
-  }
+  }*/
 
 }

@@ -82,18 +82,8 @@ package object ohco2 {
     }
   }
 
-/*
-  def formatForString(s: String): DocumentFormat = {
-    s match {
-      case "xml" => Wf_Xml
-      case "markdown" => Markdown
-      case "twocol" => Two_Column
-      case "82xf" => Oxf
-    }
-  }*/
 
-  /** Find [[DocumentFormat]] value for
-  * a String name.
+  /** Find [[DocumentFormat]] value for a String name.
   *
   * @param value String name of format.
   */

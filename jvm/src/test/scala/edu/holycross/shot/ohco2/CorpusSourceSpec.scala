@@ -26,7 +26,7 @@ class CorpusSourceSpec extends FlatSpec {
   it should "offer a convenience method for extracting the string contents from a list of citable nodes as a single string" in {
     val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
-    val corpus = CorpusSource.fromFile(srcFile)
+    val corpus = CorpusSource.fromFile(srcFile, "\t")
     val actualText = corpus.textContents(filterUrn, "\n")
 
     // sample beginning and end of long text:
@@ -41,7 +41,7 @@ class CorpusSourceSpec extends FlatSpec {
   it should "offer a convenience method to extract a list of works cited in the corpus" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1-1.2")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
-    val corpus = CorpusSource.fromFile(srcFile)
+    val corpus = CorpusSource.fromFile(srcFile,"\t")
     val expectedWorks = Set(CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:"),
       CtsUrn("urn:cts:greekLit:tlg5026.msAim.hmt:"),
       CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt:"),
