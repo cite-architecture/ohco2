@@ -1,7 +1,7 @@
 package edu.holycross.shot.ohco2
 
 import edu.holycross.shot.cite._
-import edu.holycross.shot.orca._
+//import edu.holycross.shot.orca._
 import scala.annotation.tailrec
 
 import scala.scalajs.js
@@ -76,10 +76,12 @@ import js.annotation.JSExport
   *
   * @param orca a collection of orca analyses.
   */
+
+  /*
   def ~~(orca: OrcaCollection) : Corpus = {
     this ~~ orca.texts
   }
-
+*/
 
   /** Create a new corpus of nodes matching a given URN.
   * Note that `filterUrn` must identify a passage at the

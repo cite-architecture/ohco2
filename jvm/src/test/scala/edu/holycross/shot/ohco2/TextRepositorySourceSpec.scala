@@ -14,7 +14,7 @@ class TextRepositorySourceSpec extends FlatSpec {
   val baseDir = "jvm/src/test/resources/xmlrepo/texts"
 
 
-  "The TextRepositorySource object"  should  "create two-column CEF for an XML file" in  {
+  "The TextRepositorySource object"  should  "create two-column CEF for an XML file" in  pending /*{
     // first get OnlineDocument Vector
 
     val olDocs = TextRepositorySource.onlineVector(citeConf, baseDir)
@@ -24,7 +24,7 @@ class TextRepositorySourceSpec extends FlatSpec {
     val lines = cex.split("\n")
     val expectedLines = 33
     assert(lines.size == expectedLines)
-  }
+  } */
 
 
 
@@ -36,11 +36,11 @@ class TextRepositorySourceSpec extends FlatSpec {
     assert( catalog.size == 1)
   }
 
-  it should "create a TextRepository from local XML files cataloged by XML documents" in {
+  it should "create a TextRepository from local XML files cataloged by XML documents" in pending /*{
     val repo = TextRepositorySource.fromFiles(inv,citeConf,baseDir)
     assert(repo.catalog.size == 1)
     assert(repo.corpus.size == 33)
-  }
+  }*/
 
 
 

@@ -5,8 +5,8 @@ import scala.io.Source
 import java.io._
 import scala.collection.mutable.ArrayBuffer
 
-import edu.harvard.chs.cite.{CtsUrn => HpUrn}
-import edu.holycross.shot.hocuspocus._
+//import edu.harvard.chs.cite.{CtsUrn => HpUrn}
+//import edu.holycross.shot.hocuspocus._
 
 import scala.xml._
 
@@ -36,8 +36,8 @@ object TextRepositorySource {
   */
   def cexForDocument(doc: OnlineDocument, invFile: String, confFile: String,inputDelim: String = "#",outputDelim: String = "#"): String = {
     doc.format match {
-      case Wf_Xml => cexForXml(doc, invFile, confFile,outputDelim = outputDelim )
-      case Markdown => cexForMarkdown(doc,invFile,confFile,outputDelim)
+      //case Wf_Xml => cexForXml(doc, invFile, confFile,outputDelim = outputDelim )
+      //case Markdown => cexForMarkdown(doc,invFile,confFile,outputDelim)
       case _ => ""
     }
   }
@@ -49,6 +49,8 @@ object TextRepositorySource {
   * @param invFile File of old-school hocuspocus TextInventory XML.
   * @param confFile File of old-school hocuspocus CitationConfiguration XML.
   */
+
+  /*
   def cexForXml(doc: OnlineDocument, invFile: String, confFile: String, inputDelim: String = "#",outputDelim: String = "#"): String = {
     val urn = new HpUrn(doc.urn.toString)
     val f = new File(doc.docName)
@@ -63,9 +65,9 @@ object TextRepositorySource {
     val twocols =   twoColumnsFromHocusPocus(oxf.mkString("\n"), inputDelim,outputDelim)
     twocols
   }
+*/
 
-
-
+/*
   def cexForMarkdown(doc: OnlineDocument, invFile: String, confFile: String, outputDelim: String = "#"): String = {
     val f = new File(doc.docName)
 
@@ -73,6 +75,7 @@ object TextRepositorySource {
 
     twoCols
   }
+  */
 
 
   /** Find title string for a notional work in a TextInventory's `work` XML node.
