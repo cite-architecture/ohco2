@@ -1,5 +1,8 @@
 # `ohco2`: release notes
 
+**10.0.0**:  Breaking changes:  dependency on `hocuspocus` library eliminated, replaced with `SimpleTabulator` class in JVM branch.
+
+
 **9.3.1**:  Correctly publish cross-compiled versions.
 
 **9.3.0**: Enhances layout of `textContents` function value.

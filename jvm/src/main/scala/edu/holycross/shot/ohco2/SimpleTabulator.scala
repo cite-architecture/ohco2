@@ -8,10 +8,6 @@ import scala.xml._
 import scala.annotation.tailrec
 
 import scala.scalajs.js
-import js.annotation.JSExport
-
-
-///  val cexSpec = "urn:cts:greekLit:tlg0016.tlg001.grcTest:#xml#test-hdt-grc.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']"
 
 
 /** Factory for building [[edu.holycross.shot.ohco2.Corpus]] instances
