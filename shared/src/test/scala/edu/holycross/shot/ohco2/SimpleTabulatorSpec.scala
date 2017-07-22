@@ -29,12 +29,18 @@ xmlns:tei="http://www.tei-c.org/ns/1.0">
 </TEI>
 """
 
-  "A SimpleTabulator"  should "do things" in {
-    val tabulator = SimpleTabulator(urn, xpt, xml)
-
+  "The SimpleTabulator object"  should "collect citable nodes from a configured XML source" in {
     val root = scala.xml.XML.loadString(xml)
     val citableNodes = SimpleTabulator.collectCitableNodes(urn,root,0,xpt)
     assert(citableNodes.size == 2)
+  }
+
+  "A SimpleTabulator"  should "create a Corpus object from a configured XML source" in {
+    val corpus = SimpleTabulator(urn, xpt, xml)
+    corpus match {
+      case c: Corpus => assert(c.size == 2)
+      case _ => fail("Should have created a Corpus object")
+    }
   }
 
 

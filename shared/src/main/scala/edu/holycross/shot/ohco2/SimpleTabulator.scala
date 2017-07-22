@@ -28,18 +28,8 @@ object SimpleTabulator {
   def apply(docUrn: CtsUrn, xpTemplate: XPathTemplate, xmlString: String ): Corpus = {
 
     val xml = scala.xml.XML.loadString(xmlString)
-    //println("Doc: " + xml)
-    /*val indices =  xpathTemplate.indexOfKeys
 
-
-    val lvl = xml \ xpathTemplate.elVector(1)
-    println("For " +  xpathTemplate.elVector(1) + ", got " + lvl)
-    for (ch <- lvl) {
-      println(ch)
-    }
-*/
-    //walkXmlTree(xml, 0, xpTemplate )
-    val citableNodes = Vector.empty[CitableNode]
+    val citableNodes = collectCitableNodes(docUrn, xml, 0, xpTemplate)
     Corpus(citableNodes)
   }
 
