@@ -1,5 +1,7 @@
 package edu.holycross.shot.ohco2
 
+import scala.collection.mutable.ArrayBuffer
+
 import edu.holycross.shot.cite._
 
 import scala.xml._
@@ -53,25 +55,33 @@ object SimpleTabulator {
     }
   }
 
-  def walkXmlTree(urn: CtsUrn, n: Node, level: Int, xpt: XPathTemplate): Unit = {
+  def walkXmlTree(urn: CtsUrn, n: Node, level: Int, xpt: XPathTemplate, citable: Vector[CitableNode] = Vector.empty[CitableNode]): Vector[CitableNode] = {
 
     val u = updateUrn(urn: CtsUrn, n: Node, level: Int, xpt: XPathTemplate)
-    //println(s"Start from level ${level}: el ${n.label}: urn ${u}" )
+    println(s"\n\nStart from level ${level}: el ${n.label}: urn ${u}" )
 
+    var buff = scala.collection.mutable.ArrayBuffer[CitableNode]()
+    buff ++= citable
     val newLevel = level + 1
     if (newLevel == xpt.elVector.size) {
       val cn = CitableNode(u, n.toString)
-      println ("MAKE CITABLE NODE: " + cn)
+      println ("MAKE CITABLE NODE for : "+ u.passageNode)// + cn)
+      buff.append( cn)
+      println("Buff now has " + buff.size)
     } else {
       val nextTier = xpt.localNames(newLevel)
       val seq = n \ nextTier
-      //println("Found " + seq.size + " matches.")
-
-      for (nd <- seq) {
-        walkXmlTree(u, nd, newLevel, xpt)
+      for (nd <- seq) yield {
+        val toAppend = walkXmlTree(u, nd, newLevel, xpt, citable)
+        println("Append  " + toAppend)
+        buff = buff ++ toAppend
+        println("Now buff is " + buff)
+        buff
       }
-
+      println("\n\nFinished childrend of " + n.label)
     }
+    println("Return " + buff.size + " at " + u)
+    buff.toVector
   }
 
 

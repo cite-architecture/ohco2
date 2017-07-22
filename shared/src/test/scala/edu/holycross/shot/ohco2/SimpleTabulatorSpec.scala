@@ -33,7 +33,8 @@ xmlns:tei="http://www.tei-c.org/ns/1.0">
     val tabulator = SimpleTabulator(urn, xpt, xml)
 
     val root = scala.xml.XML.loadString(xml)
-    SimpleTabulator.walkXmlTree(urn,root,0,xpt)
+    val tabs = SimpleTabulator.walkXmlTree(urn,root,0,xpt)
+    println(s"\n\nHere are the tabs : ${tabs.size}\n" + tabs )
   }
 
 
