@@ -55,32 +55,27 @@ object SimpleTabulator {
     }
   }
 
-  def walkXmlTree(urn: CtsUrn, n: Node, level: Int, xpt: XPathTemplate, citable: Vector[CitableNode] = Vector.empty[CitableNode]): Vector[CitableNode] = {
 
+  def collectCitableNodes(urn: CtsUrn, n: Node, level: Int, xpt: XPathTemplate, citable: Vector[CitableNode] = Vector.empty[CitableNode]): Vector[CitableNode] = {
     val u = updateUrn(urn: CtsUrn, n: Node, level: Int, xpt: XPathTemplate)
-    println(s"\n\nStart from level ${level}: el ${n.label}: urn ${u}" )
-
     var buff = scala.collection.mutable.ArrayBuffer[CitableNode]()
     buff ++= citable
     val newLevel = level + 1
+
     if (newLevel == xpt.elVector.size) {
       val cn = CitableNode(u, n.toString)
-      println ("MAKE CITABLE NODE for : "+ u.passageNode)// + cn)
       buff.append( cn)
-      println("Buff now has " + buff.size)
+
     } else {
       val nextTier = xpt.localNames(newLevel)
       val seq = n \ nextTier
       for (nd <- seq) yield {
-        val toAppend = walkXmlTree(u, nd, newLevel, xpt, citable)
-        println("Append  " + toAppend)
-        buff = buff ++ toAppend
-        println("Now buff is " + buff)
+        //val toAppend = walkXmlTree(u, nd, newLevel, xpt, citable)
+        buff = buff ++ collectCitableNodes(u, nd, newLevel, xpt, citable)
+
         buff
       }
-      println("\n\nFinished childrend of " + n.label)
     }
-    println("Return " + buff.size + " at " + u)
     buff.toVector
   }
 
