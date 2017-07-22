@@ -27,6 +27,10 @@ class OnLineDocumentSpec extends FlatSpec {
   </CitationConfiguration>
   """
 
+  val cexSpec = "urn:cts:greekLit:tlg0016.tlg001.grcTest::#xml#test-hdt-grc.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']"
+
+
+
   "A TextRepositorySource" should "recognize  OnlineDocuments from XML citation configuration" in  pending /*{
     val root = XML.loadString(citeConfXml)
     val online = TextRepositorySource.onlineDocsFromXml(root)

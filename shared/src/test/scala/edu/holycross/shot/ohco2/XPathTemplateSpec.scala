@@ -39,13 +39,17 @@ class XPathTemplateSpec extends FlatSpec {
     }
   }
 
-  it should "create a vector of integers indexing citation value templates" in {
+it should "create a vector of integers indexing citation value templates" in {
     val xpt = XPathTemplate(xptString)
     val expected = Vector(3,4)
     assert (xpt.indexOfKeys(Vector.empty[Int]) == expected)
   }
 
-
+  it should "determine if an expression at a given index contains a citation key" in {
+    val xpt = XPathTemplate(xptString)
+    assert(xpt.isKey(3))
+    assert(xpt.isKey(1) == false)
+  }
 
   "The XPathTemplate object" should "extract attribute expressions from an element" in {
     val s = "tei:l[@n = '?']"

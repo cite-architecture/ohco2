@@ -48,8 +48,13 @@ object TextRepositorySource {
   * @param confFile File of old-school hocuspocus CitationConfiguration XML.
   */
 
-  /*
-  def cexForXml(doc: OnlineDocument, invFile: String, confFile: String, inputDelim: String = "#",outputDelim: String = "#"): String = {
+
+  def cexForXml(doc: OnlineDocument, catalogFile: String, confFile: String, inputDelim: String = "#", outputDelim: String = "#"): String = {
+
+    def catalog = Catalog(Source.fromFile(catalogFile).getLines.mkString("\n"))
+    "CEX goes here"
+  }
+      /*
     val urn = new HpUrn(doc.urn.toString)
     val f = new File(doc.docName)
 

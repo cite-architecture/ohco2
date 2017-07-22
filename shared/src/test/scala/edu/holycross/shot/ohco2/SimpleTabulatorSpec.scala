@@ -21,6 +21,7 @@ xmlns:tei="http://www.tei-c.org/ns/1.0">
 <text>
 <body>
 <div n="24">
+<l n="611">So they buried Hector, tamer of horses.</l>
 <l n="612">An Amazon came</l>
 </div>
 </body>
@@ -29,7 +30,10 @@ xmlns:tei="http://www.tei-c.org/ns/1.0">
 """
 
   "A SimpleTabulator"  should "do things" in {
-    val tabulator = SimpleTabulator(urn, spec, xml)
+    val tabulator = SimpleTabulator(urn, xpt, xml)
+
+    val root = scala.xml.XML.loadString(xml)
+    SimpleTabulator.walkXmlTree(urn,root,0,xpt)
   }
 
 

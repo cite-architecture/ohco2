@@ -49,6 +49,20 @@ case class XPathTemplate(s: String) {
     }
   }
 
+  /** True if element expression at index is is a
+  * citation template.
+  *
+  * @param i Index of element to check.
+  */
+  def isKey(i: Int): Boolean ={
+    val key = XPathTemplate.citationKeyOption(elVector(i))
+    key match {
+      case k: Some[String] => true
+      case _ => false
+    }
+  }
+
+
 
 
   /** List index values to elements including citation templates
