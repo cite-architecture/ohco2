@@ -7,6 +7,11 @@ import java.io._
 
 class CorpusSourceSpec extends FlatSpec {
 
+    val delimitedText = """
+Text URN#Format#Document#Namespace mapping#Citation model
+urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']
+"""
+
   "Corpus file IO"  should "instantiate a corpus from a 2-column delimited text file" in {
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
     val corpus = CorpusSource.fromFile(srcFile,"\t")

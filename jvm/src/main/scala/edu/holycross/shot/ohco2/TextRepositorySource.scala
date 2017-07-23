@@ -34,8 +34,8 @@ object TextRepositorySource {
   */
   def cexForDocument(doc: OnlineDocument, invFile: String, confFile: String,inputDelim: String = "#",outputDelim: String = "#"): String = {
     doc.format match {
-      //case Wf_Xml => cexForXml(doc, invFile, confFile,outputDelim = outputDelim )
-      //case Markdown => cexForMarkdown(doc,invFile,confFile,outputDelim)
+      case Wf_Xml => cexForXml(doc, inputDelim, outputDelim )
+      case Markdown => "Not currently implemented" //cexForMarkdown(doc,invFile,confFile,inputDelim, outputDelim)
       case _ => ""
     }
   }
@@ -44,18 +44,15 @@ object TextRepositorySource {
   /** Convert an online XML file to a two-column string.
   *
   * @param doc Documentation of the text to convert.
-  * @param catalogFile CEX file including ctscatalog block.
-  * @param confFile Delimited-text file with configuration information
-  * mapping citation scheme onto XML makup.
   * @param inputDelim Delimiter used in source files.
   * @param outputDelim Delimiter to use in CEX output.
   */
 
 
-  def cexForXml(doc: OnlineDocument, catalogFile: String, confFile: String, inputDelim: String = "#", outputDelim: String = "#"): String = {
+  def cexForXml(doc: OnlineDocument, inputDelim: String = "#", outputDelim: String = "#"): String = {
 
-    def catalog = Catalog(Source.fromFile(catalogFile).getLines.mkString("\n"))
-    "CEX goes here"
+    "CEX please"
+
   }
       /*
     val urn = new HpUrn(doc.urn.toString)
@@ -73,211 +70,16 @@ object TextRepositorySource {
   }
 */
 
-/*
+
   def cexForMarkdown(doc: OnlineDocument, invFile: String, confFile: String, outputDelim: String = "#"): String = {
     val f = new File(doc.docName)
 
+    /*
     val twoCols = MdTabulator.mdFileToTwoColumns(f, doc.urn.toString, outputDelim)
 
     twoCols
-  }
-  */
-
-
-  /** Find title string for a notional work in a TextInventory's `work` XML node.
-  *
-  * @param n Parsed `work` node.
-  */
-  def titleFromNode(n: Node) = {
-    val titleNodes = n \\ "title"
-    titleNodes(0).text
-  }
-
-
-  /** Find string name for a text group in a TextInventory's XML `textgroup` node.
-  *
-  * @param n Parsed `textgroup` node.
-  */
-  def groupNameFromNode(n: Node)= {
-    val nameNodes = n \\ "groupname"
-    nameNodes(0).text
-  }
-
-
-  /** Find label for optional components of
-  * OHCO2 work hierarchy  in a TextInventory's
-  * node for `edition`, `translation` or `exemplar`.
-  *
-  * @param n Parsed XML node for `edition`, `translation` or `exemplar`.
-  */
-  def labelFromNode(n: Node): Option[String] = {
-    val labelNodes = n \\ "label"
-    labelNodes.size match {
-      case 0 => None
-      case _ => Some(labelNodes(0).text)
-    }
-  }
-
-
-  /** Make a Vector of [[OnlineDocument]]s from the
-  * contents of an XML citation configuration file.
-  *
-  * @param root Parsed root node of an XML citation configuration file.
-  */
-  def onlineDocsFromXml(root: Node): Vector[OnlineDocument] = {
-
-    var onlines = scala.collection.mutable.ArrayBuffer.empty[OnlineDocument]
-    val onlineNodes = root \\ "online"
-
-    for (n <- onlineNodes) {
-      val urnAttrs = n \\ "@urn"
-      val urn = CtsUrn(urnAttrs(0).text)
-
-      val formatAttrs = n \\ "@type"
-      val format = OnlineDocument.formatForString(formatAttrs(0).text)
-
-      val docNameAttrs = n \\ "@docname"
-      val docName = docNameAttrs(0).text
-      onlines +=  OnlineDocument(urn,format.get,docName)
-    }
-
-    onlines.toVector
-  }
-
-
-  /** Create a [[Catalog]] from it XML
-  * representation in a text inventory
-  * and accompanying citation configuration
-  * document.
-  *
-  * @param xmlInventory XML validating against
-  * the CTS TextInventory schema.
-  * @param xmlCitationConf XML validating against
-  * the CTS CitationConfiguration schema.
-  */
-  def catalogFromXml (xmlInventory: String, xmlCitationConf: String) : Catalog = {
-    //var catalogEntries = ArrayBuffer[CatalogEntry]()
-
-    val citeConfRoot = XML.loadString(xmlCitationConf)
-    val onlineVector = onlineDocsFromXml(citeConfRoot)
-
-    var catalogEntries = scala.collection.mutable.ArrayBuffer.empty[CatalogEntry]
-    val invRoot = XML.loadString(xmlInventory)
-
-    val tgs = invRoot \\ "textgroup"
-    for (tg <- tgs) {
-      val textGroupName = groupNameFromNode(tg)
-
-      val wks = tg \\ "work"
-      for (wk <- wks) {
-        val title = titleFromNode(wk)
-
-        val attMap = wk.attributes.asAttrMap
-        val workLang = attMap("xml:lang")
-        val edd = wk \\ "edition"
-        for (ed <- edd) {
-          val versionOpt = labelFromNode(ed)
-          val urnAttrs = ed \\ "@urn"
-          val edUrn = CtsUrn(urnAttrs(0).text)
-
-          val edOnline  = onlineVector.filter(_.urn == edUrn)
-          if (edOnline.size == 1) {
-            val online = edOnline(0)
-            val citeType = online.format.toString
-            val catEntry =  CatalogEntry(
-              urn = edUrn,
-              groupName = textGroupName,
-              citationScheme = citeType,
-              workTitle = title,
-              versionLabel = versionOpt,
-              exemplarLabel = None,
-              online =     true,
-              lang = workLang )
-            catalogEntries += catEntry
-
-          } else {}
-
-          val exemplars = ed \\ "exemplar"
-          for (ex <- exemplars) {
-            val exemplarOpt = labelFromNode(ex)
-
-
-            val urnAttrs = ex \\ "@urn"
-            val exUrn = CtsUrn(urnAttrs(0).text)
-
-            val exOnline  = onlineVector.filter(_.urn == exUrn)
-            if (exOnline.size == 1) {
-              val online = exOnline(0)
-              val citeType = online.format.toString
-              val catEntry =  CatalogEntry(
-                urn = exUrn,
-                groupName = textGroupName,
-                citationScheme = citeType,
-                workTitle = title,
-                versionLabel = versionOpt,
-                exemplarLabel = exemplarOpt,
-                online =     true,
-                lang = workLang
-              )
-              catalogEntries += catEntry
-            } else {}
-
-
-          }
-        }
-
-        val xlations = wk \\ "translation"
-        for (xlate <- xlations) {
-          val attMap = xlate.attributes.asAttrMap
-          val xlateLang = attMap("xml:lang")
-
-
-          val versionOpt = labelFromNode(xlate)
-
-          val exemplars = xlate \\ "exemplar"
-          for (ex <- exemplars) {
-            val exemplarOpt = labelFromNode(ex)
-
-            val urnAttrs = ex \\ "@urn"
-            val xlateUrn = CtsUrn(urnAttrs(0).text)
-
-            val xlateOnline  = onlineVector.filter(_.urn == xlateUrn)
-            if (xlateOnline.size == 1) {
-              val online = xlateOnline(0)
-              val citeType = online.format.toString
-              val catEntry =  CatalogEntry(
-                urn = xlateUrn,
-                groupName = textGroupName,
-                citationScheme = citeType,
-                workTitle = title,
-                versionLabel = versionOpt,
-                exemplarLabel = exemplarOpt,
-                online =  true,
-                lang = xlateLang)
-              catalogEntries += catEntry
-            } else {}
-          }
-        }
-      }
-    }
-    Catalog(catalogEntries.toVector)
-  }
-
-
-  /** Create a [[Catalog]] from its XML
-  * representation in a text inventory
-  * and accompanying citation configuration
-  * document.
-  *
-  * @param invFile XML file validating against
-  * the CTS TextInventory schema.
-  * @param citationConfFile XML file validating against
-  * the CTS CitationConfiguration schema.
-  */
-  def catalogFromXmlFile(invFile: String, citationConfFile: String) = {
-    val inv = Source.fromFile(invFile).getLines.mkString("\n")
-    val cites = Source.fromFile(citationConfFile).getLines.mkString("\n")
-    catalogFromXml(inv,cites)
+    */
+    "Not currently implemented"
   }
 
 
@@ -298,24 +100,6 @@ object TextRepositorySource {
 
 
 
-  /** Create [[OnlineDocument]] from its
-  * representation in a text configuraiton file
-  * as an XML `online` element.
-  *
-  * @param n Parsed `online` node.
-  */
-  def documentFromNode(n: scala.xml.Node, baseDirectory: String) : OnlineDocument = {
-    val urnSeq = n \\ "@urn"
-    val typeSeq = n \\ "@type"
-    val nameSeq = n \\ "@docname"
-
-    val urn = CtsUrn(urnSeq(0).text)
-    val format = OnlineDocument.formatForString(typeSeq(0).text).get
-    val fName = fileName(baseDirectory, nameSeq(0).text)
-
-    OnlineDocument(urn,format,fName)
-  }
-
 
   /** Create a vector of [[OnlineDocument]]s from a cataloged
   * set of files in a local file system.
@@ -325,30 +109,38 @@ object TextRepositorySource {
   */
   def onlineVector(
     configFileName: String,
-    baseDirectoryName: String
+    baseDirectoryName: String,
+    delimiter1: String = "#",
+    delimiter2: String = ","
   ): Vector[OnlineDocument] = {
-    val configRoot = scala.xml.XML.loadFile(configFileName)
-    val files = configRoot \\ "online"
-    val docs = files.map(documentFromNode(_, baseDirectoryName))
-    docs.toVector
+    val lines = Source.fromFile(configFileName).getLines.toVector.drop(1)
+    val docs = lines.map(OnlineDocument(_, delimiter1, delimiter2)).toVector
+    docs.map(_.absolutePath(baseDirectoryName))
   }
 
   /** Create TextRepository from local files.
   */
-  def fromFiles(invFileName: String,
+  def fromFiles(catalogFileName: String,
     configFileName: String,
     baseDirectoryName: String,
-    outputDelimiter: String = "#"): TextRepository = {
+    delimiter: String = "#"): TextRepository = {
 
-    val catalog = catalogFromXmlFile(invFileName, configFileName)
-
+    val catalogText = Source.fromFile(catalogFileName).getLines.mkString("\n")
     val onlines = onlineVector(configFileName, baseDirectoryName)
+/*
+
+
 
     val twocols = for(doc <-onlines) yield {
       cexForDocument(doc,invFileName,configFileName,"#", outputDelimiter)
     }
 
     val corpus = Corpus(twocols.mkString("\n"), outputDelimiter)
+*/
+    val corpus = Corpus(Vector.empty[CitableNode])
+    val catalog = Catalog(catalogText, delimiter)
+
+    println("SIZE OF XCAT: " + catalog.size)
 
     TextRepository(corpus,catalog)
   }

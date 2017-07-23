@@ -26,21 +26,34 @@ class TextRepositorySourceSpec extends FlatSpec {
     assert(lines.size == expectedLines)
   } */
 
+  it should "create a CEX representation of a documented XML source" in {
+    val oneEntry = "urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']"
+    val onlineDoc = OnlineDocument(oneEntry,"#",",")
+
+    val cex = TextRepositorySource.cexForXml(onlineDoc,"#",",")
+    println("CEx IS "+ cex)
+  }
+
+  it should "create a Vector of OnlineDocuments from a configuration file" in {
+    val docVector = TextRepositorySource.onlineVector(citeConf, baseDir)
+  }
+
+  it should "create a TextRepository from local XML files cataloged by XML documents" in pending /* {
+    val repo = TextRepositorySource.fromFiles(catCex,citeConf,baseDir)
+    assert(repo.catalog.size == 1)
+    //assert(repo.corpus.size == 33)
+  }*/
 
 
   it should "create CEF for a two-column file" in pending
   it should "create CEF for an 82XF file" in pending
 
-  it should "create a Catalog from XML sources" in pending /*{
+  it should "create a Catalog from CEX sources" in pending /*{
     val catalog = TextRepositorySource.catalogFromXmlFile(catCex,citeConf)
     assert( catalog.size == 1)
   }*/
 
-  it should "create a TextRepository from local XML files cataloged by XML documents" in pending /*{
-    val repo = TextRepositorySource.fromFiles(inv,citeConf,baseDir)
-    assert(repo.catalog.size == 1)
-    assert(repo.corpus.size == 33)
-  }*/
+
 
 
 

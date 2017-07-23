@@ -7,14 +7,9 @@ import edu.holycross.shot.cite._
 class OnlineDocumentObjectSpec extends FlatSpec {
 
 
-  val delimitedText = """
-Text URN#Format#Document#Namespace mapping#Citation model
-urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']
-"""
 
-  "An OnlineDocument object"  should "offer a constructor signature for  a corpus from a string value for a URL identifying a 2-column delimited text source" in pending
 
-  it should "create an OnlineDocument instance from a delimited-text line" in {
+    "The OnlineDocument object"  should "create an OnlineDocument instance from a delimited-text line" in {
     val oneEntry = "urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']"
     val online = OnlineDocument(oneEntry,"#", ",")
     online match {
@@ -78,9 +73,17 @@ urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.
     }
   }
 
-  it should "ensure that only XML documents can have a namespace mapping" in pending
+  it should "ensure that only XML documents can have a namespace mapping" in {
+    val illegitimateNS = "urn:cts:greekLit:tlg0016.tlg001.grc:#markdown#test-hdt.md#tei->http://tei.org/something#"
 
-  it should "correctly parse multiple XML namespace mappings" in pending
+    try {
+      val onlineDoc = OnlineDocument(illegitimateNS,"#",",")
+      fail("Should not have created document.")
+    } catch {
+      case iae: IllegalArgumentException => assert (iae.getMessage() ==  "requirement failed: OnlineDocument format Markdown may not include XPathTemplate or XML namespaces")
+      case t: Throwable => fail("Should have thrown IllegalArgumentException instead of " + t)
+    }
+  }
 
 
 
