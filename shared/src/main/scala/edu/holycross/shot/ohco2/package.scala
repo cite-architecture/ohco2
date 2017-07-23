@@ -4,6 +4,7 @@ package object ohco2 {
 
   import edu.holycross.shot.cite._
 
+
   /** Regular expression defining recognized punctuation characters.
   * The list incudes all characters with the Unicode `Punctuation` prooerty
   * plus a selection of other non-alphabetic characters known to be
@@ -83,11 +84,5 @@ package object ohco2 {
   }
 
 
-  /** Find [[DocumentFormat]] value for a String name.
-  *
-  * @param value String name of format.
-  */
-  def formatForString(value: String): Option[DocumentFormat] = {
-    Vector(Wf_Xml, Two_Column, Markdown, Oxf).find(_.name == value)
-  }
+
 }

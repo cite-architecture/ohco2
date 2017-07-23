@@ -5,8 +5,10 @@ import edu.holycross.shot.cite._
 import scala.xml._
 /**
 */
-class OnLineDocumentSpec extends FlatSpec {
+class OnlineDocumentSpec extends FlatSpec {
 
+
+/*
   val citeConfXml = """<CitationConfiguration xmlns="http://chs.harvard.edu/xmlns/hocuspocus" tiversion="6.0.0">
     <online        urn="urn:cts:greekLit:tlg0016.tlg001.grcTest:"        type="xml"        docname="test-hdt-grc.xml">
       <namespaceMapping abbreviation="tei" nsURI="http://www.tei-c.org/ns/1.0"/>
@@ -26,16 +28,20 @@ class OnLineDocumentSpec extends FlatSpec {
     </online>
   </CitationConfiguration>
   """
-
+*/
   val cexSpec = "urn:cts:greekLit:tlg0016.tlg001.grcTest::#xml#test-hdt-grc.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']"
 
 
 
-  "A TextRepositorySource" should "recognize  OnlineDocuments from XML citation configuration" in  pending /*{
+  "A TextRepositorySource" should "recognize  OnlineDocuments from a delimited-text citation configuration" in  pending  /*{
+
+
+
     val root = XML.loadString(citeConfXml)
     val online = TextRepositorySource.onlineDocsFromXml(root)
     assert(online.size == 2)
-  }*/
+  }
+*/
 
   it should "be able to twiddle the resulting vector" in  pending /*{
     val root = XML.loadString(citeConfXml)

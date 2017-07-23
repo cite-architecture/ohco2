@@ -44,8 +44,11 @@ object TextRepositorySource {
   /** Convert an online XML file to a two-column string.
   *
   * @param doc Documentation of the text to convert.
-  * @param invFile File of old-school hocuspocus TextInventory XML.
-  * @param confFile File of old-school hocuspocus CitationConfiguration XML.
+  * @param catalogFile CEX file including ctscatalog block.
+  * @param confFile Delimited-text file with configuration information
+  * mapping citation scheme onto XML makup.
+  * @param inputDelim Delimiter used in source files.
+  * @param outputDelim Delimiter to use in CEX output.
   */
 
 
@@ -131,7 +134,7 @@ object TextRepositorySource {
       val urn = CtsUrn(urnAttrs(0).text)
 
       val formatAttrs = n \\ "@type"
-      val format = formatForString(formatAttrs(0).text)
+      val format = OnlineDocument.formatForString(formatAttrs(0).text)
 
       val docNameAttrs = n \\ "@docname"
       val docName = docNameAttrs(0).text
@@ -307,7 +310,7 @@ object TextRepositorySource {
     val nameSeq = n \\ "@docname"
 
     val urn = CtsUrn(urnSeq(0).text)
-    val format = formatForString(typeSeq(0).text).get
+    val format = OnlineDocument.formatForString(typeSeq(0).text).get
     val fName = fileName(baseDirectory, nameSeq(0).text)
 
     OnlineDocument(urn,format,fName)

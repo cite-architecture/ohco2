@@ -120,4 +120,11 @@ urn:cts:citedemo:arabic.quran.v1:2.2#ذَلِكَ الْكِتَابُ لَا ر
 """
     val repo = TextRepository(cex,"#")
   }
+
+
+  it should "offer a function to join two repositories" in pending
+  it should "offer a function to diff two repositories" in pending
+
+  it should "offer a function to join two catalogs" in pending
+  it should "offer a function to diff two catalogs" in pending
 }
