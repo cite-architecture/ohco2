@@ -42,7 +42,17 @@ urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.
 
   }
 
-  it should "throw an Exception if an invalid document URN" in pending
+  it should "throw an Exception if an invalid document URN" in {
+    val badUrn = "NOT_A_URN#xml#test-hdt-grc.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']"
+    try {
+      val onlineDoc = OnlineDocument(badUrn,"#",",")
+      fail("Should not have created document.")
+    } catch {
+      case iae: IllegalArgumentException => assert (iae.getMessage() ==      "requirement failed: Invalid URN syntax: too few components in NOT_A_URN")
+      case t: Throwable => println(t)
+    }
+
+  }
 
   it should "ensure that XML documents have a citation template" in pending
 

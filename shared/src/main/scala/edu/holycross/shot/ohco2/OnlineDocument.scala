@@ -43,6 +43,29 @@ object OnlineDocument {
   }
 
 
+  /** True if combination of optional parts of [[OnlineDocument]]
+  * are appropriate for a given [[DocumentFormat]].
+  */
+  def validConfiguration(format: DocumentFormat, nsMap: Option[Map[String, String]], xpTemplate: Option[String]): Boolean = {
+
+    val hasNamespaces = nsMap match {
+      case m: Some[Map[String,String]] => true
+      case None => false
+    }
+    val hasXPTemplate = xpTemplate match{
+        case s: Some[String] => true
+        case None => false
+    }
+
+    format match {
+      case Wf_Xml => if (hasXPTemplate) { true } else { false}
+      case Two_Column => if (hasXPTemplate || hasNamespaces) { false } else {true}
+      case  Markdown => false // not currently implemented
+      case Oxf => if (hasXPTemplate || hasNamespaces) { false } else {true}
+    }
+
+  }
+
   /** Create an [[OnlineDocument]] from a single line of delimited-text data.
   *
   * @param delimitedText Five-column description of local file configuraiton.
@@ -59,16 +82,20 @@ object OnlineDocument {
 
     val urn = CtsUrn(columns(0))
     val format = formatForString(columns(1))
-    val ok = format match {
+    val formatOk = format match {
       case f: Some[DocumentFormat] => true
       case None => false
     }
 
-    val docName = columns(2)
-    val namespaces = namespacesFromString(columns(3), delimiter2)
-    val xpTemplate = if (columns(4).isEmpty) { None } else { Some(columns(4))}
-    if (ok) {
+    if (formatOk) {
+      val docName = columns(2)
+      val namespaces = namespacesFromString(columns(3), delimiter2)
+      val xpTemplate = if (columns(4).isEmpty) { None } else { Some(columns(4))}
+
+      val settingsOk = validConfiguration(format.get,namespaces,xpTemplate)
+
       OnlineDocument(urn,format.get,docName,namespaces,xpTemplate )
+
     } else {
       throw Ohco2Exception(s"Bad value for format: ${columns(1)}")
     }
