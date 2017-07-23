@@ -49,14 +49,34 @@ urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.
       fail("Should not have created document.")
     } catch {
       case iae: IllegalArgumentException => assert (iae.getMessage() ==      "requirement failed: Invalid URN syntax: too few components in NOT_A_URN")
-      case t: Throwable => println(t)
+      case t: Throwable => fail("Should have thrown IllegalArgumentExceptions instead of " + t)
     }
 
   }
 
-  it should "ensure that XML documents have a citation template" in pending
+  it should "ensure that XML documents have a citation template" in {
+    val noXPtemplate = "urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.org/ns/1.0#"
 
-  it should "ensure that only XML documents can have a citation template" in pending
+      try {
+        val onlineDoc = OnlineDocument(noXPtemplate,"#",",")
+        fail("Should not have created document.")
+      } catch {
+        case iae: IllegalArgumentException => assert (iae.getMessage() ==  "requirement failed: OnlineDocument: XML configuration must include XPathTemplate")
+        case t: Throwable => fail("Should have thrown IllegalArgumentException instead of " + t)
+      }
+
+  }
+
+  it should "ensure that only XML documents can have a citation template" in {
+    val illegitimateXPath = "urn:cts:greekLit:tlg0016.tlg001.grc:#markdown#test-hdt.md##/tei:TEI/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']"
+    try {
+      val onlineDoc = OnlineDocument(illegitimateXPath,"#",",")
+      fail("Should not have created document.")
+    } catch {
+      case iae: IllegalArgumentException => assert (iae.getMessage() ==  "requirement failed: OnlineDocument format Markdown may not include XPathTemplate or XML namespaces")
+      case t: Throwable => fail("Should have thrown IllegalArgumentException instead of " + t)
+    }
+  }
 
   it should "ensure that only XML documents can have a namespace mapping" in pending
 

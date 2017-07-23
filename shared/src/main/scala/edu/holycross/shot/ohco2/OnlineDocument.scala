@@ -46,6 +46,7 @@ object OnlineDocument {
   /** True if combination of optional parts of [[OnlineDocument]]
   * are appropriate for a given [[DocumentFormat]].
   */
+  /*
   def validConfiguration(format: DocumentFormat, nsMap: Option[Map[String, String]], xpTemplate: Option[String]): Boolean = {
 
     val hasNamespaces = nsMap match {
@@ -65,7 +66,7 @@ object OnlineDocument {
     }
 
   }
-
+*/
   /** Create an [[OnlineDocument]] from a single line of delimited-text data.
   *
   * @param delimitedText Five-column description of local file configuraiton.
@@ -76,29 +77,34 @@ object OnlineDocument {
   def apply(delimitedText: String, delimiter: String, delimiter2: String): OnlineDocument = {
 
     val columns = delimitedText.split(delimiter)
-    if (columns.size != 5) {
-      throw Ohco2Exception(s"OnlineDocument: did not find 5 columns of input in ${delimitedText}")
+    if (columns.size <  3 ) {
+      throw Ohco2Exception(s"OnlineDocument: only found required ${columns}.size columns in ${delimitedText}")
     } else {}
 
     val urn = CtsUrn(columns(0))
     val format = formatForString(columns(1))
+    val docName = columns(2)
+
     val formatOk = format match {
       case f: Some[DocumentFormat] => true
       case None => false
     }
-
     if (formatOk) {
-      val docName = columns(2)
-      val namespaces = namespacesFromString(columns(3), delimiter2)
-      val xpTemplate = if (columns(4).isEmpty) { None } else { Some(columns(4))}
-
-      val settingsOk = validConfiguration(format.get,namespaces,xpTemplate)
-
-      OnlineDocument(urn,format.get,docName,namespaces,xpTemplate )
+      format.get match {
+        case Wf_Xml => {
+          require(columns.size == 5, "OnlineDocument: XML configuration must include XPathTemplate")
+          val namespaces = namespacesFromString(columns(3), delimiter2)
+          val xpTemplate = if (columns(4).isEmpty) { None } else { Some(columns(4))}
+          OnlineDocument(urn,format.get,docName,namespaces,xpTemplate )
+        }
+        case _ => {
+          require(columns.size == 3, s"OnlineDocument format ${format.get} may not include XPathTemplate or XML namespaces")
+          OnlineDocument(urn,format.get,docName,None,None )
+        }
+      }
 
     } else {
       throw Ohco2Exception(s"Bad value for format: ${columns(1)}")
     }
-
   }
 }
