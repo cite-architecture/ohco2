@@ -7,6 +7,7 @@ import edu.holycross.shot.cite._
 */
 class CatalogXmlSpec extends FlatSpec {
 
+/*
 
   val catalogXml= """<TextInventory  tiid="hmt"  tiversion="6.0.0"  xmlns="http://chs.harvard.edu/xmlns/cts"  xmlns:dc="http://purl.org/dc/elements/1.1/">
     <ctsnamespace    abbr="greekLit"    ns="http://chs.harvard.edu/ctsns/greekLit">
@@ -49,6 +50,6 @@ class CatalogXmlSpec extends FlatSpec {
   }
 
 
-
+*/
 
 }
