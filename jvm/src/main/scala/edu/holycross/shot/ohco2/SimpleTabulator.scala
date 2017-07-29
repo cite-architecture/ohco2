@@ -49,7 +49,7 @@ object SimpleTabulator {
     val newLevel = level + 1
 
     if (newLevel == xpt.elVector.size) {
-      val cn = CitableNode(u, n.toString)
+      val cn = CitableNode(u, n.toString.replaceAll("\n", " ").replaceAll("[ ]+", " "))
       buff.append( cn)
 
     } else {

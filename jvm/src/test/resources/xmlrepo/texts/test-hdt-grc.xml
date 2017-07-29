@@ -15,8 +15,7 @@
             <sourceDesc>
                 <bibl>File created electronically; a new edition edited by S.
                     LaBerge and C. Blackwell, collated against Ph.E. Legrand,
-                    ed. He/rodote. Histoires (Paris: Les Belles Lettres) and C.
-                    Hude, ed., Herodoi Historiae (Oxford).</bibl>
+                    ed. Hérodote. Histoires (Paris: Les Belles Lettres) and C. Hude, ed., Herodoi Historiae (Oxford).</bibl>
             </sourceDesc>
         </fileDesc>
         <profileDesc>
@@ -208,7 +207,7 @@
                         σχεδὸν δὲ καὶ παρὰ τοῖσι ἄλλοισι βαρβάροισι , καὶ ἄνδρα
                         ὀφθῆναι γυμνὸν ἐς αἰσχύνην μεγάλην φέρει . </p>
                 </div>
-                
+
             </div>
             <div n="2" type="book">
                 <div n="t" type="chapter">
@@ -384,7 +383,7 @@
                         ἐς θάλασσαν τῶν Ἐχινάδων νήσων τὰς ἡμισέας ἤδη ἤπειρον
                         πεποίηκε . </p>
                 </div>
-               
+
             </div>
             <div n="3" type="book">
                 <div n="t" type="chapter">
@@ -559,9 +558,9 @@
                         αὐτοὶ Θηβαῖοι . Οὐ γὰρ δὴ ὕεται τὰ ἄνω τῆς Αἰγύπτου τὸ
                         παράπαν · ἀλλὰ καὶ τότε ὕσθησαν αἱ Θῆβαι ψακάδι . </p>
                 </div>
-               
+
             </div>
-           
+
         </body>
     </text>
 </TEI>

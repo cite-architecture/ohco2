@@ -28,10 +28,14 @@ class TextRepositorySourceSpec extends FlatSpec {
 
   it should "create a CEX representation of a documented XML source" in {
     val oneEntry = "urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']"
-    val onlineDoc = OnlineDocument(oneEntry,"#",",")
+    val relativeOnlineDoc = OnlineDocument(oneEntry,"#",",")
+
+    val onlineDoc = relativeOnlineDoc.absolutePath("jvm/src/test/resources/xmlrepo/texts/")
 
     val cex = TextRepositorySource.cexForXml(onlineDoc,"#")
-    println("CEx IS "+ cex)
+    val lines = cex.split("\n").toVector
+    val expectedSections = 33
+    assert(lines.size == expectedSections)
   }
 
   it should "create a Vector of OnlineDocuments from a configuration file" in {
