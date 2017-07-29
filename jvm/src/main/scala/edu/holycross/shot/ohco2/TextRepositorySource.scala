@@ -29,16 +29,16 @@ object TextRepositorySource {
   /** Convert an online text documented by an [[OnlineDocument]] to a two-column string.
   *
   * @param doc Documentation of the text to convert.
-  * @param invFile File of old-school hocuspocus TextInventory XML.
-  * @param confFile File of old-school hocuspocus CitationConfiguration XML.
   */
-  def cexForDocument(doc: OnlineDocument, invFile: String, confFile: String,inputDelim: String = "#",outputDelim: String = "#"): String = {
+  def cexForDocument(doc: OnlineDocument, outputDelim: String = "#"): String = {
     doc.format match {
-      case Wf_Xml => cexForXml(doc, inputDelim, outputDelim )
+      case Wf_Xml => cexForXml(doc, outputDelim )
       case Markdown => "Not currently implemented" //cexForMarkdown(doc,invFile,confFile,inputDelim, outputDelim)
       case _ => ""
     }
   }
+
+
 
 
   /** Convert an online XML file to a two-column string.
@@ -47,11 +47,11 @@ object TextRepositorySource {
   * @param inputDelim Delimiter used in source files.
   * @param outputDelim Delimiter to use in CEX output.
   */
-
-
-  def cexForXml(doc: OnlineDocument, inputDelim: String = "#", outputDelim: String = "#"): String = {
-
-    "CEX please"
+  def cexForXml(doc: OnlineDocument, outputDelim: String = "#"): String = {
+    val xml = Source.fromFile(doc.docName).getLines.mkString("\n")
+    val corpus = SimpleTabulator(doc.urn, XPathTemplate(doc.xpathTemplate.get), xml)
+    //def apply(docUrn: CtsUrn, xpTemplate: XPathTemplate, xmlString: String): Corpus
+    corpus.to2colString(outputDelim)
 
   }
       /*
@@ -69,8 +69,6 @@ object TextRepositorySource {
     twocols
   }
 */
-
-
   def cexForMarkdown(doc: OnlineDocument, invFile: String, confFile: String, outputDelim: String = "#"): String = {
     val f = new File(doc.docName)
 
@@ -92,13 +90,13 @@ object TextRepositorySource {
   */
   def cex(invFileName: String,
     configFileName: String,
-    baseDirectoryName: String) = {
-      val v = onlineVector(configFileName, baseDirectoryName)
+    baseDirectoryName: String,
+    delim1: String = "#",
+    delim2: String = ",") = {
+      val v = onlineVector(configFileName, baseDirectoryName, delim1,delim2)
 
       v
   }
-
-
 
 
   /** Create a vector of [[OnlineDocument]]s from a cataloged
@@ -126,7 +124,7 @@ object TextRepositorySource {
     delimiter: String = "#"): TextRepository = {
 
     val catalogText = Source.fromFile(catalogFileName).getLines.mkString("\n")
-    val onlines = onlineVector(configFileName, baseDirectoryName)
+
 /*
 
 

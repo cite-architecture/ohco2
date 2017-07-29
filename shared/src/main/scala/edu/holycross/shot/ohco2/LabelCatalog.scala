@@ -4,14 +4,14 @@ import edu.holycross.shot.cite._
 
 
 import scala.scalajs.js
-import js.annotation.JSExport
+import scala.scalajs.js.annotation._
 
 
 /** Catalog for an entire text repository.
 *
 * @param texts Set of catalog entries.
 */
-@JSExport case class LabelCatalog (texts: Vector[CitationLabel]) {
+@JSExportTopLevel("LabelCatalog") case class LabelCatalog (texts: Vector[CitationLabel]) {
 
 
 }

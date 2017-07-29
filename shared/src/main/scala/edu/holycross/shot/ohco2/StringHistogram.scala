@@ -1,7 +1,7 @@
 package edu.holycross.shot.ohco2
 import edu.holycross.shot.cite._
 import scala.scalajs.js
-import js.annotation.JSExport
+import scala.scalajs.js.annotation._
 
 
 /** Number of occurrences of a String in a corpus.
@@ -9,7 +9,7 @@ import js.annotation.JSExport
 * @param s String
 * @param count Number of occurrences in a corpus.
 */
-@JSExport  case class StringCount (s: String, count: Int) {
+@JSExportTopLevel("StringCount")  case class StringCount (s: String, count: Int) {
   override def toString = {
     s"${count} ${s}"
   }
@@ -20,7 +20,7 @@ import js.annotation.JSExport
 * @param histogram String counts, created in descending order by
 * [[Corpus]] object's histogram builders.
 */
-@JSExport  case class StringHistogram (histogram: Vector[StringCount]) {
+@JSExportTopLevel("StringHistogram")  case class StringHistogram (histogram: Vector[StringCount]) {
 
   /** Create a new StringHistogram containing only Strings
   * matching a given pattern.

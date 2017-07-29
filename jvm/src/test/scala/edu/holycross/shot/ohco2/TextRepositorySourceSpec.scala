@@ -30,7 +30,7 @@ class TextRepositorySourceSpec extends FlatSpec {
     val oneEntry = "urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']"
     val onlineDoc = OnlineDocument(oneEntry,"#",",")
 
-    val cex = TextRepositorySource.cexForXml(onlineDoc,"#",",")
+    val cex = TextRepositorySource.cexForXml(onlineDoc,"#")
     println("CEx IS "+ cex)
   }
 

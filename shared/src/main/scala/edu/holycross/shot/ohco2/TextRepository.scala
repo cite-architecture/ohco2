@@ -4,13 +4,14 @@ import edu.holycross.shot.cite._
 import edu.holycross.shot.cex._
 
 import scala.scalajs.js
-import js.annotation.JSExport
+import scala.scalajs.js.annotation._
+
 /** A cataloged corpus of texts.
 *
 * @param corpus The text contents.
 * @param catalog The catalog
 */
-@JSExport  case class TextRepository (corpus: Corpus, catalog: Catalog) {
+@JSExportTopLevel("TextRepository")  case class TextRepository (corpus: Corpus, catalog: Catalog) {
 
 
   /** Create a new repository by adding a second repository to this one.

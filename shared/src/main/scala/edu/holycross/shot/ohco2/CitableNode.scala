@@ -1,7 +1,8 @@
 package edu.holycross.shot.ohco2
 import edu.holycross.shot.cite._
 import scala.scalajs.js
-import js.annotation.JSExport
+import scala.scalajs.js.annotation._
+
 import scala.annotation.tailrec
 
 /** The smallest canonically citable unit of a text.
@@ -9,7 +10,7 @@ import scala.annotation.tailrec
 * @param urn URN identifying the node.
 * @param text Text contents of the node.
 */
-@JSExport  case class CitableNode (urn: CtsUrn, text: String) {
+@JSExportTopLevel("CitableNode")  case class CitableNode (urn: CtsUrn, text: String) {
   if (text.isEmpty) {
     throw new Ohco2Exception("CitableNode: text content cannot be empty")
   }

@@ -2,7 +2,9 @@ package edu.holycross.shot.ohco2
 
 
 import scala.scalajs.js
-import js.annotation.JSExport
+//import scala.scalajs.js.annotation._
+
+
 import scala.annotation.tailrec
 
 /** Class for working with XPathTemplates.

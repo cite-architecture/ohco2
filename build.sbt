@@ -1,8 +1,7 @@
 name := "OHCO2 text library"
 
 // XML libraries moved in 2.11, so can't support 2.10.
-// Scalajs only available through 2.12.1.
-crossScalaVersions := Seq("2.11.8", "2.12.1")
+crossScalaVersions := Seq("2.11.8", "2.12.3")
 scalaVersion := "2.11.8"
 
 lazy val root = project.in(file(".")).
@@ -35,8 +34,8 @@ lazy val crossed = crossProject.in(file(".")).
     ).
     jsSettings(
       skip in packageJSDependencies := false,
-      persistLauncher in Compile := true,
-      persistLauncher in Test := false
+      scalaJSUseMainModuleInitializer in Compile := true
+      //scalaJSUseMainModuleInitializer in Test := true
 
     )
 

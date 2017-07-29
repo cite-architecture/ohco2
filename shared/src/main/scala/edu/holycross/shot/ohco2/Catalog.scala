@@ -6,13 +6,13 @@ import scala.collection.mutable.ArrayBuffer
 import scala.util.Try
 
 import scala.scalajs.js
-import js.annotation.JSExport
+import scala.scalajs.js.annotation._
 
 /** Catalog for an entire text repository.
 *
 * @param texts Set of catalog entries.
 */
-@JSExport case class Catalog (texts: Vector[CatalogEntry]) {
+@JSExportTopLevel("Catalog") case class Catalog (texts: Vector[CatalogEntry]) {
 
 
   // ensure unique urns
