@@ -22,7 +22,7 @@ import scala.scalajs.js.annotation._
 * @param online True if the text is present in the cataloged [[Corpus]].
 
 */
-@JSExportTopLevel("CatalogEntry") case class CatalogEntry(urn: CtsUrn, citationScheme: String, lang: String, groupName: String, workTitle: String, versionLabel: Option[String], exemplarLabel: Option[String] = None, online: Boolean = true) {
+@JSExportAll case class CatalogEntry(urn: CtsUrn, citationScheme: String, lang: String, groupName: String, workTitle: String, versionLabel: Option[String], exemplarLabel: Option[String] = None, online: Boolean = true) {
   require(citationScheme.nonEmpty,"citation scheme cannot be empty")
   require(groupName.nonEmpty,"text group name cannot be empty")
   require(workTitle.nonEmpty,"work title cannot be empty")

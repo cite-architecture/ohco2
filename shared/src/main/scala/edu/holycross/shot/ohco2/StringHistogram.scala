@@ -9,7 +9,7 @@ import scala.scalajs.js.annotation._
 * @param s String
 * @param count Number of occurrences in a corpus.
 */
-@JSExportTopLevel("StringCount")  case class StringCount (s: String, count: Int) {
+@JSExportAll case class StringCount (s: String, count: Int) {
   override def toString = {
     s"${count} ${s}"
   }
@@ -20,7 +20,7 @@ import scala.scalajs.js.annotation._
 * @param histogram String counts, created in descending order by
 * [[Corpus]] object's histogram builders.
 */
-@JSExportTopLevel("StringHistogram")  case class StringHistogram (histogram: Vector[StringCount]) {
+@JSExportAll case class StringHistogram (histogram: Vector[StringCount]) {
 
   /** Create a new StringHistogram containing only Strings
   * matching a given pattern.

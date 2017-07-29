@@ -11,7 +11,7 @@ import scala.scalajs.js.annotation._
 *
 * @param texts Set of catalog entries.
 */
-@JSExportTopLevel("LabelCatalog") case class LabelCatalog (texts: Vector[CitationLabel]) {
+@JSExportAll case class LabelCatalog (texts: Vector[CitationLabel]) {
 
 
 }

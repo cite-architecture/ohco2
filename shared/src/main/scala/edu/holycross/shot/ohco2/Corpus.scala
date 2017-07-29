@@ -1,7 +1,6 @@
 package edu.holycross.shot.ohco2
 
 import edu.holycross.shot.cite._
-//import edu.holycross.shot.orca._
 import scala.annotation.tailrec
 
 import scala.scalajs.js
@@ -12,7 +11,7 @@ import scala.scalajs.js.annotation._
 * @constructor Create a new corpus with a vector of CitableNode objects.
 * @param nodes Contents of the citable corpus
 */
-@JSExportTopLevel("Corpus")  case class Corpus (nodes: Vector[CitableNode]) {
+@JSExportAll case class Corpus (nodes: Vector[CitableNode]) {
 
   /** Project all URNs in the corpus to a vector.
   */
@@ -95,16 +94,16 @@ import scala.scalajs.js.annotation._
           Corpus(Vector.empty)
 
         } else {
-          val u1 = c1.firstNode.urn
-          val u2 = c2.lastNode.urn
+          val u1 = c1.nodes(0).urn
+          val u2 = c2.nodes.last.urn
 
           var u1seen = false
           var u2NotSeen = true
 
           val matchedNodes = singleWork.nodes.withFilter{ cn => if (cn.urn == u1) u1seen = true; if (cn.urn == u2) u2NotSeen = false; (u1seen && u2NotSeen)}.map(x => x)
 
-          val lastNode = singleWork ~~ u2
-          Corpus(matchedNodes) ++ lastNode
+          val lastNd = singleWork ~~ u2
+          Corpus(matchedNodes) ++ lastNd
         }
       }
     }
@@ -116,7 +115,8 @@ import scala.scalajs.js.annotation._
   *
   * @param corpora [[Corpus]] instances to concatenate.
   */
-  @tailrec final def sumCorpora(corpora: Vector[Corpus], sumCorpus: Corpus): Corpus = {
+  //@tailrec final def sumCorpora(corpora: Vector[Corpus], sumCorpus:
+def sumCorpora(corpora: Vector[Corpus], sumCorpus: Corpus): Corpus = {
     if (corpora.isEmpty) {
       sumCorpus
     } else {
@@ -166,7 +166,8 @@ import scala.scalajs.js.annotation._
   * @param urnV vector of URNs to use in filtering the corpus.
   * @param resultCorpus
   */
-  @tailrec final  def ~~(urnV : Vector[CtsUrn], resultCorpus: Corpus): Corpus = {
+  //@tailrec final  def ~~(urnV : Vector[CtsUrn], resultCorpus: Corpus):
+    def ~~(urnV : Vector[CtsUrn], resultCorpus: Corpus): Corpus = {
     if (urnV.isEmpty ) {
       resultCorpus
 
@@ -235,17 +236,12 @@ import scala.scalajs.js.annotation._
   * It is an exception if the passage does not include
   * at least one citable node.
   */
+  /*
   def firstNode: CitableNode = {
     nodes(0)
-  }
+  }*/
 
-  /** Find the last citable node in the corpus.
-  * It is an exception if the passage does not include
-  * at least one citable node.
-  */
-  def lastNode: CitableNode = {
-    nodes(nodes.size - 1)
-  }
+
 
   /** Find the last citable node in a passage.
   * Option is None if no citable nodes are found for
@@ -274,7 +270,15 @@ import scala.scalajs.js.annotation._
     }
   }
 
-
+  /** Find the last citable node in the corpus.
+  * It is an exception if the passage does not include
+  * at least one citable node.
+  */
+  /*
+  def lastNode: CitableNode = {
+    nodes(nodes.size - 1)
+  }
+*/
   /** Find URN for nodes preceding a passage.
   *
   * @param filterUrn Passage to find nodes before.
@@ -308,7 +312,7 @@ import scala.scalajs.js.annotation._
 
     } else {
       val workCorpus = this ~~ filterUrn.dropPassage
-      val idx = workCorpus.nodes.indexOf(subselection.lastNode) + 1
+      val idx = workCorpus.nodes.indexOf(subselection.nodes.last) + 1
       val max = idx + subselection.size
       max match {
         case n if n < workCorpus.nodes.size => workCorpus.nodes.slice(idx,max)
@@ -335,7 +339,7 @@ import scala.scalajs.js.annotation._
 
       } else {
         val workCorpus = this ~~ filterUrn.dropPassage
-        val idx = workCorpus.nodes.indexOf(subselection.firstNode)
+        val idx = workCorpus.nodes.indexOf(subselection.nodes(0))
         val min = idx - subselection.size
 
 
@@ -450,7 +454,8 @@ import scala.scalajs.js.annotation._
   * @param v Strings to search for.
   * @param currentCorpus Corpus to search in.
   */
-  @tailrec final  def find(v: Vector[String], currentCorpus: Corpus): Corpus = {
+//  @tailrec final  def find(v: Vector[String], currentCorpus: Corpus): Corpus
+    def find(v: Vector[String], currentCorpus: Corpus): Corpus = {
     if (v.isEmpty) {
       currentCorpus
     } else {
@@ -499,7 +504,9 @@ import scala.scalajs.js.annotation._
   * @param currentCorpus Corpus to search in.
   * @param omitPunctuation True if punctuation should be omitted from tokens.
   */
-  @tailrec final  def findTokens(v: Vector[String], currentCorpus: Corpus, omitPunctuation: Boolean = true): Corpus = {
+  //@tailrec final  def findTokens(v: Vector[String], currentCorpus: Corpus,
+  def findTokens(v: Vector[String], currentCorpus: Corpus,
+       omitPunctuation: Boolean = true): Corpus = {
     if (v.isEmpty) {
       currentCorpus
     } else {

@@ -11,7 +11,7 @@ import scala.scalajs.js.annotation._
 * @param corpus The text contents.
 * @param catalog The catalog
 */
-@JSExportTopLevel("TextRepository")  case class TextRepository (corpus: Corpus, catalog: Catalog) {
+@JSExportAll case class TextRepository (corpus: Corpus, catalog: Catalog) {
 
 
   /** Create a new repository by adding a second repository to this one.

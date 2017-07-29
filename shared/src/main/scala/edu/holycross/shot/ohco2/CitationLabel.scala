@@ -12,5 +12,5 @@ import scala.scalajs.js.annotation._
 * @param label Label for citation scheme, with levels
 * separated by "/", e.g., "book/chapter
 */
-@JSExportTopLevel("CitationLabel") case class CitationLabel(urn: CtsUrn, citationScheme: String) {
+@JSExportAll case class CitationLabel(urn: CtsUrn, citationScheme: String) {
 }

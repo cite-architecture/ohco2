@@ -10,7 +10,7 @@ import scala.annotation.tailrec
 * @param urn URN identifying the node.
 * @param text Text contents of the node.
 */
-@JSExportTopLevel("CitableNode")  case class CitableNode (urn: CtsUrn, text: String) {
+@JSExportAll  case class CitableNode (urn: CtsUrn, text: String) {
   if (text.isEmpty) {
     throw new Ohco2Exception("CitableNode: text content cannot be empty")
   }
@@ -41,7 +41,8 @@ import scala.annotation.tailrec
   * @param v  Vector of tokens to test for.
   * @param distance Distance, in words, to test for.
   */
-  @tailrec final def tokensWithin(src: Vector[String], v: Vector[String], distance: Int) : Boolean = {
+//  @tailrec final def tokensWithin(src: Vector[String], v: Vector[String],
+  def tokensWithin(src: Vector[String], v: Vector[String], distance: Int) : Boolean = {
 
     // strip off any leading words in the text *not*
     // in the list to search for:
@@ -67,7 +68,8 @@ import scala.annotation.tailrec
 
 
   // REWRiT to AVOID USING CitableNode object here
-  def tokensWithin( v: Vector[String], distance: Int): Boolean = {
+//  @tailrec final def tokensWithin( v: Vector[String], distance: Int):
+def tokensWithin( v: Vector[String], distance: Int): Boolean = {
     val wds = text.split(" ").toVector
     val seq = wds.dropWhile(! v.contains(_)).reverse.dropWhile(! v.contains(_)).reverse
     if (CitableNode(urn,seq.mkString(" ")).matches(v)) {
@@ -89,7 +91,8 @@ import scala.annotation.tailrec
   * @param v List of string to test for.
   * @param checkBox True if all strings seen so far have matched.
   */
-  @tailrec final def matches(v: Vector[String], checkBox: Boolean = true): Boolean = {
+  //@tailrec final def matches(v: Vector[String], checkBox: Boolean = true):
+ def matches(v: Vector[String], checkBox: Boolean = true): Boolean = {
     if (v.isEmpty) {
       checkBox
     } else {
@@ -109,7 +112,9 @@ import scala.annotation.tailrec
   * @param v List of string to test for.
   * @param checkBox True if all strings seen so far have matched.
   */
-  @tailrec final def tokenMatches(v: Vector[String], checkBox: Boolean = true, omitPunctuation: Boolean = true): Boolean = {
+//  @tailrec final def tokenMatches(v: Vector[String], checkBox: Boolean =
+  def tokenMatches(v: Vector[String], checkBox: Boolean =
+       true, omitPunctuation: Boolean = true): Boolean = {
     if (v.isEmpty) {
       checkBox
     } else {

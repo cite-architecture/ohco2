@@ -12,7 +12,7 @@ import scala.scalajs.js.annotation._
 *
 * @param texts Set of catalog entries.
 */
-@JSExportTopLevel("Catalog") case class Catalog (texts: Vector[CatalogEntry]) {
+@JSExportAll case class Catalog (texts: Vector[CatalogEntry]) {
 
 
   // ensure unique urns
