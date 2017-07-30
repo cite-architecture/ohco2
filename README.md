@@ -15,7 +15,7 @@ Status:  **active development**. [Release notes](releases.md)
 
 ## Using, building, testing
 
-`ohco2` is compiled for both the JVM and ScalaJS using scala 2.11.  Binaries for all platforms are available from jcenter.  If you are using sbt, include `Resolver.jcenterRepo`in your list of resolvers
+`ohco2` can be built for both the JVM and ScalaJS using any version of Scala 2.11 or higher.  Binaries for both the JVM and ScalaJS are available from jcenter built with Scala 2.11.8 and 2.12.3.  To use the binaries in an sbt project, include `Resolver.jcenterRepo`in your list of resolvers
 
     resolvers += Resolver.jcenter
 
@@ -24,7 +24,6 @@ and  add this to your library dependencies:
     "edu.holycross.shot.cite" %% "ohco2" % VERSION
 
 For maven, ivy or gradle equivalents, refer to <https://bintray.com/neelsmith/maven/ohco2>.
-
 
 
 To build from source and test for a given version, use normal sbt commands (`compile`, `test` ...).
