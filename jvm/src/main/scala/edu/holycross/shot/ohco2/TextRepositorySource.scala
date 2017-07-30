@@ -16,7 +16,7 @@ import scala.xml._
 object TextRepositorySource {
 
 
-  /** Create [[TextRepository]] from file with CEX data.
+  /** Create a [[TextRepository]] from a single file with CEX data.
   *
   * @param cexFile File with data in CEX format.
   * @param delimiter String value used to delimit columns
@@ -26,7 +26,8 @@ object TextRepositorySource {
     TextRepository(Source.fromFile(cexFile).getLines.toVector.mkString("\n"))
   }
 
-  /** Convert an online text documented by an [[OnlineDocument]] to a two-column string.
+  /** Convert an online text documented by an [[OnlineDocument]]
+  * object to a two-column string.
   *
   * @param doc Documentation of the text to convert.
   */
@@ -38,10 +39,8 @@ object TextRepositorySource {
     }
   }
 
-
-
-
-  /** Convert an online XML file to a two-column string.
+  /** Convert a single XML file documentd by an [[OnlineDocument]]
+  * object to a two-column string.
   *
   * @param doc Documentation of the text to convert.
   * @param inputDelim Delimiter used in source files.
@@ -50,25 +49,10 @@ object TextRepositorySource {
   def cexForXml(doc: OnlineDocument, outputDelim: String = "#"): String = {
     val xml = Source.fromFile(doc.docName).getLines.mkString("\n")
     val corpus = SimpleTabulator(doc.urn, XPathTemplate(doc.xpathTemplate.get), xml)
-    //def apply(docUrn: CtsUrn, xpTemplate: XPathTemplate, xmlString: String): Corpus
     corpus.to2colString(outputDelim)
-
   }
-      /*
-    val urn = new HpUrn(doc.urn.toString)
-    val f = new File(doc.docName)
 
-    val inventory = new TextInventory(new File(invFile))
-    val citationConfig = new CitationConfigurationFileReader(new File(confFile))
-    println("CITATION CONF: "+ citationConfig)
-    val xmlTab = new XmlTabulator()
-    val tabString =  xmlTab.tabulateFile(urn, inventory, citationConfig, f)
-    println("TAB STRING " + tabString)
-    val oxf = tabString.split("\n").filterNot(_.contains("namespace")).toVector
-    val twocols =   twoColumnsFromHocusPocus(oxf.mkString("\n"), inputDelim,outputDelim)
-    twocols
-  }
-*/
+
   def cexForMarkdown(doc: OnlineDocument, invFile: String, confFile: String, outputDelim: String = "#"): String = {
     val f = new File(doc.docName)
 
@@ -88,6 +72,9 @@ object TextRepositorySource {
   * @param configFileName Name of file with details about location and format of files.
   * @param baseDirectoryName Name of root directory where local files are found.
   */
+
+
+  // this is messed up...
   def cex(invFileName: String,
     configFileName: String,
     baseDirectoryName: String,
@@ -96,6 +83,11 @@ object TextRepositorySource {
       val v = onlineVector(configFileName, baseDirectoryName, delim1,delim2)
 
       v
+  }
+
+  def corpusFromOnlineVector (onlineVect: Vector[OnlineDocument]): Corpus = {
+    val cex = onlineVect.map(cexForDocument(_))
+    Corpus(cex.mkString("\n"))
   }
 
 
@@ -116,29 +108,27 @@ object TextRepositorySource {
     docs.map(_.absolutePath(baseDirectoryName))
   }
 
-  /** Create TextRepository from local files.
+  /** Create a TextRepository from local files.
+  *
+  * @param catalogFileName Name of file with catalog of texts in CEX format.
+  * @param configFileName Name of file with delimited-text data mapping cataloged texts
+  * to typed local files.
+  * @param baseDirectoryName Base directory for local files.  Paths in the configuration
+  * file are relative to this directory.
+  * @param delimter Top-level delimiter for CEX structure.
+  * @param delimiter2 Secondary delimiter for CEX structure.
   */
   def fromFiles(catalogFileName: String,
     configFileName: String,
     baseDirectoryName: String,
-    delimiter: String = "#"): TextRepository = {
+    delimiter: String = "#",
+    delimiter2 : String = ","): TextRepository = {
 
     val catalogText = Source.fromFile(catalogFileName).getLines.mkString("\n")
-
-/*
-
-
-
-    val twocols = for(doc <-onlines) yield {
-      cexForDocument(doc,invFileName,configFileName,"#", outputDelimiter)
-    }
-
-    val corpus = Corpus(twocols.mkString("\n"), outputDelimiter)
-*/
-    val corpus = Corpus(Vector.empty[CitableNode])
     val catalog = Catalog(catalogText, delimiter)
 
-    println("SIZE OF XCAT: " + catalog.size)
+    val onlineVect = TextRepositorySource.onlineVector(configFileName, baseDirectoryName)
+    val corpus = corpusFromOnlineVector (onlineVect)
 
     TextRepository(corpus,catalog)
   }

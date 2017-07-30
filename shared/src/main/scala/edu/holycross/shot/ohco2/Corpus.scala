@@ -607,7 +607,7 @@ object Corpus {
   * @param data string serialization of a corpus as delimited text, with one citable node per line.
   * @param separator delimiting value separating URN from text contents of citable node.
   */
-  def apply(data: String, separator: String = "\t"): Corpus = {
+  def apply(data: String, separator: String = "#"): Corpus = {
     val stringPairs = data.split("\n").toVector.filter(_.nonEmpty).map(_.split(separator).toVector)
     // should be exclusively 2-column data
     val checkFormat = stringPairs.filter(_.size != 2)

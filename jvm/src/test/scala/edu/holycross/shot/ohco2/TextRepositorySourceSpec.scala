@@ -14,7 +14,7 @@ class TextRepositorySourceSpec extends FlatSpec {
   val baseDir = "jvm/src/test/resources/xmlrepo/texts"
 
 
-  "The TextRepositorySource object"  should  "create a CEX representation of a documented XML source" in {
+  "The TextRepositorySource object"  should  "create a CEX representation of a text from a documented XML file" in {
     val oneEntry = "urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']"
     val relativeOnlineDoc = OnlineDocument(oneEntry,"#",",")
 
@@ -36,11 +36,22 @@ class TextRepositorySourceSpec extends FlatSpec {
     }
   }
 
-  it should "create a TextRepository from local XML files cataloged by XML documents" in pending /* {
+
+  it should "create a single Corpus from a vector of OnlineDocument configurations" in {
+    val onlineVect = TextRepositorySource.onlineVector(citeConf, baseDir)
+    val c = TextRepositorySource.corpusFromOnlineVector(onlineVect)
+    val expectedNodes = 133
+    assert(c.size == expectedNodes)
+  }
+
+  it should "create a TextRepository from local XML files cataloged by XML documents" in {
+
     val repo = TextRepositorySource.fromFiles(catCex,citeConf,baseDir)
-    assert(repo.catalog.size == 1)
-    //assert(repo.corpus.size == 33)
-  }*/
+    val expectedTexts = 2
+    val expectedNodes = 133
+    assert(repo.catalog.size == expectedTexts)
+    assert(repo.corpus.size == expectedNodes)
+  }
 
 
   it should "create CEF for a two-column file" in pending

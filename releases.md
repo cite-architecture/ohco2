@@ -1,5 +1,7 @@
 # `ohco2`: release notes
 
+**10.1.0**: In the JVM subproject, adds functions to the `TextRepositorySource` object to create a `TextRepository` from data in local files.
+
 **10.0.0**:  Breaking changes:  dependency on `hocuspocus` library eliminated, replaced with `SimpleTabulator` class in JVM branch.
 
 
@@ -9,7 +11,7 @@
 
 **9.2.0**: Adds function to `Corpus` for formatted text results of string search.
 
-**9.1.0**:  Adds fucntion for adding and substracting catalogs and text repositories.
+**9.1.0**:  Adds function for adding and subtracting catalogs and text repositories.
 
 **9.0.1**:  Improved exception messages.
 

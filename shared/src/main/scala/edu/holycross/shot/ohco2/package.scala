@@ -1,5 +1,17 @@
 package edu.holycross.shot
 
+/** Provides classes for working with a repository of citable texts.
+ *
+ *  ==Overview==
+ *  The highest-level class  is the [[TextRepository]].  It contains
+ *  a [[Catalog]] with metadata about texts and a [[Corpus]] of textual data.
+ *  The [[Corpus]] is simply a Vector of [[CitableNode]] objects.
+ *
+ *  The library supports reading from and serializing to CEX format.
+ *
+ *  In the JVM branch, the [[TextRepositorySource]] object has functions for
+ *  creating a repository from a cataloged set of texts in local files.
+ */
 package object ohco2 {
 
   import edu.holycross.shot.cite._
