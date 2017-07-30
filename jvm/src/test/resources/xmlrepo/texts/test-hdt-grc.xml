@@ -6,11 +6,9 @@
                 <title>The Histories (for testing)</title>
                 <author>Herodotus</author>
             </titleStmt>
-            <extent>about 1.4mb</extent>
+
             <publicationStmt>
-                <pubPlace>Greenville, SC</pubPlace>
-                <publisher>Furman University/Stoa Consortium</publisher>
-                <date>Sept. 15, 2003</date>
+              <p>Unpublished test data aset</p>
             </publicationStmt>
             <sourceDesc>
                 <bibl>File created electronically; a new edition edited by S.
@@ -18,12 +16,6 @@
                     ed. Hérodote. Histoires (Paris: Les Belles Lettres) and C. Hude, ed., Herodoi Historiae (Oxford).</bibl>
             </sourceDesc>
         </fileDesc>
-        <profileDesc>
-            <langUsage>
-                <language ident="grc">Greek, in Beta-code</language>
-                <language ident="en">English</language>
-            </langUsage>
-        </profileDesc>
     </teiHeader>
     <text xml:lang="grc">
         <body>
