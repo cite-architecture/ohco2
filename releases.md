@@ -1,5 +1,7 @@
 # `ohco2`: release notes
 
+**10.1.1**: Update `xcite` for faster build with scala 2.12.3.
+
 **10.1.0**: In the JVM subproject, adds functions to the `TextRepositorySource` object to create a `TextRepository` from data in local files.
 
 **10.0.0**:  Breaking changes:  dependency on `hocuspocus` library eliminated, replaced with `SimpleTabulator` class in JVM branch.
