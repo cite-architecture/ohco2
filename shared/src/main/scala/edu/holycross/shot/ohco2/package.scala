@@ -9,7 +9,7 @@ package edu.holycross.shot
  *
  *  The library supports reading from and serializing to CEX format.
  *
- *  In the JVM branch, the [[TextRepositorySource]] object has functions for
+ *  In the JVM branch, the TextRepositorySource object has functions for
  *  creating a repository from a cataloged set of texts in local files.
  */
 package object ohco2 {
