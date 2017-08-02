@@ -1,5 +1,7 @@
 # `ohco2`: release notes
 
+**10.1.2**: Incorporte bug fixes in updates to library dependencies.
+
 **10.1.1**: Update `xcite` for faster build with scala 2.12.3.
 
 **10.1.0**: In the JVM subproject, adds functions to the `TextRepositorySource` object to create a `TextRepository` from data in local files.
