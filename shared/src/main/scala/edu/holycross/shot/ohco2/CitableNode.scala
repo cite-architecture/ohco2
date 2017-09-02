@@ -23,6 +23,11 @@ import scala.annotation.tailrec
     (this.urn ~~ urn2)
   }
 
+
+  def > (urn2: CtsUrn): Boolean = {
+    (this.urn > urn2)
+  }
+
   /** True if text content matches a given string.
   *
   * @param s String to test for.

@@ -116,7 +116,7 @@ import scala.scalajs.js.annotation._
   * @param corpora [[Corpus]] instances to concatenate.
   */
   //@tailrec final def sumCorpora(corpora: Vector[Corpus], sumCorpus:
-def sumCorpora(corpora: Vector[Corpus], sumCorpus: Corpus): Corpus = {
+  def sumCorpora(corpora: Vector[Corpus], sumCorpus: Corpus): Corpus = {
     if (corpora.isEmpty) {
       sumCorpus
     } else {
@@ -124,7 +124,7 @@ def sumCorpora(corpora: Vector[Corpus], sumCorpus: Corpus): Corpus = {
     }
   }
 
-  /** Create a new corpus of nodes matching a given URN.
+  /** Create a new corpus of nodes that are URN-similar to a given CtsUrn.
   * Collect all texts where this URN is cited, then
   * collect citable nodes for the cited version by
   * invoking `versionTwiddle`.
@@ -148,9 +148,10 @@ def sumCorpora(corpora: Vector[Corpus], sumCorpus: Corpus): Corpus = {
   }
 
 
-  /** Create a new corpus of nodes matching any of URN in a given vector of URNs.
+  /** Create a new corpus of nodes that are URN-similar to any
+  * CtsUrn in a given vector of CtsUrns.
   * Note that this can be thought of as filtering by
-  * logically ORing the URNs in the Vector.
+  * logically ORing the CtsUrns in the Vector.
   *
   * @param urnV vector of URNs to use in filtering the corpus.
   */
@@ -159,7 +160,8 @@ def sumCorpora(corpora: Vector[Corpus], sumCorpus: Corpus): Corpus = {
     this.~~(urnV, Corpus(rslts))
   }
 
-  /** Recursively add to a given corpus all nodes in the present corpus matching the first URN in a given vector of URNs.
+  /** Recursively add to a given corpus all nodes in the present corpus
+  * that are URN-similar  to the first URN in a given vector of URNs.
   * When all nodes in the vector have been applied, the
   * result is the final accumulation of all added nodes.
   *
@@ -176,6 +178,12 @@ def sumCorpora(corpora: Vector[Corpus], sumCorpus: Corpus): Corpus = {
       val newTotal = resultCorpus ++ subVect
       this ~~(urnV.tail, newTotal)
     }
+  }
+
+
+  def > (urn: CtsUrn) = {
+    //handle the simple case where urn is a nodes
+    Corpus( nodes.filter(_ > urn))
   }
 
   /** Extract all URNs for all citable nodes identified by a URN.
