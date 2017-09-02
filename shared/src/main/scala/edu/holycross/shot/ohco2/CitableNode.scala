@@ -15,7 +15,7 @@ import scala.annotation.tailrec
     throw new Ohco2Exception("CitableNode: text content cannot be empty")
   }
 
-  /** True if this node matches a second URN.
+  /** True if this node is URN-similar to a second URN.
   *
   * @param urn2 URN to compare to this node.
   */
@@ -23,9 +23,26 @@ import scala.annotation.tailrec
     (this.urn ~~ urn2)
   }
 
+  def >< (urn2: CtsUrn): Boolean = {
+    (this.urn >< urn2)
+  }
+
 
   def > (urn2: CtsUrn): Boolean = {
     (this.urn > urn2)
+  }
+
+  def >= (urn2: CtsUrn): Boolean = {
+    (this.urn >= urn2)
+  }
+
+
+  def < (urn2: CtsUrn): Boolean = {
+    (this.urn < urn2)
+  }
+
+  def <= (urn2: CtsUrn): Boolean = {
+    (this.urn <= urn2)
   }
 
   /** True if text content matches a given string.

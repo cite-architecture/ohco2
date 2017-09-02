@@ -16,7 +16,7 @@ class CorpusSelectionSpec extends FlatSpec {
     // way should find both:
     assert((corpus ~~ u1) == (corpus ~~ u2))
   }
-  it "create a new Corpus by selecting nodes that are URN-similar (~~) to a range" in
+  it should "create a new Corpus by selecting nodes that are URN-similar (~~) to a range" in pending
   it should "create a new Corpus by selecting nodes *not* URN-similar (><) to another single node" in pending
   it should "create a new Corpus by selecting nodes *not* URN-similar  (><)  to a range" in pending
 
