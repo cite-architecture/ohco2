@@ -180,11 +180,32 @@ import scala.scalajs.js.annotation._
     }
   }
 
+  def >< (urn: CtsUrn) = {
+    //handle the simple case where urn is a nodes
+    Corpus( nodes.filter(_ >< urn))
+  }
+
 
   def > (urn: CtsUrn) = {
     //handle the simple case where urn is a nodes
     Corpus( nodes.filter(_ > urn))
   }
+
+  def >= (urn: CtsUrn) = {
+    //handle the simple case where urn is a nodes
+    Corpus( nodes.filter(_ >= urn))
+  }
+
+  def < (urn: CtsUrn) = {
+    //handle the simple case where urn is a nodes
+    Corpus( nodes.filter(_ < urn))
+  }
+
+  def <= (urn: CtsUrn) = {
+    //handle the simple case where urn is a nodes
+    Corpus( nodes.filter(_ <= urn))
+  }
+
 
   /** Extract all URNs for all citable nodes identified by a URN.
   * Note that it is not an error if the resulting Vector is empty.
