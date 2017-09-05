@@ -20,17 +20,21 @@ class CorpusSelectionSpec extends FlatSpec {
 
 
     val u1 = CtsUrn("urn:cts:test:g.w.v:1.a")
+    assert((corpus ~~ u1).size == 4)
+
     val u2 = CtsUrn("urn:cts:test:g.w:1")
-
-    // since both nodes are URN similar, twiddling either
-    // way should find both:
-    //assert((corpus ~~ u1) == (corpus ~~ u2))
-
-    println("twiddle u1: \n" + (corpus ~~ u1).nodes.mkString("\n"))
-    println("twiddle u2: \n") + (corpus ~~ u2).nodes.mkString("\n")
+    assert((corpus ~~ u2).size == 5)
   }
+
   it should "create a new Corpus by selecting nodes that are URN-similar (~~) to a range" in pending
-  it should "create a new Corpus by selecting nodes *not* URN-similar (><) to another single node" in pending
+
+
+  it should "create a new Corpus by selecting nodes *not* URN-similar (><) to another single node" in {
+    val u1 = CtsUrn("urn:cts:test:g.w.v:1.a")
+    assert ((corpus >< u1).size == 4)
+  }
+
+
   it should "create a new Corpus by selecting nodes *not* URN-similar  (><)  to a range" in pending
 
 
