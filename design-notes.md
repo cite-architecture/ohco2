@@ -1,13 +1,16 @@
 
 For `Corpus` objects:
 
+## URN filtering
+
+see notes on  `>`, `>=`, `<`, `<=`, `~~` and `><`
 
 ## Containment hierarchy
 
 -  versions(u: CtsUrn): Set[CtsUrn]
 -  exemplars(u: CtsUrn): Set[CtsUrn]
 
-##  URN Topology
+##  URN Topology of passages
 
 -  define class RangeIndex (a: Int, b: Int)
 -  indexPoint returns an Integer for a leaf node CtsUrn
