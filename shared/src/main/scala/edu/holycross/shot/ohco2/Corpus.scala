@@ -45,7 +45,20 @@ import scala.scalajs.js.annotation._
   * identify a range of nodes present in the Corpus.
   */
   def rangeIndex(urn: CtsUrn): RangeIndex = {
-    RangeIndex(0,0)
+    if (urn.concrete) {
+      val noPsg = Corpus(nodes.filter(_.urn.dropPassage == urn.dropPassage))
+      val matches = noPsg ~~ urn
+      if (matches.size < 2) {
+        throw Ohco2Exception("URN does not identify a range of nodes: " + urn)
+      } else {
+        val a = pointIndex(matches.nodes.head.urn)
+        val b = pointIndex(matches.nodes.last.urn)
+        RangeIndex(a,b)
+      }
+
+    } else {
+      throw Ohco2Exception("Can only index references to concrete texts: " + urn)
+    }
   }
 
 
@@ -278,6 +291,13 @@ import scala.scalajs.js.annotation._
     matching.nodes.map(_.text).mkString(connector)
   }
 
+
+  /** Format text contents of passages matching a given string
+  * as a single string.
+  *
+  * @param filterUrn URN identifying passage to select
+  * @param connector String value separating citable nodes in the resulting string.
+  */
   def textContents(filter: String, connector: String = "\n"): String = {
     val matching = this.find(filter)
     matching.nodes.map(n => n.urn.toString + " " + n.text).mkString(connector)

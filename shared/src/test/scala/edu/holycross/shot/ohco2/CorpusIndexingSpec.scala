@@ -54,10 +54,12 @@ class CorpusIndexingSpec extends FlatSpec {
   }
 
 
-  it should "compute a RangeIndex for range expressions" in  pending /*{
-
-    val rIdx = corpus.rangeIndex()
-  }*/
+  it should "compute a RangeIndex for range expressions" in  {
+    val range = CtsUrn("urn:cts:test:g.w.v:2-4")
+    val rIdx = corpus.rangeIndex(range)
+    val expectedIdx = RangeIndex(6,8)
+    assert(rIdx == expectedIdx)
+  }
 
 
   it should "list versions identified by a given URN" in {
