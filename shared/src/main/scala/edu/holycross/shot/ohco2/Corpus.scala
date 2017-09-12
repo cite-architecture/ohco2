@@ -13,6 +13,14 @@ import scala.scalajs.js.annotation._
 */
 @JSExportAll case class Corpus (nodes: Vector[CitableNode]) {
 
+  /** Find nodes contained by a given URN.
+  *
+  * @u A CtsUrn at either version or exemplar level.
+  */
+  def containedNodes(u: CtsUrn): Vector[CitableNode] = {
+    require(u.concrete, "Can only compute contained nodes for a concrete instance of a text: " + u)
+    (this ~~ u).nodes.filter(_.urn.dropPassage == u.dropPassage)
+  }
 
   /** Computes topological relation of passage
   * components of two CtsUrns.
@@ -23,11 +31,22 @@ import scala.scalajs.js.annotation._
   def relation(u1: CtsUrn, u2: CtsUrn): TextPassageTopology.Value = {
     require(u1.dropPassage == u2.dropPassage, s"Corpus.relation: URNs must refer to same concrete version: ${u1} and ${u2}" )
 
-    if (u1.isPoint && u2.isPoint) {
+    val u1size = if (u1.isRange) {
+      rangeIndex(u1).size
+    } else  {
+      containedNodes(u1).size
+    }
+    val u2size = if (u2.isRange) {
+      rangeIndex(u2).size
+    } else  {
+      containedNodes(u2).size
+    }
+
+    if (u1size == 1 && u2size == 1) {
       nodeToNodeRelation(u1,u2)
-    } else if (u1.isPoint && u2.isRange) {
+    } else if (u1size == 1 && u2size > 1) {
       nodeToRangeRelation(u1, u2)
-    } else if (u2.isPoint && u1.isRange) {
+    } else if (u2size == 1 && u1size > 1) {
       Corpus.invertTopology(nodeToRangeRelation(u2, u1))
     } else {
       rangeToRangeRelation(u1, u2)
@@ -35,8 +54,7 @@ import scala.scalajs.js.annotation._
   }
 
 
-
-  /** Compute topological relation of two nodes.
+  /** Compute the topological relation of a node and a range.
   *
   * @param point URN for a single node.
   * @param range URN for a series of nodes (a range  or containing expression).
@@ -55,10 +73,40 @@ import scala.scalajs.js.annotation._
   }
 
 
-
+  /** Compute the topological relation of two ranges.
+  *
+  * @param u1 URN for a series of nodes (range- or container-expression).
+  * @param u2 URN for a series of nodes (range-  or container-expression).
+  */
   private def rangeToRangeRelation(u1: CtsUrn, u2: CtsUrn): TextPassageTopology.Value = {
+    val r1idx = rangeIndex(u1)
+    val r2idx = rangeIndex(u2)
+    //println("Two ranges: " + r1idx + ", " + r2idx)
+    val rangeRelation = if (r1idx == r2idx) {
+      TextPassageTopology.PassageEquals
 
-    TextPassageTopology.PassageEquals
+    } else if (r1idx.b < r2idx.a) {
+      TextPassageTopology.PassagePrecedes
+    } else if (r1idx.a  > r2idx.b) {
+      TextPassageTopology.PassageFollows
+
+    } else if (r1idx.a <= r2idx.a && r1idx.b >= r2idx.b) {
+      TextPassageTopology.PassageContains
+    } else if (r1idx.a >= r2idx.a && r1idx.b <= r2idx.b) {
+      TextPassageTopology.PassageContainedBy
+
+    } else if (r1idx.a < r2idx.a && r1idx.b < r2idx.b && r1idx.b >= r2idx.a) {
+      TextPassageTopology.PassagePrecedesAndOverlaps
+    } else if (r1idx.a > r2idx.a && r1idx.b > r2idx.b  ) {
+      println("Two ranges: " + r1idx + ", " + r2idx)
+      println("from " + u1 + ", " + u2)
+      TextPassageTopology.PassageOverlapsAndFollows
+
+    } else {
+      throw Ohco2Exception("Unrecognized relation of range URNs " + u1 + " and " + u2 )
+    }
+    rangeRelation
+
   }
 
 
@@ -115,7 +163,8 @@ import scala.scalajs.js.annotation._
       val noPsg = Corpus(nodes.filter(_.urn.dropPassage == urn.dropPassage))
       val matches = noPsg ~~ urn
       if (matches.size < 2) {
-        throw Ohco2Exception("URN does not identify a range of nodes: " + urn)
+        throw Ohco2Exception("URN does not identify two or more nodes: " + urn + " yielded " + matches.size + " nodes.")
+
       } else {
         val a = pointIndex(matches.nodes.head.urn)
         val b = pointIndex(matches.nodes.last.urn)
@@ -784,14 +833,15 @@ object Corpus {
   def invertTopology(topo: TextPassageTopology.Value): TextPassageTopology.Value = {
     topo match {
       case TextPassageTopology.PassageEquals => TextPassageTopology.PassageEquals
+
       case TextPassageTopology.PassagePrecedes => TextPassageTopology.PassageFollows
       case TextPassageTopology.PassageFollows => TextPassageTopology.PassagePrecedes
+
       case TextPassageTopology.PassageContains => TextPassageTopology.PassageContainedBy
       case TextPassageTopology.PassageContainedBy =>  TextPassageTopology.PassageContains
-      case TextPassageTopology.PassagePrecedesAndOverlaps =>  TextPassageTopology.PassageOverlapsAndPrecededBy
-      case TextPassageTopology.PassageOverlapsAndPrecededBy =>  TextPassageTopology.PassagePrecedesAndOverlaps
-      case TextPassageTopology.PassageOverlapsAndFollows => TextPassageTopology.PassageOverlapsAndFollowedBy
-      case TextPassageTopology.PassageOverlapsAndFollowedBy => TextPassageTopology.PassageOverlapsAndFollows
+
+      case TextPassageTopology.PassagePrecedesAndOverlaps =>  TextPassageTopology.PassageOverlapsAndFollows
+      case TextPassageTopology.PassageOverlapsAndFollows => TextPassageTopology.PassagePrecedesAndOverlaps
     }
   }
 

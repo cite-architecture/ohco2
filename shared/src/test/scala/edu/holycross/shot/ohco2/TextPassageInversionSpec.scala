@@ -19,15 +19,10 @@ class TextPassageInversionSpec extends FlatSpec {
     assert(Corpus.invertTopology(TextPassageTopology.PassageContainedBy) == TextPassageTopology.PassageContains)
   }
 
-  it should "invert overlap and precedes relations" in {
-    assert(Corpus.invertTopology(TextPassageTopology.PassagePrecedesAndOverlaps) == TextPassageTopology.PassageOverlapsAndPrecededBy)
-    assert(Corpus.invertTopology(TextPassageTopology.PassageOverlapsAndPrecededBy) == TextPassageTopology.PassagePrecedesAndOverlaps)
-  }
 
-
-  it should "invert overlap and follows relations" in {
-    assert(Corpus.invertTopology(TextPassageTopology.PassageOverlapsAndFollows) == TextPassageTopology.PassageOverlapsAndFollowedBy)
-    assert(Corpus.invertTopology(TextPassageTopology.PassageOverlapsAndFollowedBy) == TextPassageTopology.PassageOverlapsAndFollows)
+  it should "invert overlapping relations" in {
+    assert(Corpus.invertTopology(TextPassageTopology.PassageOverlapsAndFollows) == TextPassageTopology.PassagePrecedesAndOverlaps)
+    assert(Corpus.invertTopology(TextPassageTopology.PassagePrecedesAndOverlaps) == TextPassageTopology.PassageOverlapsAndFollows)
   }
 
 }

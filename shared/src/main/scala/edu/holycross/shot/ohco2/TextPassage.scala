@@ -7,5 +7,5 @@ import scala.scalajs.js.annotation._
 
 /** Enumeration of possible  relations of two text passages. */
 @JSExportAll object TextPassageTopology extends Enumeration {
-  val PassageEquals, PassagePrecedes, PassageFollows, PassageContains, PassageContainedBy, PassagePrecedesAndOverlaps, PassageOverlapsAndPrecededBy, PassageOverlapsAndFollows, PassageOverlapsAndFollowedBy  = Value
+  val PassageEquals, PassagePrecedes, PassageFollows, PassageContains, PassageContainedBy, PassagePrecedesAndOverlaps, PassageOverlapsAndFollows   = Value
 }

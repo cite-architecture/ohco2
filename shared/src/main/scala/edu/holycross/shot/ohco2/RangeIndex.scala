@@ -8,4 +8,11 @@ import scala.scalajs.js.annotation._
 * @param a Index of first node in range.
 * @param b Index of last node in range.
 */
-@JSExportAll case class RangeIndex (a: Int, b: Int)
+@JSExportAll case class RangeIndex (a: Int, b: Int) {
+
+  /** Number of nodes in range.
+  */
+  def size: Int = {
+    b - a + 1
+  }
+}
