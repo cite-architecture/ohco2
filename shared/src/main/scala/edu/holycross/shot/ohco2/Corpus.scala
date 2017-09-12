@@ -14,6 +14,51 @@ import scala.scalajs.js.annotation._
 @JSExportAll case class Corpus (nodes: Vector[CitableNode]) {
 
 
+  /** Computes topological relation of passage
+  * components of two CtsUrns.
+  *
+  * @param u1 First CtsUrn to compare.
+  * @param u2 Second CtsUrn to comapre.
+  */
+  def relation(u1: CtsUrn, u2: CtsUrn): TextPassageTopology.Value = {
+    require(u1.dropPassage == u2.dropPassage, s"Corpus.relation: URNs must refer to same concrete version: ${u1} and ${u2}" )
+
+    if (u1.isPoint && u2.isPoint) {
+      nodeToNodeRelation(u1,u2)
+    } else if (u1.isPoint && u2.isRange) {
+      nodeToRangeRelation(u1, u2)
+    } else if (u2.isPoint && u1.isRange) {
+      nodeToRangeRelation(u2, u1)
+    } else {
+      rangeToRangeRelation(u1, u2)
+    }
+    // possibilities:  pt-pt, pt-range, range-range
+
+
+    TextPassageTopology.PassageEquals
+  }
+
+  private def nodeToRangeRelation(u1: CtsUrn, u2: CtsUrn): TextPassageTopology.Value = {
+    TextPassageTopology.PassageEquals
+  }
+  private def rangeToRangeRelation(u1: CtsUrn, u2: CtsUrn): TextPassageTopology.Value = {
+    TextPassageTopology.PassageEquals
+  }
+
+  /** Compute topological relation of two nodes.
+  */
+  private def nodeToNodeRelation(u1: CtsUrn, u2: CtsUrn): TextPassageTopology.Value = {
+    if (u1 == u2) {
+      TextPassageTopology.PassageEquals
+    } else {
+      if (pointIndex(u1) < pointIndex(u2)) {
+        TextPassageTopology.PassagePrecedes
+      } else {
+        TextPassageTopology.PassageFollows
+      }
+    }
+  }
+
   /** Find the set of versions in the present corpus
   * matching a given URN.
   *
@@ -717,6 +762,22 @@ object Corpus {
 
     Corpus(citableNodes)
   }
+
+  def invertTopology(topo: TextPassageTopology.Value): TextPassageTopology.Value = {
+    topo match {
+      case TextPassageTopology.PassageEquals => TextPassageTopology.PassageEquals
+      case TextPassageTopology.PassagePrecedes => TextPassageTopology.PassageFollows
+      case TextPassageTopology.PassageFollows => TextPassageTopology.PassagePrecedes
+      case TextPassageTopology.PassageContains => TextPassageTopology.PassageContained
+      case TextPassageTopology.PassageContained =>  TextPassageTopology.PassageContains
+      case TextPassageTopology.PassagePrecedesAndOverlaps =>  TextPassageTopology.PassageOverlapsAndPrecededBy
+      case TextPassageTopology.PassageOverlapsAndPrecededBy =>  TextPassageTopology.PassagePrecedesAndOverlaps
+      case TextPassageTopology.PassageOverlapsAndFollows => TextPassageTopology.PassageOverlapsAndFollowedBy
+      case TextPassageTopology.PassageOverlapsAndFollowedBy => TextPassageTopology.PassageOverlapsAndFollows
+      //, PassagePrecedes, PassageFollows, PassageContains, PassagePrecedesAndOverlaps, PassageOverlapsAndPrecededBy, PassageOverlapsAndFollows, PassageOverlapsAndFollowedBy
+    }
+  }
+
 
   /** Create a sequence of ngrams for a sequence of toknes.
   *
