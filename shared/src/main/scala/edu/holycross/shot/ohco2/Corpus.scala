@@ -13,6 +13,32 @@ import scala.scalajs.js.annotation._
 */
 @JSExportAll case class Corpus (nodes: Vector[CitableNode]) {
 
+
+/*
+  def versions(urn: CtsUrn): Set[CtsUrn] = {
+  //urn.workLevel
+
+    val matches = nodes.filter(_.urn == urn)
+    val versionList = matches.map(_.dropPassage).distinct
+    (versionList.filter()
+  }
+  def rangeIndex(urn: CtsUrn): RangeIndex = {
+
+
+  }*/
+
+
+  /**
+  */
+  def pointIndex(urn: CtsUrn): Int = {
+    val matches = nodes.filter(_.urn == urn)
+    matches.size match {
+
+      case 1 =>  nodes.indexOf(matches(0))
+      case _ => throw Ohco2Exception("Corpus.pointIndex: " + urn + " does not refer to a node.")
+    }
+  }
+
   /** Project all URNs in the corpus to a vector.
   */
   def urns : Vector[CtsUrn] = {
