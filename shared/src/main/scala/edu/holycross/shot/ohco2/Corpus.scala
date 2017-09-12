@@ -14,26 +14,49 @@ import scala.scalajs.js.annotation._
 @JSExportAll case class Corpus (nodes: Vector[CitableNode]) {
 
 
-/*
+  /** Find the set of versions in the present corpus
+  * matching a given URN.
+  *
+  * @param urn URN to find versions for.
+  */
   def versions(urn: CtsUrn): Set[CtsUrn] = {
-  //urn.workLevel
-
-    val matches = nodes.filter(_.urn == urn)
-    val versionList = matches.map(_.dropPassage).distinct
-    (versionList.filter()
+    val matches = nodes.filter(_.urn ~~ urn)
+    val versionList = matches.map(_.urn.dropPassage).filter(_.isVersion).distinct
+    versionList.toSet
   }
+
+  /** Find the set of exemplars in the present corpus
+  * matching a given URN.
+  *
+  * @param urn URN to find exemplars for.
+  */
+  def exemplars(urn: CtsUrn): Set[CtsUrn] = {
+    val matches = nodes.filter(_.urn ~~ urn)
+    val exemplarList = matches.map(_.urn.dropPassage).filter(_.isExemplar).distinct
+    exemplarList.toSet
+  }
+
+
+  /** Find beginning and end index in `nodes` of a given CtsUrn
+  * identifying a sequence of nodes, either with a range expression,
+  * or a containing expression.
+  *
+  * @param u CtsUrn to index.  It is an exception if u does not
+  * identify a range of nodes present in the Corpus.
+  */
   def rangeIndex(urn: CtsUrn): RangeIndex = {
+    RangeIndex(0,0)
+  }
 
 
-  }*/
-
-
-  /**
+  /** Find index in `nodes` of a given CtsUrn.
+  *
+  * @param u CtsUrn to index.  It is an exception if u does not
+  * identify a single text node that is present in the Corpus.
   */
   def pointIndex(urn: CtsUrn): Int = {
     val matches = nodes.filter(_.urn == urn)
     matches.size match {
-
       case 1 =>  nodes.indexOf(matches(0))
       case _ => throw Ohco2Exception("Corpus.pointIndex: " + urn + " does not refer to a node.")
     }
