@@ -18,7 +18,7 @@ import scala.scalajs.js.annotation._
   * components of two CtsUrns.
   *
   * @param u1 First CtsUrn to compare.
-  * @param u2 Second CtsUrn to comapre.
+  * @param u2 Second CtsUrn to compare.
   */
   def relation(u1: CtsUrn, u2: CtsUrn): TextPassageTopology.Value = {
     require(u1.dropPassage == u2.dropPassage, s"Corpus.relation: URNs must refer to same concrete version: ${u1} and ${u2}" )
@@ -28,24 +28,47 @@ import scala.scalajs.js.annotation._
     } else if (u1.isPoint && u2.isRange) {
       nodeToRangeRelation(u1, u2)
     } else if (u2.isPoint && u1.isRange) {
-      nodeToRangeRelation(u2, u1)
+      Corpus.invertTopology(nodeToRangeRelation(u2, u1))
     } else {
       rangeToRangeRelation(u1, u2)
     }
-    // possibilities:  pt-pt, pt-range, range-range
 
 
-    TextPassageTopology.PassageEquals
   }
 
-  private def nodeToRangeRelation(u1: CtsUrn, u2: CtsUrn): TextPassageTopology.Value = {
-    TextPassageTopology.PassageEquals
-  }
-  private def rangeToRangeRelation(u1: CtsUrn, u2: CtsUrn): TextPassageTopology.Value = {
-    TextPassageTopology.PassageEquals
-  }
+
 
   /** Compute topological relation of two nodes.
+  *
+  * @param point URN for a single node.
+  * @param range URN for a series of nodes (a range  or containing expression).
+  */
+  private def nodeToRangeRelation(point: CtsUrn, range: CtsUrn): TextPassageTopology.Value = {
+    val rIdx = rangeIndex(range)
+    val ptIdx = pointIndex(point)
+
+    if (rIdx.a <= ptIdx &&  rIdx.b >= ptIdx) {
+      TextPassageTopology.PassageContained
+    } else if (ptIdx < rIdx.a) {
+      TextPassageTopology.PassagePrecedes
+    } else {
+      TextPassageTopology.PassageFollows
+    }
+  }
+
+
+
+  private def rangeToRangeRelation(u1: CtsUrn, u2: CtsUrn): TextPassageTopology.Value = {
+
+    TextPassageTopology.PassageEquals
+  }
+
+
+
+  /** Compute topological relation of two nodes URNs.
+  *
+  * @param u1 First node to compare.
+  * @param u2 Second node to compare.
   */
   private def nodeToNodeRelation(u1: CtsUrn, u2: CtsUrn): TextPassageTopology.Value = {
     if (u1 == u2) {
@@ -763,6 +786,9 @@ object Corpus {
     Corpus(citableNodes)
   }
 
+
+  /**
+  */
   def invertTopology(topo: TextPassageTopology.Value): TextPassageTopology.Value = {
     topo match {
       case TextPassageTopology.PassageEquals => TextPassageTopology.PassageEquals
@@ -774,7 +800,6 @@ object Corpus {
       case TextPassageTopology.PassageOverlapsAndPrecededBy =>  TextPassageTopology.PassagePrecedesAndOverlaps
       case TextPassageTopology.PassageOverlapsAndFollows => TextPassageTopology.PassageOverlapsAndFollowedBy
       case TextPassageTopology.PassageOverlapsAndFollowedBy => TextPassageTopology.PassageOverlapsAndFollows
-      //, PassagePrecedes, PassageFollows, PassageContains, PassagePrecedesAndOverlaps, PassageOverlapsAndPrecededBy, PassageOverlapsAndFollows, PassageOverlapsAndFollowedBy
     }
   }
 
