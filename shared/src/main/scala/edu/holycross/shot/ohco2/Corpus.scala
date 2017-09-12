@@ -32,8 +32,6 @@ import scala.scalajs.js.annotation._
     } else {
       rangeToRangeRelation(u1, u2)
     }
-
-
   }
 
 
@@ -48,7 +46,7 @@ import scala.scalajs.js.annotation._
     val ptIdx = pointIndex(point)
 
     if (rIdx.a <= ptIdx &&  rIdx.b >= ptIdx) {
-      TextPassageTopology.PassageContained
+      TextPassageTopology.PassageContainedBy
     } else if (ptIdx < rIdx.a) {
       TextPassageTopology.PassagePrecedes
     } else {
@@ -489,36 +487,36 @@ import scala.scalajs.js.annotation._
 
 
 
-    /** Find nodes preceding a passage.
-    * The number of nodes will equal the number of
-    * nodes in the passage unless fewer than that number of nodes precede
-    * the passage.  In that case, all preceding nodes will be
-    * returned.  If no nodes precede the passage, an empty
-    * vector is returned.
-    *
-    * @param filterUrn passage to find nodes before
-    */
-    def prev(filterUrn: CtsUrn): Vector[CitableNode] = {
-      val subselection = this ~~ filterUrn
-      if (subselection.nodes.isEmpty) {
-       Vector.empty
+  /** Find nodes preceding a passage.
+  * The number of nodes will equal the number of
+  * nodes in the passage unless fewer than that number of nodes precede
+  * the passage.  In that case, all preceding nodes will be
+  * returned.  If no nodes precede the passage, an empty
+  * vector is returned.
+  *
+  * @param filterUrn passage to find nodes before
+  */
+  def prev(filterUrn: CtsUrn): Vector[CitableNode] = {
+    val subselection = this ~~ filterUrn
+    if (subselection.nodes.isEmpty) {
+     Vector.empty
 
-      } else {
-        val workCorpus = this ~~ filterUrn.dropPassage
-        val idx = workCorpus.nodes.indexOf(subselection.nodes(0))
-        val min = idx - subselection.size
+    } else {
+      val workCorpus = this ~~ filterUrn.dropPassage
+      val idx = workCorpus.nodes.indexOf(subselection.nodes(0))
+      val min = idx - subselection.size
 
 
-        min match {
-          case n if n >= 0 => {
-            workCorpus.nodes.slice(min,idx)
-          }
-          case _ => {
-            workCorpus.nodes.slice(0,idx)
-          }
+      min match {
+        case n if n >= 0 => {
+          workCorpus.nodes.slice(min,idx)
+        }
+        case _ => {
+          workCorpus.nodes.slice(0,idx)
         }
       }
     }
+  }
 
   /** Create a vector of [[edu.holycross.shot.ohco2.XfRow]]
   * instances equivalent to the present corpus.
@@ -550,8 +548,6 @@ import scala.scalajs.js.annotation._
   def to2colString(delimiter: String): String = {
     nodes.map(cn => cn.urn + delimiter + cn.text).mkString("\n")
   }
-
-
 
 
   /** Convert strings to vectors of words, tokenizing on whitespace.
@@ -734,9 +730,6 @@ import scala.scalajs.js.annotation._
     }
   }
 
-
-
-
 /** Create a histogram of ngrams of size n,
 * occurring more than threshold times, and including
 * a specified string.
@@ -752,7 +745,6 @@ import scala.scalajs.js.annotation._
     val hist  = searchCorpus.ngramHisto(n,threshhold,dropPunctuation)
     hist.stringMatch(str)
   }
-
 
   /** Two-column serialization of this Corpus as formated for
   * CEX serialization.
@@ -794,8 +786,8 @@ object Corpus {
       case TextPassageTopology.PassageEquals => TextPassageTopology.PassageEquals
       case TextPassageTopology.PassagePrecedes => TextPassageTopology.PassageFollows
       case TextPassageTopology.PassageFollows => TextPassageTopology.PassagePrecedes
-      case TextPassageTopology.PassageContains => TextPassageTopology.PassageContained
-      case TextPassageTopology.PassageContained =>  TextPassageTopology.PassageContains
+      case TextPassageTopology.PassageContains => TextPassageTopology.PassageContainedBy
+      case TextPassageTopology.PassageContainedBy =>  TextPassageTopology.PassageContains
       case TextPassageTopology.PassagePrecedesAndOverlaps =>  TextPassageTopology.PassageOverlapsAndPrecededBy
       case TextPassageTopology.PassageOverlapsAndPrecededBy =>  TextPassageTopology.PassagePrecedesAndOverlaps
       case TextPassageTopology.PassageOverlapsAndFollows => TextPassageTopology.PassageOverlapsAndFollowedBy

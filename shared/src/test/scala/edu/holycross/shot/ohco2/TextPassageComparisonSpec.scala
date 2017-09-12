@@ -44,7 +44,7 @@ class TextPassageComparisonSpec extends FlatSpec {
     assert(ptRangeRelation == TextPassageTopology.PassageContains)
 
     val rangePointRelation = corpus.relation(pt, r)
-    assert(ptRangeRelation == TextPassageTopology.PassageContained)
+    assert(ptRangeRelation == TextPassageTopology.PassageContainedBy)
   }
   it should "identify when one URN precedes and overlaps another" in pending
   it should "idetnify when one URN overlaps and follows another"in pending
