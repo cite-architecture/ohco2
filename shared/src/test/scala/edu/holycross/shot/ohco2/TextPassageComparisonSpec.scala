@@ -16,12 +16,19 @@ class TextPassageComparisonSpec extends FlatSpec {
   val corpus  = Corpus(data,"#")
 
 
-  "A Corpus" should "identify when two passage nodes are identical" in pending
-  it should "identify when two ranges are identical" in pending
+  "A Corpus" should "identify when two passage nodes are identical" in {
+    val urn = CtsUrn("urn:cts:test:g.w.v2:1.a")
+    val relation = corpus.relation(urn, urn)
+    assert (relation == TextPassageTopology.PassageEquals)
+  }
+  it should "identify when two ranges are identical" in {
+  }
   it should "identify when one node precedes another" in pending
   it should "identify when one URN contains another" in pending
   it should "identify when one URN precedes and overlaps another" in pending
   it should "idetnify when one URN overlaps and follows another"in pending
+
+
 
 
 }
