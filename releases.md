@@ -1,6 +1,8 @@
 # `ohco2`: release notes
 
-**10.1.2**: Incorporte bug fixes in updates to library dependencies.
+**10.2.0**: Implement topology of text passage relationships.
+
+**10.1.2**: Incorporate bug fixes in updates to library dependencies.
 
 **10.1.1**: Update `xcite` for faster build with scala 2.12.3.
 
