@@ -95,8 +95,8 @@ class TextPassageComparisonSpec extends FlatSpec {
     val r1 = CtsUrn("urn:cts:test:g.w.v:3-4")
     val r2 = CtsUrn("urn:cts:test:g.w.v:2-3")
 
-    //assert(corpus.relation(r1,r2) == TextPassageTopology.PassageOverlapsAndFollows)
-    //assert(corpus.relation(r2,r1) == TextPassageTopology.PassageOverlapsAndFollowedBy)
+    assert(corpus.relation(r1,r2) == TextPassageTopology.PassageOverlapsAndFollows)
+    assert(corpus.relation(r2,r1) == TextPassageTopology.PassagePrecedesAndOverlaps)
   }
 
 
