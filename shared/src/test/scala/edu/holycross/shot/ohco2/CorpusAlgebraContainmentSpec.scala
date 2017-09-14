@@ -60,10 +60,21 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
 
   "URN containment"  should  "find things" in {
     val urn = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1")
-
+    val contained = corpus >= urn
+    println("FOR " + urn)
+    println("CONTAINED " + contained.size)
+    println(contained.urns.mkString("\n"))
   }
 
-  
+  it should "find ranges" in {
+    val urn = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2")
+    val contained = corpus >= urn
+    println("FOR " + urn)
+    println("CONTAINED " + contained.size)
+    println(contained.urns.mkString("\n"))
+  }
+
+
 
 /*
   it should "find parents and cousins of an exemplar container" in {

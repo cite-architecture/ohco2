@@ -389,6 +389,12 @@ def >= (urn: CtsUrn) : Corpus = {
   if (urn.concrete) {
     Corpus( containedNodes(urn))
   } else {
+    val psg = urn.passageComponent
+    val nVect = for (conc <- concrete(urn)) yield {
+      val u = CtsUrn(conc.toString + psg)
+      containedNodes(u)
+    }
+    println("NVECT: " + nVect)
     Corpus(Vector.empty)
   }
 }
