@@ -357,6 +357,8 @@ import scala.scalajs.js.annotation._
     }
   }
 
+
+/*
   def >< (urn: CtsUrn) = {
     //handle the simple case where urn is a nodes
     Corpus( nodes.filter(_ >< urn))
@@ -367,12 +369,32 @@ import scala.scalajs.js.annotation._
     //handle the simple case where urn is a nodes
     Corpus( nodes.filter(_ > urn))
   }
+*/
 
-  def >= (urn: CtsUrn) = {
-    //handle the simple case where urn is a nodes
-    Corpus( nodes.filter(_ >= urn))
+
+/** Find list of all concrete texts for a given URN.
+*
+* @param urn URN to find concrete texts for.
+*/
+def concrete(urn: CtsUrn) : Set[CtsUrn] = {
+  versions(urn) ++ exemplars(urn)
+}
+
+/** Create a new corpus of nodes that are contained by a
+* given URN.
+*
+* @param urn CtsUrn to use in filtering the corpus.
+*/
+def >= (urn: CtsUrn) : Corpus = {
+  if (urn.concrete) {
+    Corpus( containedNodes(urn))
+  } else {
+    Corpus(Vector.empty)
   }
+}
 
+
+/*
   def < (urn: CtsUrn) = {
     //handle the simple case where urn is a nodes
     Corpus( nodes.filter(_ < urn))
@@ -382,7 +404,7 @@ import scala.scalajs.js.annotation._
     //handle the simple case where urn is a nodes
     Corpus( nodes.filter(_ <= urn))
   }
-
+*/
 
   /** Extract all URNs for all citable nodes identified by a URN.
   * Note that it is not an error if the resulting Vector is empty.

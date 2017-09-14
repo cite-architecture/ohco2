@@ -80,7 +80,15 @@ class CorpusIndexingSpec extends FlatSpec {
   }
 
 
-
+  it should "list concrete texts for a a given URN" in {
+    val notional = CtsUrn("urn:cts:test:g.w:")
+      val expectedSet = Set(
+      CtsUrn("urn:cts:test:g.w.v1:"),
+      CtsUrn("urn:cts:test:g.w.v:"),
+      CtsUrn("urn:cts:test:g.w.v2.ex1:")
+    )
+    assert (corpus.concrete(notional) == expectedSet)
+  }
 
 
 }

@@ -29,10 +29,11 @@ class CorpusSelectionSpec extends FlatSpec {
   it should "create a new Corpus by selecting nodes that are URN-similar (~~) to a range" in pending
 
 
-  it should "create a new Corpus by selecting nodes *not* URN-similar (><) to another single node" in {
+  it should "create a new Corpus by selecting nodes *not* URN-similar (><) to another single node" in pending /* {
     val u1 = CtsUrn("urn:cts:test:g.w.v:1.a")
     assert ((corpus >< u1).size == 4)
   }
+  */
 
 
   it should "create a new Corpus by selecting nodes *not* URN-similar  (><)  to a range" in pending
