@@ -3,6 +3,8 @@ package edu.holycross.shot.ohco2
 import edu.holycross.shot.cite._
 import scala.annotation.tailrec
 
+import scala.collection.mutable.Map
+
 import scala.scalajs.js
 import scala.scalajs.js.annotation._
 
@@ -13,13 +15,30 @@ import scala.scalajs.js.annotation._
 */
 @JSExportAll case class Corpus (nodes: Vector[CitableNode]) {
 
-  /** Find nodes contained by a given URN.
+
+
+  /** Map each concrete text's URN to a Vector of [CitableNode]s.
+  */
+  def concreteMap : Map[CtsUrn, Corpus] = {
+    var mappedByText = scala.collection.mutable.Map[CtsUrn, Corpus]()
+    for (c <- citedWorks) {
+      mappedByText += (c -> containedNodes(c))
+    }
+    mappedByText
+  }
+
+  /** Create a new corpus comprising nodes contained by a given URN.
   *
   * @u A CtsUrn at either version or exemplar level.
   */
-  def containedNodes(u: CtsUrn): Vector[CitableNode] = {
+  def containedNodes(u: CtsUrn): Corpus = {
     require(u.concrete, "Can only compute contained nodes for a concrete instance of a text: " + u)
-    (this ~~ u).nodes.filter(_.urn.dropPassage == u.dropPassage)
+    val matchingWork = nodes.filter(_.urn.dropPassage == u.dropPassage)
+    //val matchingPassage = matchingWork.filter( localNode => (relation(u, localNode.urn) == TextPassageTopology.PassageContains) || (localNode == u) )
+  //  Corpus(matchingPassage)
+    val x = matchingWork.filter( n => (n.urn == u) || ( relation(u, n.urn) == TextPassageTopology.PassageContains ) )
+
+    Corpus(Vector.empty)
   }
 
   /** Computes topological relation of passage
@@ -387,15 +406,16 @@ def concrete(urn: CtsUrn) : Set[CtsUrn] = {
 */
 def >= (urn: CtsUrn) : Corpus = {
   if (urn.concrete) {
-    Corpus( containedNodes(urn))
+     containedNodes(urn)
   } else {
     val psg = urn.passageComponent
+    //println("NOTIONAL: USE " + concrete(urn))
     val nVect = for (conc <- concrete(urn)) yield {
       val u = CtsUrn(conc.toString + psg)
       containedNodes(u)
     }
-    println("NVECT: " + nVect)
-    Corpus(Vector.empty)
+    //println("NVECT: " + nVect.toSeq.toVector)
+    sumCorpora(nVect.toSeq.toVector,Corpus(Vector.empty))
   }
 }
 

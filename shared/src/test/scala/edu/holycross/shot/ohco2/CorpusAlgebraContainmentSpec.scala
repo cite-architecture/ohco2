@@ -57,22 +57,51 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
   val corpus = Corpus(textDelimited,"#")
 
 
+  def splat(c: Corpus): Unit = {
+    println(c.size)
+    println(c.urns.mkString("\n"))
+  }
 
-  "URN containment"  should  "find things" in {
+
+  "URN containment"  should  "find nodes in a concrete version" in pending /*{
     val urn = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1")
     val contained = corpus >= urn
-    println("FOR " + urn)
-    println("CONTAINED " + contained.size)
-    println(contained.urns.mkString("\n"))
-  }
+    assert(contained.size == 1)
+    assert(contained.urns(0) == urn)
+  }*/
 
-  it should "find ranges" in {
+  it should "find nodes in a notional version" in {
+    val urn = CtsUrn("urn:cts:ns:tg.w:1.2.1")
+    val contained = corpus >= urn
+    //assert(contained.size == 1)
+    //assert(contained.urns(0) == urn)
+    println("For " + urn)
+    splat(contained)
+
+  }
+/*
+  it should "find nodes in a containing passage in a concrete version" in {
     val urn = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2")
     val contained = corpus >= urn
-    println("FOR " + urn)
-    println("CONTAINED " + contained.size)
-    println(contained.urns.mkString("\n"))
+    assert(contained.size == 3)
+    val expected = Vector(
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.3")
+    )
+    assert(contained.urns == expected)
   }
+
+  it should "find nodes in a containing passage in a notional version" in {
+      val urn = CtsUrn("urn:cts:ns:tg.w.v1:1.2")
+      val contained = corpus >= urn
+
+      ///splat(contained)
+  }
+*/
+
+
+  //
 
 
 
