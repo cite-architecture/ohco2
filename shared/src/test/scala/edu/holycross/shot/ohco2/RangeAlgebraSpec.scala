@@ -97,4 +97,9 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
     assert(extracted.urns == expected)
   }
 
+  it should "be able to apply the containedNodes function to a concrete range" in {
+    val range = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.2-1.2.2")
+    assert (corpus.rangeExtract(range) == corpus.containedNodes(range))
+  }
+
 }
