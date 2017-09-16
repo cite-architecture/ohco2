@@ -102,4 +102,14 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
     assert (corpus.rangeExtract(range) == corpus.containedNodes(range))
   }
 
+  it should "be able to find concrete exemplars for notional works" in {
+    //val range = CtsUrn("urn:cts:ns:tg.w:1.1.2-1.2.2")
+    val range = CtsUrn("urn:cts:ns:tg.w:1.1.2")
+    val expeted = Set(
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:")
+    )
+    println(corpus.exemplars(range))
+  }
+
 }
