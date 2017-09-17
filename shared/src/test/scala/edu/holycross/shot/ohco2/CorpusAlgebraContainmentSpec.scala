@@ -63,23 +63,32 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
   }
 
 
-  "URN containment"  should  "find nodes in a concrete version" in pending /*{
+  "URN containment"  should  "find individual nodes in a concrete version" in {
     val urn = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1")
     val contained = corpus >= urn
     assert(contained.size == 1)
     assert(contained.urns(0) == urn)
-  }*/
+  }
 
-  it should "find nodes in a notional version" in {
+  it should "enforce containment on both passage and work hierarchy" in {
+    val urn = CtsUrn("urn:cts:ns:tg.w.v1:1.2.1")
+    val contained = corpus.containedNodes(urn)
+    assert(contained.size == 0)
+  }
+
+  it should "find individual nodes in a notional version" in {
     val urn = CtsUrn("urn:cts:ns:tg.w:1.2.1")
     val contained = corpus >= urn
-    //assert(contained.size == 1)
-    //assert(contained.urns(0) == urn)
-    println("For " + urn)
-    splat(contained)
+    //splat(contained)
+
+    assert(contained.size == 2)
+    val expected = Set(
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.1")
+    )
+    assert(contained.urns.toSet == expected)
 
   }
-/*
   it should "find nodes in a containing passage in a concrete version" in {
     val urn = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2")
     val contained = corpus >= urn
@@ -95,13 +104,43 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
   it should "find nodes in a containing passage in a notional version" in {
       val urn = CtsUrn("urn:cts:ns:tg.w.v1:1.2")
       val contained = corpus >= urn
-
-      ///splat(contained)
+      val expected = Vector(CtsUrn("urn:cts:ns:tg.w.v1:1.2"))
+      assert(contained.urns == expected)
   }
-*/
+
+  it should "find nodes in a range in a concrete version" in {
+    val range = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.2-1.2.2")
+    val contained = corpus >= range
+    val expectedUrns = Vector(
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.3"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.2")
+    )
+    assert(contained.urns == expectedUrns)
+  }
 
 
-  //
+
+  it should "find nodes in a range in a notional version" in {
+    val range = CtsUrn("urn:cts:ns:tg.w:1.1.2-1.2.2")
+
+    val contained = corpus >= range
+    val expectedUrns = Set(
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.3"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.2"),
+
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.1.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.1.3"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.2")
+    )
+
+    assert(contained.urns.toSet == expectedUrns)
+
+  }
 
 
 

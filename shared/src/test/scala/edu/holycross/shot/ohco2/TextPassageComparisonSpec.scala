@@ -17,7 +17,7 @@ class TextPassageComparisonSpec extends FlatSpec {
 
   val corpus  = Corpus(data,"#")
 
-  "A Corpus" should "identify when two passage nodes are identical" in {
+  "A Corpus" should "identify when two passage nodes are identical" in pending /*{
     val urn = CtsUrn("urn:cts:test:g.w.v2:1.a")
     val relation = corpus.relation(urn, urn)
     assert (relation == TextPassageTopology.PassageEquals)
@@ -43,18 +43,22 @@ class TextPassageComparisonSpec extends FlatSpec {
     val rangePointRelation = corpus.relation(r,pt)
     assert(rangePointRelation == TextPassageTopology.PassageContains)
   }
+
+  */
   it should "identify the relation of a containing URN to a node" in {
     val container = CtsUrn("urn:cts:test:g.w.v2:1")
     val node =  CtsUrn("urn:cts:test:g.w.v2:1.a")
 
+
+    println(s"Compare ${container} to ${node}")
     val nodeContainerRelation = corpus.relation(node,container)
     assert(nodeContainerRelation == TextPassageTopology.PassageContainedBy)
-
+    println(s"Compare ${node} to ${container}")
     val containerNodeRelation = corpus.relation(container,node)
     assert(containerNodeRelation == TextPassageTopology.PassageContains)
 
   }
-
+/*
   it should "identify when two ranges are identical" in {
     val range = CtsUrn("urn:cts:test:g.w.v:1-3")
     assert (corpus.relation(range, range) == TextPassageTopology.PassageEquals)
@@ -99,7 +103,7 @@ class TextPassageComparisonSpec extends FlatSpec {
     assert(corpus.relation(r2,r1) == TextPassageTopology.PassagePrecedesAndOverlaps)
   }
 
-
+*/
 
 
 }

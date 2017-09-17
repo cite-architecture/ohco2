@@ -102,6 +102,8 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
     assert (corpus.rangeExtract(range) == corpus.containedNodes(range))
   }
 
+
+
   it should "be able to find concrete exemplars for ranges of notional works" in {
     //val range = CtsUrn("urn:cts:ns:tg.w:1.1.2-1.2.2")
     val range = CtsUrn("urn:cts:ns:tg.w:1.1.2")
@@ -112,8 +114,8 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
 
     assert(expected == corpus.exemplars(range))
   }
+
   it should "be able to find concrete versions for ranges of notional works" in {
-    //val range = CtsUrn("urn:cts:ns:tg.w:1.1.2-1.2.2")
     val range = CtsUrn("urn:cts:ns:tg.w:1.1.2")
     val expected = Set(
       CtsUrn("urn:cts:ns:tg.w.v1:"),
@@ -121,5 +123,15 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
     )
     assert(expected == corpus.versions(range))
   }
+
+  it should "throw an Ocho2Exception if a bad range is requested" in {
+    val range = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1-100")
+    try {
+      val extracted = corpus.rangeExtract(range)
+    } catch {
+      case oe : Ohco2Exception => assert(oe.message == "Failed to match both ends of range reference: urn:cts:ns:tg.w.v1.ex1:1-100")
+    }
+  }
+
 
 }

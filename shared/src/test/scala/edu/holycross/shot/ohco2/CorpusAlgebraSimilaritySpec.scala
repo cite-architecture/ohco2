@@ -57,18 +57,14 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
   val corpus = Corpus(textDelimited,"#")
 
 
-
-  "Similarity matching"  should  "find parents and cousins of an exemplar node" in {
-    val urn = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1")
-    val filtered = corpus ~~ urn
-    val expectedSet = Set(
-      CtsUrn("urn:cts:ns:tg.w.v1:1.2"), CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1"), CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.1"))
-    assert (expectedSet == filtered.urns.toSet)
+  def splat(c: Corpus): Unit = {
+    println(c.size)
+    println(c.urns.mkString("\n"))
   }
 
-  it should "find parents and cousins of an exemplar container" in {
+
+  "URN similarity"  should  "find parents and cousins of an exemplar container" in  {
     val urn = CtsUrn("urn:cts:ns:tg.w.v1:1.1")
-    println("For urn " + urn)
     val filtered = (corpus ~~ urn.dropPassage) ~~ urn
     // result should be seven nodes: the version ("1.1") and three from each exemplar (…:1.1.1, 1.1.2, 1.1.3)
     assert (filtered.nodes.size == 7)
@@ -84,17 +80,45 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
     assert (expectedSet == filtered.urns.toSet)
   }
 
-  it  should  "find parents and cousins of an exemplar-level range of containers" in {
+  it  should  "find parents and cousins of an exemplar-level range of containers" in  {
     val urn = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1-1.2")
     val filtered = (corpus ~~ urn)
-    assert(filtered.size == 30)
+    val expected = Set(
+      CtsUrn("urn:cts:ns:tg.w.v1:1.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1:1.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.3"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.3")
+    )
+    assert(filtered.urns.toSet == expected)
   }
 
 
   it should "find contained nodes and work-descendents of a version-level URN with a range" in {
     val urn = CtsUrn("urn:cts:ns:tg.w.v1:1.2-1.3")
     val filtered = corpus ~~ urn
-    assert(filtered.size == 32)
+
+    val expected = Set(
+      CtsUrn("urn:cts:ns:tg.w.v1:1.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1:1.3"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.3"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.3.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.3.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.3.3"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.3"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.3.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.3.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.3.3")
+    )
+    assert(filtered.urns.toSet == expected)
+
   }
 
 

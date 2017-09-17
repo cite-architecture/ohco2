@@ -24,7 +24,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
 
 
     // CTS-like convenience methods
-  "A corpus of citable nodes"  should  "offer a convenience method for finding the first citable node in a filtered vector" in  {
+  "A corpus of citable nodes"  should  "offer a convenience method for finding the first citable node in a filtered vector" in pending /*  {
     val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2.lemma-1.5.comment")
     val expectedFirst = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.lemma")
     assert(corpus.firstNode(filterUrn).urn == expectedFirst)
@@ -84,6 +84,6 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.3.lemma#<div xmlns="http://www.tei-c.org/ns/1
 
   val corpus = Corpus(textWithBlank,"#")
   assert(corpus.size == 5)
-  }
+} */
 
 }

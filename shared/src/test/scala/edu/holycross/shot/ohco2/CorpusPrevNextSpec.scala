@@ -24,11 +24,18 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
 
   "A corpus of citable nodes"  should "find the single previous node before a node" in {
     val u = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.comment")
+
+    println("TWIDDLE " + u)
+    val matched = corpus ~~ u
+
+
+    /*
     val prv = corpus.prev(u)
     assert(prv.size == 1)
     assert(prv(0).urn == CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma"))
+    */
   }
-
+/*
   it should "find the URN for single previous node before a node" in {
     val u = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.comment")
     val prv = corpus.prevUrn(u)
@@ -67,8 +74,12 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
     val prv = corpus.prevUrn(middle)
     assert(prv.get == CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma-1.1.comment"))
   }
+*/
 
 
+
+
+/*
   it should "find the single next node after a node" in {
     val firstU = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma")
     val nxt = corpus.next(firstU)
@@ -138,5 +149,5 @@ urn:cts:greekLit:tlg5026.msAil.hmt:1.145.comment#προθύμως
       case _ => fail("Got no urn for next")
     }
   }
-
+*/
 }

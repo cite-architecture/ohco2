@@ -29,16 +29,42 @@ import scala.scalajs.js.annotation._
 
   /** Create a new corpus comprising nodes contained by a given URN.
   *
-  * @u A CtsUrn at either version or exemplar level.
+  * @param u A CtsUrn at either version or exemplar level.
   */
   def containedNodes(u: CtsUrn): Corpus = {
     require(u.concrete, "Can only compute contained nodes for a concrete instance of a text: " + u)
-    val matchingWork = nodes.filter(_.urn.dropPassage == u.dropPassage)
-    //val matchingPassage = matchingWork.filter( localNode => (relation(u, localNode.urn) == TextPassageTopology.PassageContains) || (localNode == u) )
-  //  Corpus(matchingPassage)
-    val x = matchingWork.filter( n => (n.urn == u) || ( relation(u, n.urn) == TextPassageTopology.PassageContains ) )
+    val trimmed = u.dropPassage
+    //println("\n\nLimit containment to " + trimmed)
+    //println("From corpus \n" + urns.mkString("\n") )
+    val matchingWork = nodes.filter(_.urn.dropPassage == trimmed)
+    //println("Found " + matchingWork.size + " nodes")
 
-    Corpus(Vector.empty)
+    if (u.isRange) {
+      // Allow for possibility that range begin/end references are
+      // either containers or nodes
+      //println("CONTAINMENT ON RANGE: " + u)
+      val urnA = CtsUrn(u.dropPassage.toString + u.rangeBeginRef)
+      val urnB = CtsUrn(u.dropPassage.toString + u.rangeEndRef)
+
+      val aContained = containedNodes(urnA)
+      val bContained = containedNodes(urnB)
+      if (aContained.size < 1 || bContained.size < 1) {
+        Corpus(Vector.empty)
+      } else {
+        val firstRef = aContained.nodes.head.urn.passageNodeRef
+        val lastRef = bContained.nodes.last.urn.passageNodeRef
+
+        val extentUrn = CtsUrn(u.dropPassage.toString + firstRef + "-" + lastRef)
+        rangeExtract(extentUrn)
+      }
+
+    } else {
+      // single node or containing reference:
+      val containedCorpus = Corpus(matchingWork.filter(u >= _.urn ))
+      //println("Filtering using " + u + ": " + containedCorpus.size)
+      containedCorpus
+
+    }
   }
 
   /** Computes topological relation of passage
@@ -153,9 +179,21 @@ import scala.scalajs.js.annotation._
   * @param urn URN to find versions for.
   */
   def versions(urn: CtsUrn): Set[CtsUrn] = {
-    val matches = nodes.filter(_.urn ~~ urn)
-    val versionList = matches.map(_.urn.dropPassage).filter(_.isVersion).distinct
-    versionList.toSet
+    val versionUrns = nodes.map(_.urn).filter(_.isVersion)
+
+    if (urn.isRange) {
+      val firstRef = CtsUrn(urn.dropPassage + urn.rangeBeginRef)
+      val similar = versionUrns.filter (_ ~~ firstRef)
+      similar.map(_.dropPassage).distinct.toSet
+
+    } else {
+      /*
+      val matches = nodes.filter(_.urn ~~ urn)
+      val versionList = matches.map(_.urn.dropPassage).filter(_.isVersion).distinct
+      versionList.toSet*/
+      val similar = versionUrns.filter (_ ~~ urn)
+      similar.map(_.dropPassage).distinct.toSet
+    }
   }
 
   /** Find the set of exemplars in the present corpus
@@ -164,29 +202,73 @@ import scala.scalajs.js.annotation._
   * @param urn URN to find exemplars for.
   */
   def exemplars(urn: CtsUrn): Set[CtsUrn] = {
+    val exemplarUrns = nodes.map(_.urn).filter(_.isExemplar)
+
+
+
+    if (urn.isRange) {
+      val firstRef = CtsUrn(urn.dropPassage + urn.rangeBeginRef)
+      val similar = exemplarUrns.filter (_ ~~ firstRef)
+      similar.map(_.dropPassage).distinct.toSet
+
+    } else {
+      val similar = exemplarUrns.filter (_ ~~ urn)
+      similar.map(_.dropPassage).distinct.toSet
+    }
+    /*
     val matches = nodes.filter(_.urn ~~ urn)
-    val exemplarList = matches.map(_.urn.dropPassage).filter(_.isExemplar).distinct
+    println("Exemplars? matching " + urn)
+    println("got " + matches)
+    val allMatches = matches.map(_.urn.dropPassage)
+    println("Drop passage matches: " + allMatches)
+    //.filter(_.isExemplar).distinct
+    val exemplarList = allMatches.filter(_.isExemplar).distinct
+    println("exemplars only: " + exemplarList)
     exemplarList.toSet
+    */
   }
 
 
-  /** Find beginning and end index in `nodes` of a given CtsUrn
-  * identifying a sequence of nodes, either with a range expression,
-  * or a containing expression.
+
+  /** Create a new corpus from a single URN idetnifying a range.
+  * The given URN must refer to a concrete text.
+  *
+  * @param urn Range URN identifying corpus to extract.
+  */
+  def rangeExtract(urn: CtsUrn) : Corpus = {
+    require(urn.concrete, "Can only extract ranges for a concrete text:  " + urn)
+    val rIdx = rangeIndex(urn)
+    val sliver = nodes.slice(rIdx.a, rIdx.b + 1)
+    Corpus(sliver)
+  }
+
+  /** Find beginning and end index in this corpus of a given range URN.
+  * Beginning and end references of ranges may either be node references or
+  * containing references.
   *
   * @param u CtsUrn to index.  It is an exception if u does not
   * identify a range of nodes present in the Corpus.
   */
   def rangeIndex(urn: CtsUrn): RangeIndex = {
     if (urn.concrete) {
-      val noPsg = Corpus(nodes.filter(_.urn.dropPassage == urn.dropPassage))
-      val matches = noPsg ~~ urn
-      if (matches.size < 2) {
-        throw Ohco2Exception("URN does not identify two or more nodes: " + urn + " yielded " + matches.size + " nodes.")
+      val noPsg = nodes.filter(_.urn.dropPassage == urn.dropPassage)
+      //println("noPSg: " + noPsg.mkString("\n"))
+      val urnA = CtsUrn(urn.dropPassage.toString + urn.rangeBeginRef)
+      val urnB = CtsUrn(urn.dropPassage.toString + urn.rangeEndRef)
+      //println("A,B: \n" + urnA + " \n" + urnB)
 
+      val aMatches = noPsg.filter(_.urn ~~ urnA)
+      val bMatches = noPsg.filter(_.urn ~~ urnB)
+      //println("rangeIndexing " + urn)
+      //println("amatches: " + aMatches)
+      //println("bmatches: " + bMatches)
+
+
+      if (aMatches.isEmpty || bMatches.isEmpty) {
+        throw Ohco2Exception("Failed to match both ends of range reference: " + urn)
       } else {
-        val a = pointIndex(matches.nodes.head.urn)
-        val b = pointIndex(matches.nodes.last.urn)
+        val a = pointIndex(aMatches.head.urn)
+        val b = pointIndex(bMatches.last.urn)
         RangeIndex(a,b)
       }
 
@@ -262,49 +344,6 @@ import scala.scalajs.js.annotation._
     Corpus( nodes diff corpus2.nodes)
   }
 
-  /** Create a new corpus of nodes matching a given URN.
-  * Note that `filterUrn` must identify a passage at the
-  * level of the work hierarchy where it is cited in this
-  * corpus (either Version or Exemplar level).  Use the
-  * [[~~]] function to create a new corpus at any level of the
-  * the hierarchy.
-  *
-  *  @param filterUrn URN identifying a set of nodes to select from this corpus.
-  */
-  private def versionTwiddle(filterUrn: CtsUrn): Corpus = {
-    filterUrn.isRange match {
-
-      case false =>  {
-        Corpus(nodes.filter(_.urn ~~ filterUrn))
-      }
-      // range filter:
-      case true => {
-        val singleWork = this ~~ filterUrn.dropPassage
-        val originUrn = CtsUrn(filterUrn.dropPassage.toString + filterUrn.rangeBeginRef)
-        val terminalUrn = CtsUrn(filterUrn.dropPassage.toString + filterUrn.rangeEndRef)
-
-
-        val c1 = singleWork ~~ originUrn
-        val c2 = singleWork ~~ terminalUrn
-        if (c1.isEmpty || c2.isEmpty) {
-          Corpus(Vector.empty)
-
-        } else {
-          val u1 = c1.nodes(0).urn
-          val u2 = c2.nodes.last.urn
-
-          var u1seen = false
-          var u2NotSeen = true
-
-          val matchedNodes = singleWork.nodes.withFilter{ cn => if (cn.urn == u1) u1seen = true; if (cn.urn == u2) u2NotSeen = false; (u1seen && u2NotSeen)}.map(x => x)
-
-          val lastNd = singleWork ~~ u2
-          Corpus(matchedNodes) ++ lastNd
-        }
-      }
-    }
-  }
-
 
   /** Create a single [[Corpus]] by summing up the contents of
   * a vector of corpora.
@@ -322,26 +361,44 @@ import scala.scalajs.js.annotation._
 
   /** Create a new corpus of nodes that are URN-similar to a given CtsUrn.
   * Collect all texts where this URN is cited, then
-  * collect citable nodes for the cited version by
-  * invoking `versionTwiddle`.
+  * collect citable nodes for the cited version.
   * Note that chaining these filters therefore successively
   * filters the corpus and can be thought of as filtering by
   * logically ANDing the URNs.
   *
   * @param filterUrn URN identifying a set of nodes to select from this corpus.
   */
-  def ~~(filterUrn: CtsUrn) : Corpus = {
+  def ~~ (filterUrn: CtsUrn) : Corpus = {
     val psgRef = filterUrn.passageComponentOption match {
       case None => ""
       case s: Option[String] => s.get
     }
 
-    val corpora = for (cw <- this.citedWorks.filter(_ ~~ filterUrn)) yield {
-      versionTwiddle(CtsUrn(cw.toString + psgRef))
-    }
-    sumCorpora(corpora,Corpus(Vector.empty))
+    if (filterUrn.isPoint) {
+      Corpus(nodes.filter(_.urn ~~ filterUrn))
 
+    } else if (filterUrn.isRange) {
+      val corpora = for (cw <- concrete(filterUrn)) yield {
+        //println("\n\nFILTER FOR " + cw)
+        val concreteFilter = CtsUrn(cw.toString + psgRef)
+        val srcCorpus = Corpus(nodes.filter(_.urn.dropPassage == cw))
+        //println("Result of filtering is\n" + srcCorpus.nodes.map(_.urn).mkString("\n"))
+        try {
+          srcCorpus.rangeExtract(concreteFilter)
+        } catch {
+          case oe: Ohco2Exception => Corpus(Vector.empty)
+        }
+
+      }
+      sumCorpora(corpora.toSeq.toVector,Corpus(Vector.empty))
+
+
+    } else {
+      // containing node:
+      Corpus(nodes.filter(_.urn ~~ filterUrn))
+    }
   }
+
 
 
   /** Create a new corpus of nodes that are URN-similar to any
@@ -351,7 +408,7 @@ import scala.scalajs.js.annotation._
   *
   * @param urnV vector of URNs to use in filtering the corpus.
   */
-  def  ~~(urnV: Vector[CtsUrn]): Corpus = {
+  /*def  ~~(urnV: Vector[CtsUrn]): Corpus = {
     val rslts = Vector.empty
     this.~~(urnV, Corpus(rslts))
   }
@@ -374,7 +431,7 @@ import scala.scalajs.js.annotation._
       val newTotal = resultCorpus ++ subVect
       this ~~(urnV.tail, newTotal)
     }
-  }
+  }*/
 
 
 /*
@@ -407,14 +464,22 @@ def concrete(urn: CtsUrn) : Set[CtsUrn] = {
 def >= (urn: CtsUrn) : Corpus = {
   if (urn.concrete) {
      containedNodes(urn)
+
   } else {
     val psg = urn.passageComponent
     //println("NOTIONAL: USE " + concrete(urn))
-    val nVect = for (conc <- concrete(urn)) yield {
+    // THIS IS BROKEN:
+    val concreteTexts = concrete(urn)
+    //println("Concrete texts:\n")
+    //println(concreteTexts.mkString("\n"))
+    val nVect = for (conc <-  concreteTexts) yield {
       val u = CtsUrn(conc.toString + psg)
-      containedNodes(u)
+      //println("\n\nGET CONCRETE " + u)
+      val contained = containedNodes(u)
+      //println("yielded " + contained)
+      contained
     }
-    //println("NVECT: " + nVect.toSeq.toVector)
+    //println(s"NVECT:${nVect.size} nodes " + nVect.toSeq.toVector)
     sumCorpora(nVect.toSeq.toVector,Corpus(Vector.empty))
   }
 }
@@ -449,10 +514,13 @@ def >= (urn: CtsUrn) : Corpus = {
   * @param filterUrn URN identifying passage to select
   * @param connector String value separating citable nodes in the resulting string.
   */
+
+  /*
   def textContents(filterUrn: CtsUrn, connector: String ): String = {
     val matching = this ~~ filterUrn
     matching.nodes.map(_.text).mkString(connector)
   }
+  */
 
 
   /** Format text contents of passages matching a given string
@@ -472,6 +540,8 @@ def >= (urn: CtsUrn) : Corpus = {
   *
   * @param filterUrn URN identifying the passage.
   */
+
+  /*
   def firstNodeOption(filterUrn: CtsUrn): Option[CitableNode] = {
     val matching = this ~~ filterUrn
     matching.nodes.isEmpty match {
@@ -479,6 +549,7 @@ def >= (urn: CtsUrn) : Corpus = {
       case false => Some(matching.nodes.head)
     }
   }
+  */
 
   /** Find first citable node in a passage.
   * It is an exception if the passage does not include
@@ -486,12 +557,15 @@ def >= (urn: CtsUrn) : Corpus = {
   *
   * @param filterUrn URN identifying the passage.
   */
+
+  /*
   def firstNode(filterUrn: CtsUrn): CitableNode = {
     firstNodeOption(filterUrn) match {
       case None => throw Ohco2Exception("No node matching " + filterUrn)
       case n: Some[CitableNode] => n.get
     }
   }
+  */
 
   /** Find first citable node in the corpus.
   * It is an exception if the passage does not include
@@ -510,13 +584,14 @@ def >= (urn: CtsUrn) : Corpus = {
   *
   * @param filterUrn URN identifying the passage.
   */
+  /*
   def lastNodeOption(filterUrn: CtsUrn): Option[CitableNode] = {
     val matching = this ~~ filterUrn
     matching.nodes.isEmpty match {
       case true => None
       case false => Some(matching.nodes.last)
     }
-  }
+  }*/
 
   /** Find the last citable node in a passage.
   * It is an exception if the passage does not include
@@ -524,12 +599,13 @@ def >= (urn: CtsUrn) : Corpus = {
   *
   * @param filterUrn URN identifying the passage.
   */
+  /*
   def lastNode(filterUrn: CtsUrn): CitableNode = {
     lastNodeOption(filterUrn) match {
       case None => throw Ohco2Exception("No node matching " + filterUrn)
       case n: Some[CitableNode] => n.get
     }
-  }
+  }*/
 
   /** Find the last citable node in the corpus.
   * It is an exception if the passage does not include
@@ -548,13 +624,16 @@ def >= (urn: CtsUrn) : Corpus = {
     Corpus.passageUrn(prev(filterUrn))
   }
 
+
   /** Find URN for nodes following a passage.
   *
   * @param filterUrn Passage to find nodes after.
   */
+  /*
   def nextUrn(filterUrn: CtsUrn): Option[CtsUrn] = {
     Corpus.passageUrn(next(filterUrn))
   }
+  */
 
   /** Find nodes following a passage.
   * The number of nodes will equal the number of
@@ -565,6 +644,7 @@ def >= (urn: CtsUrn) : Corpus = {
   *
   * @param filterUrn passage to find nodes before
   */
+  /*
   def next(filterUrn: CtsUrn): Vector[CitableNode] = {
     val subselection = this ~~ filterUrn
 
@@ -581,6 +661,7 @@ def >= (urn: CtsUrn) : Corpus = {
       }
     }
   }
+  */
 
 
 
@@ -595,6 +676,8 @@ def >= (urn: CtsUrn) : Corpus = {
   */
   def prev(filterUrn: CtsUrn): Vector[CitableNode] = {
     val subselection = this ~~ filterUrn
+    println(s"PREV: from ${filterUrn} subselected " + subselection)
+
     if (subselection.nodes.isEmpty) {
      Vector.empty
 
