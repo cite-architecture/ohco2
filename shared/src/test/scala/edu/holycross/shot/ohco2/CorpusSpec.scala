@@ -22,13 +22,15 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.4#Πηληϊάδεω
 urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
 """
 
-  "A corpus of citable nodes"  should "offer a constructor signature for  a corpus from a string value for a URL identifying a 2-column delimited text source" in pending /* {
+  "A corpus of citable nodes"  should "offer a constructor signature for  a corpus from a string value for a URL identifying a 2-column delimited text source" in  {
     val corpus = Corpus(delimitedText,"#")
     corpus match {
       case c: Corpus => assert(true)
       case _ => fail("Failed to create Corpus object")
     }
   }
+
+
   it should "throw an Ohco2Exception if badly formatted data is given to the constructor" in {
     val badInput = "no structure here"
     try {
@@ -95,8 +97,9 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
     val one = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.1")
     val two = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.2")
     val three = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.3")
-
-    val anded = five.~~(Vector(one,two,three), Corpus(Vector.empty))
+    val urnVector = Vector(one,two,three)
+    val resultCorpus = Corpus(Vector.empty)
+    val anded = five.~~( urnVector, resultCorpus)
     assert (anded.size == 3)
   }
 
@@ -117,6 +120,7 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
 
 
     assert (threeLines.contents == expected)
-  }*/
+  }
+
 
 }

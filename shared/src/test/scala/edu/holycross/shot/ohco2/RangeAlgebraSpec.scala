@@ -80,7 +80,7 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
       val rIdx = corpus.rangeIndex(range)
       fail("Should have thrown an exception making a range index on " + range)
     } catch {
-      case o2e: Ohco2Exception => assert(o2e.message == "Can only index references to concrete texts: urn:cts:ns:tg.w:1.1.2-1.2.2")
+      case iae: IllegalArgumentException => assert(iae.getMessage() == "requirement failed: Can only index references to concrete texts: urn:cts:ns:tg.w:1.1.2-1.2.2")
       case t: Throwable => fail("Should have thrown an Ocho2Exception: " +  t)
     }
   }
@@ -100,6 +100,16 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
   it should "be able to apply the containedNodes function to a concrete range" in {
     val range = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.2-1.2.2")
     assert (corpus.rangeExtract(range) == corpus.containedNodes(range))
+  }
+
+  it should "index containers to a RangeIndex" in {
+      val container = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1")
+      val rIdx = corpus.rangeIndex(container)
+      val expectedStartIndex = 12
+      val expectedEndIndex = 20
+
+      assert(rIdx.a == expectedStartIndex)
+      assert(rIdx.b == expectedEndIndex)
   }
 
 

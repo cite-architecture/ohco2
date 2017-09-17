@@ -87,6 +87,7 @@ import scala.scalajs.js.annotation._
       containedNodes(u2).size
     }
 
+
     if (u1size == 1 && u2size == 1) {
       nodeToNodeRelation(u1,u2)
     } else if (u1size == 1 && u2size > 1) {
@@ -126,7 +127,7 @@ import scala.scalajs.js.annotation._
   private def rangeToRangeRelation(u1: CtsUrn, u2: CtsUrn): TextPassageTopology.Value = {
     val r1idx = rangeIndex(u1)
     val r2idx = rangeIndex(u2)
-    //println("Two ranges: " + r1idx + ", " + r2idx)
+
     val rangeRelation = if (r1idx == r2idx) {
       TextPassageTopology.PassageEquals
 
@@ -143,8 +144,8 @@ import scala.scalajs.js.annotation._
     } else if (r1idx.a < r2idx.a && r1idx.b < r2idx.b && r1idx.b >= r2idx.a) {
       TextPassageTopology.PassagePrecedesAndOverlaps
     } else if (r1idx.a > r2idx.a && r1idx.b > r2idx.b  ) {
-      println("Two ranges: " + r1idx + ", " + r2idx)
-      println("from " + u1 + ", " + u2)
+      //println("Two ranges: " + r1idx + ", " + r2idx)
+      //println("from " + u1 + ", " + u2)
       TextPassageTopology.PassageOverlapsAndFollows
 
     } else {
@@ -250,18 +251,33 @@ import scala.scalajs.js.annotation._
   * identify a range of nodes present in the Corpus.
   */
   def rangeIndex(urn: CtsUrn): RangeIndex = {
-    if (urn.concrete) {
+    require (urn.concrete, "Can only index references to concrete texts: " + urn)
+    if (urn.isRange) {
       val noPsg = nodes.filter(_.urn.dropPassage == urn.dropPassage)
-      //println("noPSg: " + noPsg.mkString("\n"))
-      val urnA = CtsUrn(urn.dropPassage.toString + urn.rangeBeginRef)
-      val urnB = CtsUrn(urn.dropPassage.toString + urn.rangeEndRef)
+      //println("RANGE INDEX " + urn)
+
+      val beginRef ={
+        urn.rangeBeginRefOption match {
+            case opt: Some[String] => opt.get
+            case None => ""
+        }
+      }
+      val endRef = {
+        urn.rangeEndRefOption match {
+            case opt: Some[String] => opt.get
+            case None => ""
+        }
+      }
+
+      val urnA = CtsUrn(urn.dropPassage.toString + beginRef)
+      val urnB = CtsUrn(urn.dropPassage.toString + endRef)
       //println("A,B: \n" + urnA + " \n" + urnB)
 
       val aMatches = noPsg.filter(_.urn ~~ urnA)
       val bMatches = noPsg.filter(_.urn ~~ urnB)
-      //println("rangeIndexing " + urn)
-      //println("amatches: " + aMatches)
-      //println("bmatches: " + bMatches)
+      //println("\nrangeIndexing " + urn + "\n")
+      //println("amatches: " + aMatches.map(_.urn).mkString("\n"))
+      //println("\n bmatches: " + bMatches.map(_.urn).mkString("\n"))
 
 
       if (aMatches.isEmpty || bMatches.isEmpty) {
@@ -273,7 +289,14 @@ import scala.scalajs.js.annotation._
       }
 
     } else {
-      throw Ohco2Exception("Can only index references to concrete texts: " + urn)
+      val contained = this >= urn
+      if (contained.size > 1) {
+        val a = pointIndex(contained.urns.head)
+        val b = pointIndex(contained.urns.last)
+        RangeIndex(a,b)
+      } else {
+        throw Ohco2Exception(s"Not a containing or range expression: ${urn}")
+      }
     }
   }
 
@@ -408,11 +431,13 @@ import scala.scalajs.js.annotation._
   *
   * @param urnV vector of URNs to use in filtering the corpus.
   */
-  /*def  ~~(urnV: Vector[CtsUrn]): Corpus = {
+  def  ~~(urnV: Vector[CtsUrn]): Corpus = {
     val rslts = Vector.empty
     this.~~(urnV, Corpus(rslts))
   }
 
+
+  //@tailrec final  def ~~(urnV : Vector[CtsUrn], resultCorpus: Corpus):
   /** Recursively add to a given corpus all nodes in the present corpus
   * that are URN-similar  to the first URN in a given vector of URNs.
   * When all nodes in the vector have been applied, the
@@ -421,8 +446,7 @@ import scala.scalajs.js.annotation._
   * @param urnV vector of URNs to use in filtering the corpus.
   * @param resultCorpus
   */
-  //@tailrec final  def ~~(urnV : Vector[CtsUrn], resultCorpus: Corpus):
-    def ~~(urnV : Vector[CtsUrn], resultCorpus: Corpus): Corpus = {
+  def ~~(urnV : Vector[CtsUrn], resultCorpus: Corpus): Corpus = {
     if (urnV.isEmpty ) {
       resultCorpus
 
@@ -431,7 +455,7 @@ import scala.scalajs.js.annotation._
       val newTotal = resultCorpus ++ subVect
       this ~~(urnV.tail, newTotal)
     }
-  }*/
+  }
 
 
 /*
@@ -540,8 +564,6 @@ def >= (urn: CtsUrn) : Corpus = {
   *
   * @param filterUrn URN identifying the passage.
   */
-
-  /*
   def firstNodeOption(filterUrn: CtsUrn): Option[CitableNode] = {
     val matching = this ~~ filterUrn
     matching.nodes.isEmpty match {
@@ -549,7 +571,7 @@ def >= (urn: CtsUrn) : Corpus = {
       case false => Some(matching.nodes.head)
     }
   }
-  */
+
 
   /** Find first citable node in a passage.
   * It is an exception if the passage does not include
@@ -557,24 +579,21 @@ def >= (urn: CtsUrn) : Corpus = {
   *
   * @param filterUrn URN identifying the passage.
   */
-
-  /*
   def firstNode(filterUrn: CtsUrn): CitableNode = {
     firstNodeOption(filterUrn) match {
       case None => throw Ohco2Exception("No node matching " + filterUrn)
       case n: Some[CitableNode] => n.get
     }
   }
-  */
+
 
   /** Find first citable node in the corpus.
   * It is an exception if the passage does not include
   * at least one citable node.
   */
-  /*
-  def firstNode: CitableNode = {
+  def first: CitableNode = {
     nodes(0)
-  }*/
+  }
 
 
 
@@ -584,14 +603,13 @@ def >= (urn: CtsUrn) : Corpus = {
   *
   * @param filterUrn URN identifying the passage.
   */
-  /*
   def lastNodeOption(filterUrn: CtsUrn): Option[CitableNode] = {
     val matching = this ~~ filterUrn
     matching.nodes.isEmpty match {
       case true => None
       case false => Some(matching.nodes.last)
     }
-  }*/
+  }
 
   /** Find the last citable node in a passage.
   * It is an exception if the passage does not include
@@ -599,23 +617,21 @@ def >= (urn: CtsUrn) : Corpus = {
   *
   * @param filterUrn URN identifying the passage.
   */
-  /*
   def lastNode(filterUrn: CtsUrn): CitableNode = {
     lastNodeOption(filterUrn) match {
       case None => throw Ohco2Exception("No node matching " + filterUrn)
       case n: Some[CitableNode] => n.get
     }
-  }*/
+  }
 
   /** Find the last citable node in the corpus.
   * It is an exception if the passage does not include
   * at least one citable node.
   */
-  /*
-  def lastNode: CitableNode = {
+  def last: CitableNode = {
     nodes(nodes.size - 1)
   }
-*/
+
   /** Find URN for nodes preceding a passage.
   *
   * @param filterUrn Passage to find nodes before.
@@ -629,11 +645,10 @@ def >= (urn: CtsUrn) : Corpus = {
   *
   * @param filterUrn Passage to find nodes after.
   */
-  /*
   def nextUrn(filterUrn: CtsUrn): Option[CtsUrn] = {
     Corpus.passageUrn(next(filterUrn))
   }
-  */
+
 
   /** Find nodes following a passage.
   * The number of nodes will equal the number of
@@ -644,7 +659,6 @@ def >= (urn: CtsUrn) : Corpus = {
   *
   * @param filterUrn passage to find nodes before
   */
-  /*
   def next(filterUrn: CtsUrn): Vector[CitableNode] = {
     val subselection = this ~~ filterUrn
 
@@ -661,7 +675,7 @@ def >= (urn: CtsUrn) : Corpus = {
       }
     }
   }
-  */
+
 
 
 
