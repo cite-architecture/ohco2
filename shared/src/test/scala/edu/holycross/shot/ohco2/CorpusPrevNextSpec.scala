@@ -19,6 +19,22 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.lemma#<div xmlns="http://www.tei-c.org/ns/1
 urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> οὕτως ἀναγνωστεον δια τοῦ ενὸς <rs type="waw"> λ</rs> καὶ διὰ τὸ μέτρον καὶ διὰ τὸ ἄχος ὅ ἐστι λύπην ἐπενεγκεῖν τοῖς Ἰλιεῦσιν, οἱ δὲ παρὰ τὸ μὴ θιγεῖν χείλεσι θηλῆς ὅλως γὰρ οὐ μετέσχε γάλακτος⁑</p></div>
 """
 
+val versionsAndExemplars = """urn:cts:greekLit:g.w.v:1.1#two tokens
+urn:cts:greekLit:g.w.v:1.2#two tokens
+urn:cts:greekLit:g.w.v:1.3#two tokens
+urn:cts:greekLit:g.w.v:2.1#two tokens
+urn:cts:greekLit:g.w.v:2.2#two tokens
+urn:cts:greekLit:g.w.v.e:1.1.1#two
+urn:cts:greekLit:g.w.v.e:1.1.2#tokens
+urn:cts:greekLit:g.w.v.e:1.2.1#two
+urn:cts:greekLit:g.w.v.e:1.2.2#tokens
+urn:cts:greekLit:g.w.v.e:1.3.1#two
+urn:cts:greekLit:g.w.v.e:1.3.2#tokens
+urn:cts:greekLit:g.w.v.e:2.1.1#two
+urn:cts:greekLit:g.w.v.e:2.1.2#tokens
+urn:cts:greekLit:g.w.v.e:2.2.1#two
+urn:cts:greekLit:g.w.v.e:2.2.2#tokens
+"""
 
   val corpus = Corpus(scholiaDelimited,"#")
 
@@ -35,7 +51,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
     assert(prv(0).urn == CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma"))
     */
   }
-/*
+
   it should "find the URN for single previous node before a node" in {
     val u = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.comment")
     val prv = corpus.prevUrn(u)
@@ -74,12 +90,11 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
     val prv = corpus.prevUrn(middle)
     assert(prv.get == CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma-1.1.comment"))
   }
-*/
 
 
 
 
-/*
+
   it should "find the single next node after a node" in {
     val firstU = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma")
     val nxt = corpus.next(firstU)
@@ -149,5 +164,61 @@ urn:cts:greekLit:tlg5026.msAil.hmt:1.145.comment#προθύμως
       case _ => fail("Got no urn for next")
     }
   }
-*/
+
+  it should " get a prev-urn from a version-level urn, single passage, ignoring derived exemplars" in {
+
+      val corpus = Corpus(versionsAndExemplars,"#")
+      val fu = CtsUrn("urn:cts:greekLit:g.w.v:1.2")
+      val pu = CtsUrn("urn:cts:greekLit:g.w.v:1.1")
+      val nu = CtsUrn("urn:cts:greekLit:g.w.v:2.1")
+      corpus.prevUrn(fu) match {
+         case u: Some[CtsUrn] => assert( u.get == pu)
+         case _ =>  fail("Got no urn for text")
+      }
+  }
+
+  it should " get a prev-urn from a version-level urn, containing element, ignoring derived exemplars" in {
+
+      val corpus = Corpus(versionsAndExemplars,"#")
+      val fu = CtsUrn("urn:cts:greekLit:g.w.v:2")
+      val pu = CtsUrn("urn:cts:greekLit:g.w.v:1.2-1.3")
+      corpus.prevUrn(fu) match {
+         case u: Some[CtsUrn] => assert( u.get == pu)
+         case _ =>  fail("Got no urn for text")
+      }
+  }
+
+  it should " get a next-urn from a version-level urn, containing element, ignoring derived exemplars" in {
+
+      val corpus = Corpus(versionsAndExemplars,"#")
+      val fu = CtsUrn("urn:cts:greekLit:g.w.v:1")
+      val nu = CtsUrn("urn:cts:greekLit:g.w.v:2.1-2.2")
+      corpus.nextUrn(fu) match {
+         case u: Some[CtsUrn] => assert( u.get == nu)
+         case _ =>  fail("Got no urn for text")
+      }
+  }
+
+  it should " get a prev-urn from a version-level urn, range of passages, ignoring derived exemplars" in {
+
+      val corpus = Corpus(versionsAndExemplars,"#")
+      val fu = CtsUrn("urn:cts:greekLit:g.w.v:2.1-2.2")
+      val pu = CtsUrn("urn:cts:greekLit:g.w.v:1.2-1.3")
+      corpus.prevUrn(fu) match {
+         case u: Some[CtsUrn] => assert( u.get == pu)
+         case _ =>  fail("Got no urn for text")
+      }
+  }
+
+  it should " get a next-urn from a version-level urn, range of passages, ignoring derived exemplars" in {
+
+      val corpus = Corpus(versionsAndExemplars,"#")
+      val fu = CtsUrn("urn:cts:greekLit:g.w.v:1.1-1.2")
+      val nu = CtsUrn("urn:cts:greekLit:g.w.v:1.3-2.1")
+      corpus.nextUrn(fu) match {
+         case u: Some[CtsUrn] => assert( u.get == nu)
+         case _ =>  fail("Got no urn for text")
+      }
+  }
+
 }
