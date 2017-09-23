@@ -660,13 +660,13 @@ def >= (urn: CtsUrn) : Corpus = {
   * @param filterUrn passage to find nodes before
   */
   def next(filterUrn: CtsUrn): Vector[CitableNode] = {
-    val subselection = this ~~ filterUrn
+    val subselection = this >= filterUrn
 
     if (subselection.nodes.isEmpty) {
      Vector.empty
 
     } else {
-      val workCorpus = this ~~ filterUrn.dropPassage
+      val workCorpus = this >= filterUrn.dropPassage
       val idx = workCorpus.nodes.indexOf(subselection.nodes.last) + 1
       val max = idx + subselection.size
       max match {
@@ -689,14 +689,14 @@ def >= (urn: CtsUrn) : Corpus = {
   * @param filterUrn passage to find nodes before
   */
   def prev(filterUrn: CtsUrn): Vector[CitableNode] = {
-    val subselection = this ~~ filterUrn
+    val subselection = this >= filterUrn
     println(s"PREV: from ${filterUrn} subselected " + subselection)
 
     if (subselection.nodes.isEmpty) {
      Vector.empty
 
     } else {
-      val workCorpus = this ~~ filterUrn.dropPassage
+      val workCorpus = this >= filterUrn.dropPassage
       val idx = workCorpus.nodes.indexOf(subselection.nodes(0))
       val min = idx - subselection.size
 
