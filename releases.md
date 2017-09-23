@@ -1,5 +1,9 @@
 # `ohco2`: release notes
 
+**10.3.1**:  Correct default column separator in `TextRepositorySource`.
+
+**10.3.0**:  Implement algebra of containment and similarity on a Corpus.
+
 **10.2.0**: Implement topology of text passage relationships.
 
 **10.1.2**: Incorporate bug fixes in updates to library dependencies.

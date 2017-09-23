@@ -22,7 +22,7 @@ object TextRepositorySource {
   * @param delimiter String value used to delimit columns
   * of CEX data.
   */
-  def fromCexFile(cexFile: String, delimiter: String = "\ts"): TextRepository = {
+  def fromCexFile(cexFile: String, delimiter: String = "#"): TextRepository = {
     TextRepository(Source.fromFile(cexFile).getLines.toVector.mkString("\n"))
   }
 
