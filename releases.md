@@ -1,5 +1,8 @@
 # `ohco2`: release notes
 
+
+**10.4.0**:  API-breaking change to parameter sequence of `ngramHisto` function to support default values when compiled of ScalaJS.  Corrects bug in handling of `prev` and `next` on a Corpus.
+
 **10.3.1**:  Correct default column separator in `TextRepositorySource`.
 
 **10.3.0**:  Implement algebra of containment and similarity on a Corpus.

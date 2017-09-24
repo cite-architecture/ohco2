@@ -660,13 +660,13 @@ def >= (urn: CtsUrn) : Corpus = {
   * @param filterUrn passage to find nodes before
   */
   def next(filterUrn: CtsUrn): Vector[CitableNode] = {
-    val subselection = this ~~ filterUrn
+    val subselection = this >= filterUrn
 
     if (subselection.nodes.isEmpty) {
      Vector.empty
 
     } else {
-      val workCorpus = this ~~ filterUrn.dropPassage
+      val workCorpus = this >= filterUrn.dropPassage
       val idx = workCorpus.nodes.indexOf(subselection.nodes.last) + 1
       val max = idx + subselection.size
       max match {
@@ -681,7 +681,7 @@ def >= (urn: CtsUrn) : Corpus = {
 
   /** Find nodes preceding a passage.
   * The number of nodes will equal the number of
-  * nodes in the passage unless fewer than that number of nodes precede
+  * nodes in the passage unless fewer than that number of nodes preceding
   * the passage.  In that case, all preceding nodes will be
   * returned.  If no nodes precede the passage, an empty
   * vector is returned.
@@ -689,17 +689,15 @@ def >= (urn: CtsUrn) : Corpus = {
   * @param filterUrn passage to find nodes before
   */
   def prev(filterUrn: CtsUrn): Vector[CitableNode] = {
-    val subselection = this ~~ filterUrn
-    println(s"PREV: from ${filterUrn} subselected " + subselection)
+    val subselection = this >= filterUrn
 
     if (subselection.nodes.isEmpty) {
      Vector.empty
 
     } else {
-      val workCorpus = this ~~ filterUrn.dropPassage
+      val workCorpus = this >= filterUrn.dropPassage
       val idx = workCorpus.nodes.indexOf(subselection.nodes(0))
       val min = idx - subselection.size
-
 
       min match {
         case n if n >= 0 => {
@@ -765,7 +763,7 @@ def >= (urn: CtsUrn) : Corpus = {
   * @param gram The desired ngram, with white space separating tokens.
   * @param dropPunctuation True if punctuation should be omitted.
   */
-  def urnsForNGram(gram: String, threshhold: Int = 2,dropPunctuation: Boolean = true): Vector[CtsUrn] = {
+  def urnsForNGram(gram: String, threshhold: Int = 2, dropPunctuation: Boolean = true): Vector[CtsUrn] = {
     val n = gram.split(" ").size
     val words = passagesToWords(dropPunctuation)
     val allGrams = words.map(v => Corpus.ngrams(v,n))
@@ -778,11 +776,12 @@ def >= (urn: CtsUrn) : Corpus = {
   *
   * @param strings Vector  of strings
   * @param n size of ngram desired
-  * @param threshhold
+  * @param threshhold only include ngrams that occur more than threshhold
+  * times.  (Default value of 0 therefore collects all ngrams of the given sie.)
   * @param dropPunctuation true if punctuation should be omitted from ngrams
   * @return a vector of word+count pairs sorted from high to low
   */
-  def ngramHisto(n: Int, threshhold: Int, dropPunctuation: Boolean): StringHistogram = {
+  def ngramHisto(n: Int, threshhold: Int = 0, dropPunctuation: Boolean = true): StringHistogram = {
     val words = passagesToWords(dropPunctuation)
     val allGrams = words.map(v => Corpus.ngrams(v,n)).filterNot(_.isEmpty).flatten
     // guarantee length after filtering empties:
@@ -930,7 +929,8 @@ def >= (urn: CtsUrn) : Corpus = {
 *
 * @param str String that must be part of indexed ngram.
 * @param n size of ngram desired
-* @param threshhold
+* @param threshhold only include ngrams that occur more than threshhold
+* times.  (Default value of 0 therefore collects all ngrams of the given sie.)
 * @param dropPunctuation true if punctuation should be omitted from ngrams
 * @return a vector of word+count pairs sorted from high to low
 */
