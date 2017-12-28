@@ -1,0 +1,26 @@
+
+
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            OHCO2 library
+tagline:          'Work with citable texts'
+description:      'A library for working with canonicaly citable texts modelled as an ordered hierarchy of citation objects'
+
+
+baseurl: '/ohco2/'
+
+
+author:
+  name:           'Neel Smith'
+
+
+links:
+  - title:  CITE Architecture
+    url:  https://github.com/cite-architecture
+    external: true
+  - title:  Github repository
+    url:  https://github.com/cite-architecture/ohco2
+    external: true
