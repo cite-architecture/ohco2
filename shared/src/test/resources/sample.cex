@@ -1,0 +1,20 @@
+#!cexversion
+3.0
+
+#!citelibrary
+name#Iliadic Metrical Summaries
+urn#urn:cite2:hmt:cex.2017_1:metsumm
+license#Creative Commons Attribution, Non-Commercial 4.0 License <https://creativecommons.org/licenses/by-nc/4.0/>.
+namespace#hmt#http://www.homermultitext.org/citens/hmt
+namespace#greekLit#http://chs.harvard.edu/ctsns/greekLit
+
+
+#!ctscatalog
+urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online#lang
+urn:cts:greekLit:tlg5026.msA.hmt:#book,comment,section#Scholia Vetera in Iliadem#Main scholia to Venetus A#Homer Multitext##true#grc
+
+#!ctsdata
+urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma#μῆνιν ἄειδε
+urn:cts:greekLit:tlg5026.msA.hmt:1.1.comment#ζητοῦσι διά τί ἀπὸ τῆς μήνιδος ἤρξατο οὕτως δυσφήμου ὀνόματος · διά δύο ταῦτα · πρῶτον μὲν ἵν' ἐκ τοῦ πάθους ἀπκαταῥρεύσῃ τὸ τοιοῦτο μόριον τῆς ψυχῆς καὶ προσεκτικωτέρους τοὺς ἀκροατὰς ἐπί τοῦ μεγέθους ποιήσῃ καὶ προσεθίζῃ φέρειν γενναίως ἡμᾶς τὰ πάθη . μέλλων πολλέμους ἀπαγγέλλειν · δεύτερον . ἵνα τὰ ἐγκώμια τῶν Ἑλλήνων πιθανώτερα ποιήσῃ · ἐπεὶ δὲ ἔμελλε , νικωντας ἀποφαίνειν τοὺς Ἑλληνας , εἰκότως οὐ κατατρέχει ἀξιοπιστότερον ἐκ τοῦ μὴ πάντα χαρίζεσθαι τῷ ἐκείνων ἐπαίνῳ · ἤρξατο μὲν ἀπὸ μήνιδος ἐπείπερ αὕτη τοῖς πρακτικοῖς ὑπόθεσις γέγονεν · ἄλλῳς τε καὶ τραγῳδίαις τραγικὸν ἐξεῦρε προοίμιον · καὶ γὰρ προσεκτικοὺς ἡμᾶς ἡ τῶν ἀτυχημάτων διήγησις ἐργάζεται · καὶ ὡς ἄριστος ἰατρὸς , πρῶτον ἀναστέλλων τὰ νοσήματα τῆς ψυχῆς ὕστερον τὴν ΐασιν ἐπάγει . Ἑλληνικὸν δὲ τὸ πρό τέλει τὰς ηδονὰς ἐπάγειν · ῾ϊστέον δέ , ὥσπερ ἐπί συκῆς πρῶτον μέν ἐστιν όλυνθος εἶτα φίλιξ σύκον ϊσχάς . οὕτω πρῶτον · ὀργή · θυμός · χόλος · κότος · μῆνις · ὅμως ὁ ποιητὴς ὡς συνωνύμοις ὀνόμασιν ἐπὶ Ἀχιλλεως χρῆται ἢἐ χόλον παύσειεν , ἐρητύσειε τε θυμόν · οὐδ' ὄθομαι κοτέοντος , αὐτὰρ ὁ μήνιε νηυσίν ·
+urn:cts:greekLit:tlg5026.msA.hmt:1.2.lemma#μῆνις
+urn:cts:greekLit:tlg5026.msA.hmt:1.2.comment#παρὰ τὸ μένω μῆνις ὡς ἐνὸς ἦνις · οἱ δὲ περὶ Γλαύκωνα τὸν Ταρσέα ἠξίουν ὀξύνειν τὸ ὄνομα οὐκ ὀρθῶς .
