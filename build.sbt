@@ -28,9 +28,13 @@ lazy val crossed = crossProject.in(file(".")).
         "edu.holycross.shot.cite" %%% "xcite" % "3.2.1",
         "edu.holycross.shot" %%% "cex" % "6.1.0",
         "edu.holycross.shot" %%% "seqcomp" % "1.0.0"
-      )
+      ),
+      tutTargetDirectory := file("docs"),
+      tutSourceDirectory := file("shared/src/main/tut")
     ).
     jvmSettings(
+      tutTargetDirectory := file("docs"),
+      tutSourceDirectory := file("shared/src/main/tut")
     ).
     jsSettings(
       skip in packageJSDependencies := false,
@@ -38,5 +42,6 @@ lazy val crossed = crossProject.in(file(".")).
 
     )
 
-lazy val crossedJVM = crossed.jvm
+
+lazy val crossedJVM = crossed.jvm.enablePlugins(TutPlugin)
 lazy val crossedJS = crossed.js.enablePlugins(ScalaJSPlugin)
