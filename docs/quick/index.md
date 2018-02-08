@@ -3,6 +3,7 @@ layout: page
 title:  Quick start
 ---
 
+
 Import the library:
 
 
@@ -11,7 +12,9 @@ import edu.holycross.shot.ohco2._
 ```
 
 
-Create a `TextRepository` from CEX text:
+## Create a TextRepositorySource
+
+You can create a `TextRepository` from CEX-formatted text:
 
 
 ```scala
@@ -32,3 +35,11 @@ val textRepository = TextRepository(cex)
 ```
 
 In the JVM environment, the `TextRepositorySource` object has numerous functions for creating a `TextRepository` directly from files in a variety of formats.
+
+## Find out about the contents of a repository
+
+A TextRepository has a Catalog (with metadata about each document in the repository) and a Corpus (with the text contents of each document).  Get a Vector of CatalogEntry objects for your repository:
+
+```scala
+val catalogEntries = textRepository.catalog.texts
+```
