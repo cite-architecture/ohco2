@@ -25,7 +25,7 @@ import scala.scalajs.js.annotation._
   * @param filterUrn URN identifying text(s).
   */
   def entriesForUrn(filterUrn: CtsUrn): Vector[CatalogEntry] = {
-    texts.filter(_.urn.~~(filterUrn))
+    texts.filter(_.urn <= filterUrn)
   }
 
   /** Number of entries in catalog.
@@ -55,13 +55,22 @@ import scala.scalajs.js.annotation._
   }
 
 
-  /** Create string label for catalog entries matching a
+  /** Create string label describing all catalog entries matching a
+  * given URN.
+  *
+  * @param urn Urn to match.
+  */
+  def labels(urn: CtsUrn) : String = {
+    entriesForUrn(urn).map(_.toString).mkString("\n")
+  }
+
+  /** Create string label describing catalog entry matching a
   * given URN.
   *
   * @param urn Urn to match.
   */
   def label(urn: CtsUrn) : String = {
-    entriesForUrn(urn).map(_.toString).mkString("\n")
+    entriesForUrn(urn).filter(_.urn == urn).mkString(" ")
   }
 
 

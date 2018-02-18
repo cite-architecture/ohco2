@@ -214,8 +214,6 @@ urn:cts:greekLit:g.w.v.e:2.2.2#tokens
   }
 
 
-
-
   "The companion object" should "make range URNs for a vector of citable nodes"  in {
     val range =  Corpus.passageUrn(corpus.nodes).get
     assert (range == CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma-1.5.comment"))

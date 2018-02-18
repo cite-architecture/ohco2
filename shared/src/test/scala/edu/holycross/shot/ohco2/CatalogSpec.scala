@@ -14,6 +14,7 @@ urn:cts:greekLit:tlg5026.msAint.hmt:#book/scholion/part#Scholia to the Iliad#Int
 urn:cts:greekLit:tlg5026.msAext.hmt:#book/scholion/part#Scholia to the Iliad#Exterior scholia of the Venetus A#HMT project edition##true#grc
 urn:cts:greekLit:tlg5026.msAil.hmt:#book/scholion/part#Scholia to the Iliad#Interlinear scholia of the Venetus A#HMT project edition##true#grc
 urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad#Later intermarginal scholia of the Venetus A#HMT project edition##true#grc
+urn:cts:greekLit:tlg5026.msAimlater.hmt.tokens:#book/scholion/part/token#Scholia to the Iliad#Later intermarginal scholia of the Venetus A#HMT project edition#tokenized exemplar#true#grc
 """
   val catalog = Catalog(catalogData)
 
@@ -31,14 +32,25 @@ urn:cts:greekLit:tlg5026.msAimlater.hmt:#book/scholion/part#Scholia to the Iliad
 
 
   it should "have a size function" in {
-    assert(catalog.size == 6)
+    assert(catalog.size == 7)
   }
+
   it  should "have a convenience method to get entries by URN" in {
     val mainScholiaUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:")
     val mainScholia = catalog.entriesForUrn(mainScholiaUrn)
     val documents = mainScholia.map(_.urn).distinct
     assert (documents.size == 1)
     assert (documents(0).~~(mainScholiaUrn))
+  }
+
+
+  it should "handle versions with exemplars when getting entries for URN" in {
+      val versionUrn:CtsUrn = CtsUrn("urn:cts:greekLit:tlg5026.msAimlater.hmt:")
+      val exemplarUrn:CtsUrn = CtsUrn("urn:cts:greekLit:tlg5026.msAimlater.hmt.tokens:")
+      val scholiaTexts = catalog.entriesForUrn(versionUrn)
+      val justExemplarTexts = catalog.entriesForUrn(exemplarUrn)
+      assert (scholiaTexts.size == 2)
+      assert (justExemplarTexts.size == 1)
   }
 
   "A catalog entry"  should "have a CtsUrn with a valid version identifier" in {
@@ -182,5 +194,41 @@ urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Interm
       case t: Throwable => fail("Should have thrown IllegalArgumentExcpetion but threw " + t)
     }
   }
+
+  it should "correctly provide a label for a version" in {
+    val urn = CtsUrn("urn:cts:greekLit:tlg5026.msAimlater.hmt:") 
+    try {
+      val l:String = catalog.label(urn)
+      assert(l == "Scholia to the Iliad, Later intermarginal scholia of the Venetus A (HMT project edition)")
+    } catch{
+      case ia: IllegalArgumentException => assert(ia.getMessage() == "requirement failed: Value for 'lang' should be an ISO 639-2 3-letter language code, but was english-language text")
+      case t: Throwable => fail("Should have thrown IllegalArgumentExcpetion but threw " + t)
+    }
+  }
+
+   it should "correctly provide a label for an exmplar" in {
+    val urn = CtsUrn("urn:cts:greekLit:tlg5026.msAimlater.hmt.tokens:") 
+    try {
+      val l:String = catalog.label(urn)
+      assert(l == "Scholia to the Iliad, Later intermarginal scholia of the Venetus A (HMT project edition: tokenized exemplar)")
+    } catch{
+      case ia: IllegalArgumentException => assert(ia.getMessage() == "requirement failed: Value for 'lang' should be an ISO 639-2 3-letter language code, but was english-language text")
+      case t: Throwable => fail("Should have thrown IllegalArgumentExcpetion but threw " + t)
+    }
+  }
+
+   it should "correctly provide labels for an version" in {
+    val urn = CtsUrn("urn:cts:greekLit:tlg5026.msAimlater.hmt:") 
+    try {
+      val l:String = catalog.labels(urn)
+      println(l)
+      assert(l == """Scholia to the Iliad, Later intermarginal scholia of the Venetus A (HMT project edition)
+Scholia to the Iliad, Later intermarginal scholia of the Venetus A (HMT project edition: tokenized exemplar)""")
+    } catch{
+      case ia: IllegalArgumentException => assert(ia.getMessage() == "requirement failed: Value for 'lang' should be an ISO 639-2 3-letter language code, but was english-language text")
+      case t: Throwable => fail("Should have thrown IllegalArgumentExcpetion but threw " + t)
+    }
+  }
+
 
 }

@@ -565,7 +565,7 @@ def >= (urn: CtsUrn) : Corpus = {
   * @param filterUrn URN identifying the passage.
   */
   def firstNodeOption(filterUrn: CtsUrn): Option[CitableNode] = {
-    val matching = this ~~ filterUrn
+    val matching = this >= filterUrn
     matching.nodes.isEmpty match {
       case true => None
       case false => Some(matching.nodes.head)
@@ -604,7 +604,7 @@ def >= (urn: CtsUrn) : Corpus = {
   * @param filterUrn URN identifying the passage.
   */
   def lastNodeOption(filterUrn: CtsUrn): Option[CitableNode] = {
-    val matching = this ~~ filterUrn
+    val matching = this >= filterUrn
     matching.nodes.isEmpty match {
       case true => None
       case false => Some(matching.nodes.last)
