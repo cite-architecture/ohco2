@@ -1,5 +1,8 @@
 # `ohco2`: release notes
 
+**10.4.2**: Fixed bugs with returning first- and last-node from a corpus where exemplars are present, and a bug with delivering a text's label from a catalog.
+
+**10.4.1**:  Now depending on XCite library v. 3.2.2.
 
 **10.4.0**:  API-breaking change to parameter sequence of `ngramHisto` function to support default values when compiled of ScalaJS.  Corrects bug in handling of `prev` and `next` on a Corpus.
 
