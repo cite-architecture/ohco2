@@ -45,6 +45,28 @@ urn:cts:greekLit:tlg0016.tlg001.eng:1.7#Now the supremacy which had belonged to 
     assert(res1.size == 8)
   }
 
+  it should "search a corpus where some citable nodes consist only of punctuation" in {
+    val puncText:String = """urn:cts:greekLit:tlg0012.tlg001.perseus_grc2.tokens:1.1.1#μῆνιν
+urn:cts:greekLit:tlg0012.tlg001.perseus_grc2.tokens:1.1.2#ἄειδε
+urn:cts:greekLit:tlg0012.tlg001.perseus_grc2.tokens:1.1.3#θεὰ
+urn:cts:greekLit:tlg0012.tlg001.perseus_grc2.tokens:1.1.4#Πηληϊάδεω
+urn:cts:greekLit:tlg0012.tlg001.perseus_grc2.tokens:1.1.5#Ἀχιλῆος
+urn:cts:greekLit:tlg0012.tlg001.perseus_grc2.tokens:1.2.1#οὐλομένην
+urn:cts:greekLit:tlg0012.tlg001.perseus_grc2.tokens:1.2.2#,
+urn:cts:greekLit:tlg0012.tlg001.perseus_grc2.tokens:1.2.3#ἣ
+urn:cts:greekLit:tlg0012.tlg001.perseus_grc2.tokens:1.2.4#μυρίʼ
+urn:cts:greekLit:tlg0012.tlg001.perseus_grc2.tokens:1.2.5#Ἀχαιοῖς
+urn:cts:greekLit:tlg0012.tlg001.perseus_grc2.tokens:1.2.6#ἄλγεʼ
+urn:cts:greekLit:tlg0012.tlg001.perseus_grc2.tokens:1.2.7#ἔθηκε
+urn:cts:greekLit:tlg0012.tlg001.perseus_grc2.tokens:1.2.8#,
+"""
+    val littleCorpus = Corpus(puncText,"#")
+    val res1 = littleCorpus.findToken("θεὰ")
+    assert(littleCorpus.size == 13)
+    assert(res1.size == 1)
+
+  }
+
 
   it should "search a corpus for a vector of white-space delimited tokens" in {
     val res1 = corpus.findWordTokens(Vector("Hellenes","Barbarians"))

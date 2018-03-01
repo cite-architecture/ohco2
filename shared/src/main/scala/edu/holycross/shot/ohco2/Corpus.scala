@@ -844,7 +844,9 @@ def >= (urn: CtsUrn) : Corpus = {
   */
   def findToken(t: String, omitPunctuation: Boolean = true): Corpus = {
     if (omitPunctuation) {
-      val stripped = nodes.map(CitableNode.stripPunctuation(_))
+      // guardNodes removes any CitableNodes that would have empty text-content after stripping punctuation.
+      val guardNodes:Vector[CitableNode] = nodes.filter(_.stripPunctuation.size > 0)
+      val stripped:Vector[CitableNode] = guardNodes.map(CitableNode.stripPunctuation(_))
       Corpus(stripped.filter(_.tokenMatches(t)))
     } else {
       Corpus(nodes.filter(_.tokenMatches(t)))
