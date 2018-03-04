@@ -1,5 +1,7 @@
 # `ohco2`: release notes
 
+**10.4.3**: Fixed bugs with token-searching, in cases where an analytical exemplar had CitableNodes consisting only of a single punctuation mark.
+
 **10.4.2**: Fixed bugs with returning first- and last-node from a corpus where exemplars are present, and a bug with delivering a text's label from a catalog.
 
 **10.4.1**:  Now depending on XCite library v. 3.2.2.
