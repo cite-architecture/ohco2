@@ -853,7 +853,7 @@ def >= (urn: CtsUrn) : Corpus = {
     }
   }
 
-  /** Create a new corpus with nodes containing all tokens in a
+    /** Create a new corpus with nodes containing all tokens in a
   * given list by recursively finding matches for the first token in the list.
   * Optionally omit or include punctuation in token definition.
   *
