@@ -1,7 +1,7 @@
 name := "OHCO2 text library"
 
 // XML libraries moved in 2.11, so can't support 2.10.
-crossScalaVersions := Seq("2.11.8", "2.12.3")
+//crossScalaVersions := Seq("2.11.8", "2.12.3")
 scalaVersion := "2.12.3"
 
 lazy val root = project.in(file(".")).
@@ -25,8 +25,7 @@ lazy val crossed = crossProject.in(file(".")).
         "org.scalatest" %%% "scalatest" % "3.0.1" % "test",
         "org.scala-lang.modules" %% "scala-xml" % "1.0.6",
 
-        "edu.holycross.shot.cite" %% "xcite" % "3.2.2" from "file:///cite/scala/unmanaged_jars/xcite_2.12-3.2.2.jar",
-        "edu.holycross.shot.cite" %%% "xcite" % "3.2.2" from "file:///cite/scala/unmanaged_jars/xcite_sjs0.6_2.12-3.2.2.jar",
+        "edu.holycross.shot.cite" %%% "xcite" % "3.2.2",
         "edu.holycross.shot" %%% "cex" % "6.1.0",
         "edu.holycross.shot" %%% "seqcomp" % "1.0.0"
       ),
