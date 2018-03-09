@@ -1,5 +1,6 @@
 # `ohco2`: release notes
 
+**10.5.1**: Clean binary publication on bintray.
 
 **10.5.0**: Restores automated cross-building functionality (text, package, publish for all supported Scala versions in both JVM and JS environments).
 
