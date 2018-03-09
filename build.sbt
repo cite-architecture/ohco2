@@ -1,7 +1,7 @@
 name := "OHCO2 text library"
 
 // XML libraries moved in 2.11, so can't support 2.10.
-crossScalaVersions in ThisBuild := Seq("2.11.8")//, "2.12.4")
+crossScalaVersions in ThisBuild := Seq("2.11.8", "2.12.4")
 scalaVersion := (crossScalaVersions in ThisBuild).value.last
 
 lazy val root = project.in(file(".")).
@@ -16,7 +16,7 @@ lazy val crossed = crossProject.in(file(".")).
     settings(
       name := "ohco2",
       organization := "edu.holycross.shot",
-      version := "10.5.1",
+      version := "10.5.2",
       licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
       resolvers += Resolver.jcenterRepo,
       resolvers += Resolver.bintrayRepo("neelsmith", "maven"),
