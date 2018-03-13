@@ -7,7 +7,7 @@ import edu.holycross.shot.cite._
 */
 class CexSerializationSpec extends FlatSpec {
 
-  val catalogData = """urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online
+  val catalogData = """urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online#lang
 urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true#grc
 urn:cts:greekLit:tlg5026.msAim.hmt:#book/scholion/part#Scholia to the Iliad#Intermarginal scholia of the Venetus A#HMT project edition##true#grc
 urn:cts:greekLit:tlg5026.msAint.hmt:#book/scholion/part#Scholia to the Iliad#Interior scholia of the Venetus A#HMT project edition##true#grc
@@ -41,7 +41,8 @@ urn:cts:greekLit:tlg0016.tlg001.eng:1.7#Now the supremacy which had belonged to 
     val cex = catalog.cex("#")
     val rows = cex.split("\n")
     assert(rows.size == 7)
-    assert(rows(0) == "urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online")
+    val expectedHeader = "urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online#lang"
+    assert(rows(0) == expectedHeader)
 
     assert (rows(1) == "urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true#grc")
   }

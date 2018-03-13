@@ -80,7 +80,7 @@ import scala.scalajs.js.annotation._
   * @param delimiter String value to use as column delimiter.
   */
   def cex(delimiter: String = "#") : String = {
-    val header =        s"""urn${delimiter}citationScheme${delimiter}groupName${delimiter}workTitle${delimiter}versionLabel${delimiter}exemplarLabel${delimiter}online"""
+    val header =        s"""urn${delimiter}citationScheme${delimiter}groupName${delimiter}workTitle${delimiter}versionLabel${delimiter}exemplarLabel${delimiter}online${delimiter}lang"""
     val cexEntries = texts.map(_.cex(delimiter))
 
     (header +:  cexEntries).mkString("\n") + "\n"

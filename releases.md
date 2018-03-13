@@ -1,5 +1,9 @@
 # `ohco2`: release notes
 
+**10.5.4**
+
+**10.5.3**: Fixes a bug in serialization of CTS catalogs.
+
 **10.5.2**: Verified cross-building publication to bintray.
 
 **10.5.1**: Clean binary publication on bintray.

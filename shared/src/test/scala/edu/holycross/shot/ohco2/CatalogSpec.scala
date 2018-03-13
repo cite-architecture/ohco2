@@ -7,7 +7,7 @@ import edu.holycross.shot.cite._
 */
 class CatalogSpec extends FlatSpec {
 
-  val catalogData = """urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online
+  val catalogData = """urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online#lang
 urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main scholia of the Venetus A#HMT project edition##true#grc
 urn:cts:greekLit:tlg5026.msAim.hmt:#book/scholion/part#Scholia to the Iliad#Intermarginal scholia of the Venetus A#HMT project edition##true#grc
 urn:cts:greekLit:tlg5026.msAint.hmt:#book/scholion/part#Scholia to the Iliad#Interior scholia of the Venetus A#HMT project edition##true#grc
@@ -196,7 +196,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Interm
   }
 
   it should "correctly provide a label for a version" in {
-    val urn = CtsUrn("urn:cts:greekLit:tlg5026.msAimlater.hmt:") 
+    val urn = CtsUrn("urn:cts:greekLit:tlg5026.msAimlater.hmt:")
     try {
       val l:String = catalog.label(urn)
       assert(l == "Scholia to the Iliad, Later intermarginal scholia of the Venetus A (HMT project edition)")
@@ -207,7 +207,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Interm
   }
 
    it should "correctly provide a label for an exmplar" in {
-    val urn = CtsUrn("urn:cts:greekLit:tlg5026.msAimlater.hmt.tokens:") 
+    val urn = CtsUrn("urn:cts:greekLit:tlg5026.msAimlater.hmt.tokens:")
     try {
       val l:String = catalog.label(urn)
       assert(l == "Scholia to the Iliad, Later intermarginal scholia of the Venetus A (HMT project edition: tokenized exemplar)")
@@ -218,7 +218,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Interm
   }
 
    it should "correctly provide labels for an version" in {
-    val urn = CtsUrn("urn:cts:greekLit:tlg5026.msAimlater.hmt:") 
+    val urn = CtsUrn("urn:cts:greekLit:tlg5026.msAimlater.hmt:")
     try {
       val l:String = catalog.labels(urn)
       println(l)
