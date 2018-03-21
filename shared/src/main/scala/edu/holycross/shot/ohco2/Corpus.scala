@@ -950,6 +950,47 @@ def >= (urn: CtsUrn) : Corpus = {
   def cex(delimiter: String = "\t"): String = {
     nodes.map(_.cex(delimiter)).mkString("\n") + "\n"
   }
+
+
+
+
+    /** Pairs a CitableNode with a sequential index number for that
+    * node.
+    *
+    * @param v Vector of triples, comprised of passage identifier
+    * (a String value), a citable node, and a sequence number within
+    * the passage node.
+    * @param newVersion Version identifier for the new node.
+    */
+    def flattenTriple(v: Vector[(String, edu.holycross.shot.ohco2.CitableNode, Int)], newVersion : String) = {
+      val psg = v(0)._1
+      val seq = v(0)._3
+
+      val urn = CtsUrn(s"${v(0)._2.urn.dropPassage.addVersion(newVersion)}${psg}")
+      val cnodes = v.map(_._2)
+      (seq, CitableNode(urn,   cnodes.map(_.text).mkString(" ")))
+    }
+
+    /** Creates a new corpus by reducing exemplar-level URNs
+    * to version-level URNs.  Order of exemplar-level nodes is
+    * maintained in the flattened, version-level corpus.
+    *
+    * @param newVersionId Value for version identifier of newly
+    * generated version.
+    */
+    def exemplarToVersion(newVersionId: String): Corpus = {
+      val zipped = nodes.zipWithIndex
+      val triple = zipped.map {
+        case (cn,i) => (cn.urn.passageComponent,cn,i)
+      }
+      val reduced = triple.map {
+        case (s,cn,i) => (s.split("[.]").dropRight(1).mkString("."),cn,i)
+      }
+      val grouped = reduced.groupBy(_._1).values.toVector
+      Corpus(grouped.map(
+        flattenTriple(_, newVersionId)).sortBy(_._1).map( _._2)
+        )
+    }
 }
 
 /** Factory for [[edu.holycross.shot.ohco2.Corpus]] instances.
@@ -1018,6 +1059,8 @@ object Corpus {
       }
     }
   }
+
+
 
 }
 

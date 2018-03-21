@@ -1,6 +1,8 @@
 # `ohco2`: release notes
 
-**10.5.4**
+**10.6.0**:  Adds new `exemplarToVersion` function on a `Corpus` to generate a new corpus by flattening exemplar-level nodes into version-level nodes.
+
+**10.5.4**: Updates dependencies for better CEX parsing.
 
 **10.5.3**: Fixes a bug in serialization of CTS catalogs.
 
