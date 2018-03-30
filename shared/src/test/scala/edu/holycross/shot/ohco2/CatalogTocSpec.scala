@@ -18,14 +18,35 @@ urn:cts:greekLit:tlg5026.msAimlater.hmt.tokens:#book/scholion/part/token#Scholia
 """
   val catalog = Catalog(catalogData)
 
-  "A catalog of citable nodes" should "generate a toc" in pending
+  "A catalog of citable nodes" should "generate a toc" in {
+    println(catalog.toc)
+  }
 
-  it should "identify all text groups in the catalog by URN" in {
+  it should "generate a toc for a list of works" in  {
+    val wks = catalog.labelledWorks.filter(_.urn ~~ CtsUrn("urn:cts:greekLit:tlg5026:"))
+    val tocMap = catalog.worksToc(wks.toSeq.toVector)
+    val expectedWorksEntries = 6
+    assert(tocMap.size == expectedWorksEntries)
+  }
+
+  it should "generate a toc for a list of versions" in {
+      val verss = catalog.labelledVersions.filter(_.urn ~~ CtsUrn("urn:cts:greekLit:tlg5026:"))
+
+      val toc = catalog.versionsToc(verss.toSeq.toVector)
+
+      val expectedVersions = 6
+      assert(toc.size == 6)
+      // but only 1 has an exemplar
+      val withExemplar = toc.filter( (entry) => entry._2.nonEmpty)
+      assert(withExemplar.size == 1)
+  }
+
+  it should "identify all text groups in the catalog by URN" in pending /*{
     val allGroups = catalog.groups
     assert(allGroups.size == 1)
     val expectedGroups = Set(CtsUrn("urn:cts:greekLit:tlg5026:"))
     assert(allGroups == expectedGroups)
-  }
+  }*/
 
   it should "create a set of cataloged labelled groups" in {
     val allLabelledGroups = catalog.labelledGroups

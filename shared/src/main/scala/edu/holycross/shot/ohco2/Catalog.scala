@@ -34,6 +34,56 @@ import scala.scalajs.js.annotation._
     texts.size
   }
 
+
+  /** For all versions in a list, create a Vector of exemplars belonging to them.
+  * The result is a map of [LabelledCtsUrn]s to a
+  *(possibly empty) Vector of [LabelledCtsUrn]s.
+  *
+  * @param versions List of text versions, identified by [[LabelledCtsUrn]] objects.
+  */
+  def versionsToc(versions: Vector[LabelledCtsUrn]):  Map[LabelledCtsUrn, Vector[LabelledCtsUrn]] = {
+    val pairings = for (v <- versions.sortBy(_.label)) yield {
+      val exemplars = labelledExemplars.filter(_.urn ~~ v.urn)
+      (v, exemplars.toSeq.toVector.sortBy(_.label))
+    }
+    pairings.toMap
+  }
+
+
+  /** For all works in a list, find mappings of all versions belonging to them.
+  * The result is a map of [[LabelledCtsUrn]]s to a
+  * further map of [[LabelledCtsUrn]]s to a
+  * Vector of [LabelledCtsUrn]s.
+  *
+  * @param versions List of text versions, identified by [[LabelledCtsUrn]] objects.
+  */
+  def worksToc(works: Vector[LabelledCtsUrn]):  Map[LabelledCtsUrn, Map[LabelledCtsUrn, Vector[LabelledCtsUrn]]] = {
+    val pairings = for (w <- works.sortBy(_.label)) yield {
+      val vers = labelledVersions.filter(_.urn ~~ w.urn)
+      (w, versionsToc(vers.toSeq.toVector.sortBy(_.label)))
+      //println("WORKS TOC " + s"${w}->${vers}")
+    }
+    pairings.toMap
+  }
+
+
+  /** Beginning from all text groups in the catalog,
+  * find mappings of all works belonging to them.
+  * The result is a map of [[LabelledCtsUrn]]s to a
+  * map of [[LabelledCtsUrn]]s for works to a further
+  * map of [[LabelledCtsUrn]]s for versions to a
+  * Vector of [LabelledCtsUrn]s.
+  */
+  def toc: Map[LabelledCtsUrn, Map[LabelledCtsUrn, Map[LabelledCtsUrn, Vector[LabelledCtsUrn]]]] = {
+    val pairings = for (g <- labelledGroups.toSeq.sortBy(_.label)) yield {
+      //(g,
+      val wks = labelledWorks.filter(_.urn ~~ g.urn)
+      (g, worksToc(wks.toSeq.toVector.sortBy(_.label)))
+      //println(wks.toSeq.toVector)
+    }
+    pairings.toMap
+  }
+
   /** Find Set of all text groups represented in the catalog.
   */
   def groups: Set[CtsUrn] = {
