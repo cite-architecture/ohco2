@@ -85,7 +85,7 @@ val alpha = catalog.labelledGroups.toSeq.sortBy(_.label)
 
 for (group <- alpha) {
   val worksFromGroupToVersions = catalog.toc(group)
-  println("\n" + group.label + " has " + worksFromGroupToVersions.size + " works, sorted alphabetically as:\n")
+  println("\n" + group.label + " has " + worksFromGroupToVersions.size + " works, sorted alphabetically as:")
   for (wk <- worksFromGroupToVersions.keySet.toSeq.sortBy(_.label)) {
     val versionsFromWorkToExemplar = worksFromGroupToVersions(wk)
     println(s"\t-  ${wk.label} has " + versionsFromWorkToExemplar.size + " version(s).")
