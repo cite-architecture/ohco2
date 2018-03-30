@@ -60,5 +60,36 @@ println(catalog.versionLabel(passage))
 
 ## Working with `LabelledCtsUrn`s.
 
+A text catalog can also package groups of references `LabelledCtsUrn`s that associate a labelling String with a URN.  For example, you collect all text groups, works, versions and exemplars in a catalog as LabelledCtsUrn`s.
 
-You can also collect Sets of `LabelledCtsUrn`s.
+```tut
+println(catalog.labelledGroups)
+println(catalog.labelledWorks)
+println(catalog.labelledVersions)
+println(catalog.labelledExemplars)
+```
+
+## Table of contents
+
+The `toc` function constructs a table of contents for the whole catalog.  The contents is organized as a map keyed  by text groups (as  `LabelledCtsUrn`s).  These keys point to a further map keyed by works as `LabelledCtsUrn`s, which in turn point to a map of version `LabelledCtsUrn`s, which (finally!) point to a simple (possibly empty) Vector of `LabelledCtsUrn`s for exemplars.
+
+Let's alphabetize top-level text groups by their label by converting the set of known groups to a sequence, and sorting on their labelling string. We can cycle through the top level of the table of contents alphabetically with that list.
+
+Similarly, if we further want to alphabetize works for each text group by the work's title, we can convert the keyset to map from group to works to a sequence, and sort it by the label property of each `LabelledCtsUrn`.
+
+This example uses plain
+
+```tut
+
+val alpha = catalog.labelledGroups.toSeq.sortBy(_.label)
+
+for (group <- alpha) {
+  val worksFromGroupToVersions = catalog.toc(group)
+  println(group.label + " has " + worksFromGroupToVersions.size + " works, sorted alphabetically as:\n")
+  for (wk <- worksFromGroupToVersions.keySet.toSeq.sortBy(_.label)) {
+    val versionsFromWorkToExemplar = worksFromGroupToVersions(wk)
+    println(s"\t-  ${wk} has " + versionsFromWorkToExemplar.size + " versions.")
+  }
+
+}
+```

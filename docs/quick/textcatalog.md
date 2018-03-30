@@ -62,5 +62,51 @@ HMT project edition
 
 ## Working with `LabelledCtsUrn`s.
 
+A text catalog can also package groups of references `LabelledCtsUrn`s that associate a labelling String with a URN.  For example, you collect all text groups, works, versions and exemplars in a catalog as LabelledCtsUrn`s.
 
-You can also collect Sets of `LabelledCtsUrn`s.
+```scala
+scala> println(catalog.labelledGroups)
+Set(LabelledCtsUrn(urn:cts:greekLit:tlg5026:,Scholia to the Iliad))
+
+scala> println(catalog.labelledWorks)
+Set(LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAil:,Interlinear scholia of the Venetus A), LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAimlater:,Later intermarginal scholia of the Venetus A), LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAint:,Interior scholia of the Venetus A), LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAext:,Exterior scholia of the Venetus A), LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAim:,Intermarginal scholia of the Venetus A), LabelledCtsUrn(urn:cts:greekLit:tlg5026.msA:,Main scholia of the Venetus A))
+
+scala> println(catalog.labelledVersions)
+Set(LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAint.hmt:,HMT project edition), LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAimlater.hmt:,HMT project edition), LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAil.hmt:,HMT project edition), LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAext.hmt:,HMT project edition), LabelledCtsUrn(urn:cts:greekLit:tlg5026.msA.hmt:,HMT project edition), LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAim.hmt:,HMT project edition))
+
+scala> println(catalog.labelledExemplars)
+Set(LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAimlater.hmt.tokens:,tokenized exemplar))
+```
+
+## Table of contents
+
+The `toc` function constructs a table of contents for the whole catalog.  The contents is organized as a map keyed  by text groups (as  `LabelledCtsUrn`s).  These keys point to a further map keyed by works as `LabelledCtsUrn`s, which in turn point to a map of version `LabelledCtsUrn`s, which (finally!) point to a simple (possibly empty) Vector of `LabelledCtsUrn`s for exemplars.
+
+Let's alphabetize top-level text groups by their label by converting the set of known groups to a sequence, and sorting on their labelling string. We can cycle through the top level of the table of contents alphabetically with that list.
+
+Similarly, if we further want to alphabetize works for each text group by the work's title, we can convert the keyset to map from group to works to a sequence, and sort it by the label property of each `LabelledCtsUrn`.
+
+This example uses plain
+
+```scala
+scala> val alpha = catalog.labelledGroups.toSeq.sortBy(_.label)
+alpha: Seq[edu.holycross.shot.ohco2.LabelledCtsUrn] = Vector(LabelledCtsUrn(urn:cts:greekLit:tlg5026:,Scholia to the Iliad))
+
+scala> for (group <- alpha) {
+     |   val worksFromGroupToVersions = catalog.toc(group)
+     |   println(group.label + " has " + worksFromGroupToVersions.size + " works, sorted alphabetically as:\n")
+     |   for (wk <- worksFromGroupToVersions.keySet.toSeq.sortBy(_.label)) {
+     |     val versionsFromWorkToExemplar = worksFromGroupToVersions(wk)
+     |     println(s"\t-  ${wk} has " + versionsFromWorkToExemplar.size + " versions.")
+     |   }
+     | 
+     | }
+Scholia to the Iliad has 6 works, sorted alphabetically as:
+
+	-  LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAext:,Exterior scholia of the Venetus A) has 1 versions.
+	-  LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAint:,Interior scholia of the Venetus A) has 1 versions.
+	-  LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAil:,Interlinear scholia of the Venetus A) has 1 versions.
+	-  LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAim:,Intermarginal scholia of the Venetus A) has 1 versions.
+	-  LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAimlater:,Later intermarginal scholia of the Venetus A) has 1 versions.
+	-  LabelledCtsUrn(urn:cts:greekLit:tlg5026.msA:,Main scholia of the Venetus A) has 1 versions.
+```
