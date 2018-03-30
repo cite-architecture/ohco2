@@ -34,6 +34,12 @@ import scala.scalajs.js.annotation._
     texts.size
   }
 
+  /** List all text groups represented in the catalog.
+  */
+  def groups: Set[CtsUrn] = {
+    texts.map(_.urn.toTextGroup).distinct.toSet
+  }
+
   /** Find name of text group for a give URN.
   *
   * @param u URN to look up in catalog.
