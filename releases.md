@@ -1,5 +1,8 @@
 # `ohco2`: release notes
 
+
+**10.7.0**:  Extensive expansion of the text `Catalog` class with multiple methods for collecting and labelling catalog entries, and assembling a hierarchical table of contents using the newly introduced `LabelledCtsUrn` class.
+
 **10.6.0**:  Adds new `exemplarToVersion` function on a `Corpus` to generate a new corpus by flattening exemplar-level nodes into version-level nodes.
 
 **10.5.4**: Updates dependencies for better CEX parsing.
