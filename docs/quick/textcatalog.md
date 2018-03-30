@@ -94,19 +94,32 @@ alpha: Seq[edu.holycross.shot.ohco2.LabelledCtsUrn] = Vector(LabelledCtsUrn(urn:
 
 scala> for (group <- alpha) {
      |   val worksFromGroupToVersions = catalog.toc(group)
-     |   println(group.label + " has " + worksFromGroupToVersions.size + " works, sorted alphabetically as:\n")
+     |   println("\n" + group.label + " has " + worksFromGroupToVersions.size + " works, sorted alphabetically as:\n")
      |   for (wk <- worksFromGroupToVersions.keySet.toSeq.sortBy(_.label)) {
      |     val versionsFromWorkToExemplar = worksFromGroupToVersions(wk)
-     |     println(s"\t-  ${wk} has " + versionsFromWorkToExemplar.size + " versions.")
+     |     println(s"\t-  ${wk.label} has " + versionsFromWorkToExemplar.size + " version(s).")
+     | 
+     |     for (vers <- versionsFromWorkToExemplar.keySet.toSeq.sortBy(_.label) ) {
+     |       val exemplars = versionsFromWorkToExemplar(vers)
+     |       println(s"\t\t-  ${vers.label} has " + exemplars.size + " exemplar(s).")
+     |     }
+     | 
      |   }
      | 
      | }
+
 Scholia to the Iliad has 6 works, sorted alphabetically as:
 
-	-  LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAext:,Exterior scholia of the Venetus A) has 1 versions.
-	-  LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAint:,Interior scholia of the Venetus A) has 1 versions.
-	-  LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAil:,Interlinear scholia of the Venetus A) has 1 versions.
-	-  LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAim:,Intermarginal scholia of the Venetus A) has 1 versions.
-	-  LabelledCtsUrn(urn:cts:greekLit:tlg5026.msAimlater:,Later intermarginal scholia of the Venetus A) has 1 versions.
-	-  LabelledCtsUrn(urn:cts:greekLit:tlg5026.msA:,Main scholia of the Venetus A) has 1 versions.
+	-  Exterior scholia of the Venetus A has 1 version(s).
+		-  HMT project edition has 0 exemplar(s).
+	-  Interior scholia of the Venetus A has 1 version(s).
+		-  HMT project edition has 0 exemplar(s).
+	-  Interlinear scholia of the Venetus A has 1 version(s).
+		-  HMT project edition has 0 exemplar(s).
+	-  Intermarginal scholia of the Venetus A has 1 version(s).
+		-  HMT project edition has 0 exemplar(s).
+	-  Later intermarginal scholia of the Venetus A has 1 version(s).
+		-  HMT project edition has 1 exemplar(s).
+	-  Main scholia of the Venetus A has 1 version(s).
+		-  HMT project edition has 0 exemplar(s).
 ```
