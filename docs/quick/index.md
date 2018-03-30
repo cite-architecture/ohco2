@@ -43,3 +43,5 @@ A TextRepository has a Catalog (with metadata about each document in the reposit
 ```scala
 val catalogEntries = textRepository.catalog.texts
 ```
+
+See more extensive examples of [how to work with a text catalog](textcatalog)
