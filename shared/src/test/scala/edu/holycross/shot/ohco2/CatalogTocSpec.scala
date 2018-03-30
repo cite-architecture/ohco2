@@ -18,9 +18,11 @@ urn:cts:greekLit:tlg5026.msAimlater.hmt.tokens:#book/scholion/part/token#Scholia
 """
   val catalog = Catalog(catalogData)
 
-  "A catalog of citable nodes" should "generate a toc" in {
-    println(catalog.toc)
-  }
+  "A catalog of citable nodes" should "generate a toc" in pending //{
+    // this works, but I need to think up how
+    // to test it effectively...
+    //println(catalog.toc)
+  //}
 
   it should "generate a toc for a list of works" in  {
     val wks = catalog.labelledWorks.filter(_.urn ~~ CtsUrn("urn:cts:greekLit:tlg5026:"))
