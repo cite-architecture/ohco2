@@ -25,7 +25,7 @@ import scala.scalajs.js.annotation._
   * @param filterUrn URN identifying text(s).
   */
   def entriesForUrn(filterUrn: CtsUrn): Vector[CatalogEntry] = {
-    texts.filter(_.urn <= filterUrn)
+    texts.filter(_.urn <= filterUrn.dropPassage)
   }
 
   /** Number of entries in catalog.
@@ -34,7 +34,63 @@ import scala.scalajs.js.annotation._
     texts.size
   }
 
+  /** Find name of text group for a give URN.
+  *
+  * @param u URN to look up in catalog.
+  */
+  def groupName(u: CtsUrn): String = {
+    val matches = entriesForUrn(u)
+    if (matches.size < 1) {
+      throw new  Exception(s"ohco2.Catalog:  no urns matching ${u} found.")
+    } else {
+      matches(0).groupName
+    }
+  }
 
+  /** Find title of work for a given URN.
+  *
+  * @param u URN to look up in catalog.
+  */
+  def workTitle(u: CtsUrn): String = {
+    val matches = entriesForUrn(u)
+    if (matches.size < 1) {
+      throw new  Exception(s"ohco2.Catalog:  no urns matching ${u} found.")
+    } else {
+      matches(0).workTitle
+    }
+  }
+
+  /** Find label for a version of a work for a given URN.
+  *
+  * @param u URN to look up in catalog.
+  */
+  def versionLabel(u: CtsUrn): String = {
+    val matches = entriesForUrn(u)
+    if (matches.size < 1) {
+      throw new  Exception(s"ohco2.Catalog:  no urns matching ${u} found.")
+    } else {
+      matches(0).versionLabel match {
+        case None => ""
+        case str: Some[String] => str.get
+      }
+    }
+  }
+
+  /** Find label for an exemplar of a work for a given URN.
+  *
+  * @param u URN to look up in catalog.
+  */
+  def exemplarLabel(u: CtsUrn): String = {
+    val matches = entriesForUrn(u)
+    if (matches.size < 1) {
+      throw new  Exception(s"ohco2.Catalog:  no urns matching ${u} found.")
+    } else {
+      matches(0).exemplarLabel match {
+        case None => ""
+        case str: Some[String] => str.get
+      }
+    }
+  }
   /** Create a new catalog by adding a second corpus to this one.
   *
   * @param catalog2 Catalog to add to this one.
@@ -73,8 +129,6 @@ import scala.scalajs.js.annotation._
     entriesForUrn(urn).filter(_.urn == urn).mkString(" ")
   }
 
-
-
   /** Serialize catalog to a String in CEX format.
   *
   * @param delimiter String value to use as column delimiter.
@@ -90,7 +144,6 @@ import scala.scalajs.js.annotation._
 /** Factory for making catalogs from text sources.
 */
 object Catalog {
-
 
   /** Build a [[Catalog]] from delimited text source.
   *

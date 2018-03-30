@@ -15,8 +15,6 @@ import scala.scalajs.js.annotation._
 */
 @JSExportAll case class Corpus (nodes: Vector[CitableNode]) {
 
-
-
   /** Map each concrete text's URN to a Vector of [CitableNode]s.
   */
   def concreteMap : Map[CtsUrn, Corpus] = {
@@ -323,6 +321,7 @@ import scala.scalajs.js.annotation._
   /** Erroneously duplicated URN values.
   */
   val dupes = urns.groupBy(identity).collect { case (x,ys) if ys.lengthCompare(1) > 0 => x }
+  
   require(dupes.size == 0, s"""Duplicated URN values: ${dupes.mkString(",")}""")
 
 
