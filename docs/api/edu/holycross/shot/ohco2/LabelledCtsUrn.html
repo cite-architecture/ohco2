@@ -171,8 +171,8 @@
                         <a href="LabelCatalog.html" title="Catalog for an entire text repository.">LabelCatalog</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="class" href="LabelledCtsUrn.html" title="Association of a CtsUrn with labelling information from a text catalog."></a>
-                        <a href="LabelledCtsUrn.html" title="Association of a CtsUrn with labelling information from a text catalog.">LabelledCtsUrn</a>
+                        <a class="class" href="" title="Association of a CtsUrn with labelling information from a text catalog."></a>
+                        <a href="" title="Association of a CtsUrn with labelling information from a text catalog.">LabelledCtsUrn</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="object" href="Markdown$.html" title="Markdown, adhering to OHCO2 requirements for hierarchical consistency."></a>
@@ -223,8 +223,8 @@
                         <a href="Two_Column$.html" title="Two-column format, with lines representing citable nodes in document order.">Two_Column</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="object" href="" title="Well-formed XML with citation encoded as specified in citation configuration."></a>
-                        <a href="" title="Well-formed XML with citation encoded as specified in citation configuration.">Wf_Xml</a>
+                        <a class="object" href="Wf_Xml$.html" title="Well-formed XML with citation encoded as specified in citation configuration."></a>
+                        <a href="Wf_Xml$.html" title="Well-formed XML with citation encoded as specified in citation configuration.">Wf_Xml</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="XPathTemplate$.html" title=""></a>
                         <a class="class" href="XPathTemplate.html" title="Class for working with XPathTemplates."></a>
@@ -238,12 +238,12 @@
             </div>
           </div>
           <div id="content">
-            <body class="object value">
+            <body class="class type">
       <div id="definition">
-        <div class="big-circle object">o</div>
+        <div class="big-circle class">c</div>
         <p id="owner"><a href="../../../index.html" class="extype" name="edu">edu</a>.<a href="../../index.html" class="extype" name="edu.holycross">holycross</a>.<a href="../index.html" class="extype" name="edu.holycross.shot">shot</a>.<a href="index.html" class="extype" name="edu.holycross.shot.ohco2">ohco2</a></p>
-        <h1>Wf_Xml<span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html" title="Permalink">
+        <h1>LabelledCtsUrn<span class="permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span></h1>
@@ -253,20 +253,21 @@
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">object</span>
+        <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">Wf_Xml</span><span class="result"> extends <a href="DocumentFormat.html" class="extype" name="edu.holycross.shot.ohco2.DocumentFormat">DocumentFormat</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">LabelledCtsUrn</span><span class="params">(<span name="urn">urn: <span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span></span>, <span name="label">label: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Well-formed XML with citation encoded as
-specified in citation configuration.</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Association of a CtsUrn with labelling information
+from a text catalog.
+</p></div><dl class="paramcmts block"><dt class="param">urn</dt><dd class="cmt"><p>The CtsUrn.</p></dd><dt class="param">label</dt><dd class="cmt"><p>A label for it.</p></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <a href="DocumentFormat.html" class="extype" name="edu.holycross.shot.ohco2.DocumentFormat">DocumentFormat</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -292,7 +293,7 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="edu.holycross.shot.ohco2.Wf_Xml"><span>Wf_Xml</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="edu.holycross.shot.ohco2.DocumentFormat"><span>DocumentFormat</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="edu.holycross.shot.ohco2.LabelledCtsUrn"><span>LabelledCtsUrn</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -310,7 +311,26 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
 
       <div id="template">
         <div id="allMembers">
-        
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="edu.holycross.shot.ohco2.LabelledCtsUrn#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(urn:edu.holycross.shot.cite.CtsUrn,label:String):edu.holycross.shot.ohco2.LabelledCtsUrn"></a><a id="&lt;init&gt;:LabelledCtsUrn"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html#&lt;init&gt;(urn:edu.holycross.shot.cite.CtsUrn,label:String):edu.holycross.shot.ohco2.LabelledCtsUrn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">LabelledCtsUrn</span><span class="params">(<span name="urn">urn: <span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span></span>, <span name="label">label: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">urn</dt><dd class="cmt"><p>The CtsUrn.</p></dd><dt class="param">label</dt><dd class="cmt"><p>A label for it.</p></dd></dl></div>
+    </li></ol>
+            </div>
 
         
 
@@ -322,7 +342,7 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
                 <li name="scala.AnyRef#!=" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a><a id="!=(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html#!=(x$1:Any):Boolean" title="Permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html#!=(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -338,7 +358,7 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
     </li><li name="scala.AnyRef###" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="##():Int"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html###():Int" title="Permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html###():Int" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -354,7 +374,7 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
     </li><li name="scala.AnyRef#==" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="==(x$1:Any):Boolean"></a><a id="==(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html#==(x$1:Any):Boolean" title="Permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html#==(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -370,7 +390,7 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html#asInstanceOf[T0]:T0" title="Permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html#asInstanceOf[T0]:T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -386,7 +406,7 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
     </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a><a id="clone():AnyRef"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html#clone():Object" title="Permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html#clone():Object" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -410,7 +430,7 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html#eq(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html#eq(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -423,26 +443,10 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#equals" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="equals(x$1:Any):Boolean"></a><a id="equals(Any):Boolean"></a>
-      <span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html#equals(x$1:Any):Boolean" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html#finalize():Unit" title="Permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html#finalize():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -464,7 +468,7 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html#getClass():Class[_]" title="Permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html#getClass():Class[_]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -483,7 +487,7 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html#isInstanceOf[T0]:Boolean" title="Permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html#isInstanceOf[T0]:Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -496,10 +500,10 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="edu.holycross.shot.ohco2.Wf_Xml#name" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="name:String"></a>
+    </li><li name="edu.holycross.shot.ohco2.LabelledCtsUrn#label" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="label:String"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html#name:String" title="Permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html#label:String" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -508,14 +512,14 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">name</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+        <span class="name">label</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="edu.holycross.shot.ohco2.Wf_Xml">Wf_Xml</a> → <a href="DocumentFormat.html" class="extype" name="edu.holycross.shot.ohco2.DocumentFormat">DocumentFormat</a></dd></dl></div>
+      
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html#ne(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html#ne(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -531,7 +535,7 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
     </li><li name="scala.AnyRef#notify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html#notify():Unit" title="Permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html#notify():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -550,7 +554,7 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html#notifyAll():Unit" title="Permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html#notifyAll():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -569,7 +573,7 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -582,10 +586,26 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="edu.holycross.shot.ohco2.LabelledCtsUrn#urn" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="urn:edu.holycross.shot.cite.CtsUrn"></a><a id="urn:CtsUrn"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html#urn:edu.holycross.shot.cite.CtsUrn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">urn</span><span class="result">: <span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span></span>
+      </span>
+      
+      
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html#wait():Unit" title="Permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html#wait():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -607,7 +627,7 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -629,7 +649,7 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long):Unit"></a><a id="wait(Long):Unit"></a>
       <span class="permalink">
-      <a href="../../../../edu/holycross/shot/ohco2/Wf_Xml$.html#wait(x$1:Long):Unit" title="Permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/LabelledCtsUrn.html#wait(x$1:Long):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -668,8 +688,6 @@ specified in citation configuration.</p></div><div class="toggleContainer block"
               <h3>Inherited from <span class="extype" name="scala.Product">Product</span></h3>
             </div><div class="parent" name="scala.Equals">
               <h3>Inherited from <span class="extype" name="scala.Equals">Equals</span></h3>
-            </div><div class="parent" name="edu.holycross.shot.ohco2.DocumentFormat">
-              <h3>Inherited from <a href="DocumentFormat.html" class="extype" name="edu.holycross.shot.ohco2.DocumentFormat">DocumentFormat</a></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">

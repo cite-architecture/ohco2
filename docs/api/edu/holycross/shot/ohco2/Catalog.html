@@ -171,6 +171,10 @@
                         <a href="LabelCatalog.html" title="Catalog for an entire text repository.">LabelCatalog</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="class" href="LabelledCtsUrn.html" title="Association of a CtsUrn with labelling information from a text catalog."></a>
+                        <a href="LabelledCtsUrn.html" title="Association of a CtsUrn with labelling information from a text catalog.">LabelledCtsUrn</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="object" href="Markdown$.html" title="Markdown, adhering to OHCO2 requirements for hierarchical consistency."></a>
                         <a href="Markdown$.html" title="Markdown, adhering to OHCO2 requirements for hierarchical consistency.">Markdown</a>
                       </li><li class="current-entities indented4">
@@ -527,6 +531,39 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="edu.holycross.shot.ohco2.Catalog#exemplarLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="exemplarLabel(u:edu.holycross.shot.cite.CtsUrn):String"></a><a id="exemplarLabel(CtsUrn):String"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/Catalog.html#exemplarLabel(u:edu.holycross.shot.cite.CtsUrn):String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">exemplarLabel</span><span class="params">(<span name="u">u: <span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Find label for an exemplar of a work for a given URN.</p><div class="fullcomment"><div class="comment cmt"><p>Find label for an exemplar of a work for a given URN.
+</p></div><dl class="paramcmts block"><dt class="param">u</dt><dd class="cmt"><p>URN to look up in catalog.</p></dd></dl></div>
+    </li><li name="edu.holycross.shot.ohco2.Catalog#exemplars" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="exemplars:Set[edu.holycross.shot.cite.CtsUrn]"></a><a id="exemplars:Set[CtsUrn]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/Catalog.html#exemplars:Set[edu.holycross.shot.cite.CtsUrn]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">exemplars</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Find Set of all versions represented in the catalog.</p>
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
@@ -568,6 +605,39 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="edu.holycross.shot.ohco2.Catalog#groupName" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="groupName(u:edu.holycross.shot.cite.CtsUrn):String"></a><a id="groupName(CtsUrn):String"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/Catalog.html#groupName(u:edu.holycross.shot.cite.CtsUrn):String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">groupName</span><span class="params">(<span name="u">u: <span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Find name of text group for a given URN.</p><div class="fullcomment"><div class="comment cmt"><p>Find name of text group for a given URN.
+</p></div><dl class="paramcmts block"><dt class="param">u</dt><dd class="cmt"><p>URN to look up in catalog.</p></dd></dl></div>
+    </li><li name="edu.holycross.shot.ohco2.Catalog#groups" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="groups:Set[edu.holycross.shot.cite.CtsUrn]"></a><a id="groups:Set[CtsUrn]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/Catalog.html#groups:Set[edu.holycross.shot.cite.CtsUrn]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">groups</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Find Set of all text groups represented in the catalog.</p>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <span class="permalink">
@@ -603,6 +673,74 @@
 given URN.</p><div class="fullcomment"><div class="comment cmt"><p>Create string label describing catalog entry matching a
 given URN.
 </p></div><dl class="paramcmts block"><dt class="param">urn</dt><dd class="cmt"><p>Urn to match.</p></dd></dl></div>
+    </li><li name="edu.holycross.shot.ohco2.Catalog#labelledExemplars" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="labelledExemplars:Set[edu.holycross.shot.ohco2.LabelledCtsUrn]"></a><a id="labelledExemplars:Set[LabelledCtsUrn]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/Catalog.html#labelledExemplars:Set[edu.holycross.shot.ohco2.LabelledCtsUrn]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">labelledExemplars</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Created labelled URNs for the set of
+versions in this catalog.</p>
+    </li><li name="edu.holycross.shot.ohco2.Catalog#labelledGroups" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="labelledGroups:Set[edu.holycross.shot.ohco2.LabelledCtsUrn]"></a><a id="labelledGroups:Set[LabelledCtsUrn]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/Catalog.html#labelledGroups:Set[edu.holycross.shot.ohco2.LabelledCtsUrn]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">labelledGroups</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Created labelled URNs for the set of
+text groups in this catalog.</p>
+    </li><li name="edu.holycross.shot.ohco2.Catalog#labelledVersions" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="labelledVersions:Set[edu.holycross.shot.ohco2.LabelledCtsUrn]"></a><a id="labelledVersions:Set[LabelledCtsUrn]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/Catalog.html#labelledVersions:Set[edu.holycross.shot.ohco2.LabelledCtsUrn]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">labelledVersions</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Created labelled URNs for the set of
+versions in this catalog.</p>
+    </li><li name="edu.holycross.shot.ohco2.Catalog#labelledWorks" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="labelledWorks:Set[edu.holycross.shot.ohco2.LabelledCtsUrn]"></a><a id="labelledWorks:Set[LabelledCtsUrn]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/Catalog.html#labelledWorks:Set[edu.holycross.shot.ohco2.LabelledCtsUrn]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">labelledWorks</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Created labelled URNs for the set of
+text groups in this catalog.</p>
     </li><li name="edu.holycross.shot.ohco2.Catalog#labels" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="labels(urn:edu.holycross.shot.cite.CtsUrn):String"></a><a id="labels(CtsUrn):String"></a>
       <span class="permalink">
@@ -724,6 +862,29 @@ given URN.
       </span>
       
       
+    </li><li name="edu.holycross.shot.ohco2.Catalog#toc" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toc:Map[edu.holycross.shot.ohco2.LabelledCtsUrn,Map[edu.holycross.shot.ohco2.LabelledCtsUrn,Map[edu.holycross.shot.ohco2.LabelledCtsUrn,Vector[edu.holycross.shot.ohco2.LabelledCtsUrn]]]]"></a><a id="toc:Map[LabelledCtsUrn,Map[LabelledCtsUrn,Map[LabelledCtsUrn,Vector[LabelledCtsUrn]]]]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/Catalog.html#toc:Map[edu.holycross.shot.ohco2.LabelledCtsUrn,Map[edu.holycross.shot.ohco2.LabelledCtsUrn,Map[edu.holycross.shot.ohco2.LabelledCtsUrn,Vector[edu.holycross.shot.ohco2.LabelledCtsUrn]]]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toc</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>, <span class="extype" name="scala.Predef.Map">Map</span>[<a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>, <span class="extype" name="scala.Predef.Map">Map</span>[<a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>, <span class="extype" name="scala.Vector">Vector</span>[<a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>]]]]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Beginning from all text groups in the catalog,
+find mappings of all works belonging to them.</p><div class="fullcomment"><div class="comment cmt"><p>Beginning from all text groups in the catalog,
+find mappings of all works belonging to them.
+The result is a map of <a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>s to a
+map of <a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>s for works to a further
+map of <a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>s for versions to a
+Vector of [LabelledCtsUrn]s.
+</p></div></div>
     </li><li name="edu.holycross.shot.ohco2.Catalog#urnList" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="urnList:scala.collection.immutable.Vector[edu.holycross.shot.cite.CtsUrn]"></a><a id="urnList:Vector[CtsUrn]"></a>
       <span class="permalink">
@@ -740,6 +901,58 @@ given URN.
       </span>
       
       
+    </li><li name="edu.holycross.shot.ohco2.Catalog#versionLabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="versionLabel(u:edu.holycross.shot.cite.CtsUrn):String"></a><a id="versionLabel(CtsUrn):String"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/Catalog.html#versionLabel(u:edu.holycross.shot.cite.CtsUrn):String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">versionLabel</span><span class="params">(<span name="u">u: <span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Find label for a version of a work for a given URN.</p><div class="fullcomment"><div class="comment cmt"><p>Find label for a version of a work for a given URN.
+</p></div><dl class="paramcmts block"><dt class="param">u</dt><dd class="cmt"><p>URN to look up in catalog.</p></dd></dl></div>
+    </li><li name="edu.holycross.shot.ohco2.Catalog#versions" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="versions:Set[edu.holycross.shot.cite.CtsUrn]"></a><a id="versions:Set[CtsUrn]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/Catalog.html#versions:Set[edu.holycross.shot.cite.CtsUrn]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">versions</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Find Set of all versions represented in the catalog.</p>
+    </li><li name="edu.holycross.shot.ohco2.Catalog#versionsToc" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="versionsToc(versions:Vector[edu.holycross.shot.ohco2.LabelledCtsUrn]):Map[edu.holycross.shot.ohco2.LabelledCtsUrn,Vector[edu.holycross.shot.ohco2.LabelledCtsUrn]]"></a><a id="versionsToc(Vector[LabelledCtsUrn]):Map[LabelledCtsUrn,Vector[LabelledCtsUrn]]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/Catalog.html#versionsToc(versions:Vector[edu.holycross.shot.ohco2.LabelledCtsUrn]):Map[edu.holycross.shot.ohco2.LabelledCtsUrn,Vector[edu.holycross.shot.ohco2.LabelledCtsUrn]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">versionsToc</span><span class="params">(<span name="versions">versions: <span class="extype" name="scala.Vector">Vector</span>[<a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>, <span class="extype" name="scala.Vector">Vector</span>[<a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>]]</span>
+      </span>
+      
+      <p class="shortcomment cmt">For all versions in a list, create a Vector of exemplars belonging to them.</p><div class="fullcomment"><div class="comment cmt"><p>For all versions in a list, create a Vector of exemplars belonging to them.
+The result is a map of [LabelledCtsUrn]s to a
+(possibly empty) Vector of [LabelledCtsUrn]s.
+</p></div><dl class="paramcmts block"><dt class="param">versions</dt><dd class="cmt"><p>List of text versions, identified by <a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a> objects.</p></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
@@ -808,6 +1021,59 @@ given URN.
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="edu.holycross.shot.ohco2.Catalog#workTitle" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="workTitle(u:edu.holycross.shot.cite.CtsUrn):String"></a><a id="workTitle(CtsUrn):String"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/Catalog.html#workTitle(u:edu.holycross.shot.cite.CtsUrn):String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">workTitle</span><span class="params">(<span name="u">u: <span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Find title of work for a given URN.</p><div class="fullcomment"><div class="comment cmt"><p>Find title of work for a given URN.
+</p></div><dl class="paramcmts block"><dt class="param">u</dt><dd class="cmt"><p>URN to look up in catalog.</p></dd></dl></div>
+    </li><li name="edu.holycross.shot.ohco2.Catalog#works" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="works:Set[edu.holycross.shot.cite.CtsUrn]"></a><a id="works:Set[CtsUrn]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/Catalog.html#works:Set[edu.holycross.shot.cite.CtsUrn]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">works</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Find Set of all works represented in the catalog.</p>
+    </li><li name="edu.holycross.shot.ohco2.Catalog#worksToc" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="worksToc(works:Vector[edu.holycross.shot.ohco2.LabelledCtsUrn]):Map[edu.holycross.shot.ohco2.LabelledCtsUrn,Map[edu.holycross.shot.ohco2.LabelledCtsUrn,Vector[edu.holycross.shot.ohco2.LabelledCtsUrn]]]"></a><a id="worksToc(Vector[LabelledCtsUrn]):Map[LabelledCtsUrn,Map[LabelledCtsUrn,Vector[LabelledCtsUrn]]]"></a>
+      <span class="permalink">
+      <a href="../../../../edu/holycross/shot/ohco2/Catalog.html#worksToc(works:Vector[edu.holycross.shot.ohco2.LabelledCtsUrn]):Map[edu.holycross.shot.ohco2.LabelledCtsUrn,Map[edu.holycross.shot.ohco2.LabelledCtsUrn,Vector[edu.holycross.shot.ohco2.LabelledCtsUrn]]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">worksToc</span><span class="params">(<span name="works">works: <span class="extype" name="scala.Vector">Vector</span>[<a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>, <span class="extype" name="scala.Predef.Map">Map</span>[<a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>, <span class="extype" name="scala.Vector">Vector</span>[<a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>]]]</span>
+      </span>
+      
+      <p class="shortcomment cmt">For all works in a list, find mappings of all versions belonging to them.</p><div class="fullcomment"><div class="comment cmt"><p>For all works in a list, find mappings of all versions belonging to them.
+The result is a map of <a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>s to a
+further map of <a href="LabelledCtsUrn.html" class="extype" name="edu.holycross.shot.ohco2.LabelledCtsUrn">LabelledCtsUrn</a>s to a
+Vector of [LabelledCtsUrn]s.
+</p></div></div>
     </li>
               </ol>
             </div>
