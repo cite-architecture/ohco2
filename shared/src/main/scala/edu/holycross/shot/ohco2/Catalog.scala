@@ -34,13 +34,61 @@ import scala.scalajs.js.annotation._
     texts.size
   }
 
-  /** List all text groups represented in the catalog.
+  /** Find Set of all text groups represented in the catalog.
   */
   def groups: Set[CtsUrn] = {
     texts.map(_.urn.toTextGroup).distinct.toSet
   }
 
-  /** Find name of text group for a give URN.
+  /** Created labelled URNs for the set of
+  * text groups in this catalog.
+  */
+  def labelledGroups: Set[LabelledCtsUrn] = {
+    groups.map(urn => LabelledCtsUrn(urn, groupName(urn) ))
+  }
+
+
+  /** Find Set of all works represented in the catalog.
+  */
+  def works: Set[CtsUrn] = {
+    texts.map(_.urn.toWork).distinct.toSet
+  }
+
+  /** Created labelled URNs for the set of
+  * text groups in this catalog.
+  */
+  def labelledWorks: Set[LabelledCtsUrn] = {
+    works.map(urn => LabelledCtsUrn(urn, workTitle(urn)) )
+  }
+
+  /** Find Set of all versions represented in the catalog.
+  */
+  def versions: Set[CtsUrn] = {
+    texts.map(_.urn.toVersion).distinct.filter(_.isVersion).toSet
+  }
+
+  /** Created labelled URNs for the set of
+  * versions in this catalog.
+  */
+  def labelledVersions: Set[LabelledCtsUrn] = {
+    versions.map(urn => LabelledCtsUrn(urn, versionLabel(urn)) )
+  }
+
+  /** Find Set of all versions represented in the catalog.
+  */
+  def exemplars: Set[CtsUrn] = {
+     texts.map(_.urn.toExemplar).distinct.filter(_.isExemplar).toSet
+
+  }
+
+  /** Created labelled URNs for the set of
+  * versions in this catalog.
+  */
+  def labelledExemplars: Set[LabelledCtsUrn] = {
+    exemplars.map(urn => LabelledCtsUrn(urn, exemplarLabel(urn)) )
+  }
+
+  /** Find name of text group for a given URN.
   *
   * @param u URN to look up in catalog.
   */

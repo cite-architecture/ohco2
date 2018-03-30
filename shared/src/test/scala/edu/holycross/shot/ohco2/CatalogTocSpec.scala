@@ -27,6 +27,62 @@ urn:cts:greekLit:tlg5026.msAimlater.hmt.tokens:#book/scholion/part/token#Scholia
     assert(allGroups == expectedGroups)
   }
 
+  it should "create a set of cataloged labelled groups" in {
+    val allLabelledGroups = catalog.labelledGroups
+    val expected = Set(
+     LabelledCtsUrn(CtsUrn("urn:cts:greekLit:tlg5026:"), "Scholia to the Iliad")
+    )
+    assert (allLabelledGroups == expected)
+  }
 
+
+
+  it should "identify all works in the catalog by URN" in {
+    val allWorks = catalog.works
+    val expected =  Set(
+      CtsUrn("urn:cts:greekLit:tlg5026.msAext:"), CtsUrn("urn:cts:greekLit:tlg5026.msAil:"), CtsUrn("urn:cts:greekLit:tlg5026.msAim:"), CtsUrn("urn:cts:greekLit:tlg5026.msAimlater:"), CtsUrn("urn:cts:greekLit:tlg5026.msA:"), CtsUrn("urn:cts:greekLit:tlg5026.msAint:")
+    )
+    assert(allWorks == expected)
+  }
+
+  it should "create a set of cataloged labelled works" in  {
+    val allLabelledWorks = catalog.labelledWorks
+    val expectedWorks = 6
+    assert(allLabelledWorks.size == expectedWorks)
+  }
+
+
+  it should "identify all versions in the catalog by URN" in {
+    val allVersions = catalog.versions
+    val expected =  Set(
+      CtsUrn("urn:cts:greekLit:tlg5026.msAext.hmt:"), CtsUrn("urn:cts:greekLit:tlg5026.msAil.hmt:"), CtsUrn("urn:cts:greekLit:tlg5026.msAim.hmt:"), CtsUrn("urn:cts:greekLit:tlg5026.msAimlater.hmt:"),CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:"), CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt:")
+    )
+    assert(allVersions == expected)
+  }
+
+  it should "create a set of cataloged labelled versions" in  {
+    val allLabelledVersions = catalog.labelledVersions
+    val expectedVersions = 6
+    assert(allLabelledVersions.size == expectedVersions)
+  }
+
+
+
+
+  it should "identify all exemplars in the catalog by URN" in {
+    val allExemplars = catalog.exemplars
+    val expected =  Set(
+      CtsUrn("urn:cts:greekLit:tlg5026.msAimlater.hmt.tokens:")
+    )
+    assert(allExemplars == expected)
+  }
+
+  it should "create a set of cataloged labelled exemplars" in  {
+    val allLabelledExemplars = catalog.labelledExemplars
+    val expected = Set(
+      LabelledCtsUrn(CtsUrn("urn:cts:greekLit:tlg5026.msAimlater.hmt.tokens:"),"tokenized exemplar")
+    )
+    assert(allLabelledExemplars == expected)
+  }
 
 }
