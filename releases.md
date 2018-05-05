@@ -1,5 +1,6 @@
 # `ohco2`: release notes
 
+**10.7.1**:  Fixed bug with corpus.validReff and a range-URN as `filterUrn`.
 
 **10.7.0**:  Extensive expansion of the text `Catalog` class with multiple methods for collecting and labelling catalog entries, and assembling a hierarchical table of contents using the newly introduced `LabelledCtsUrn` class.
 

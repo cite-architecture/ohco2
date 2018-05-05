@@ -527,8 +527,8 @@ def >= (urn: CtsUrn) : Corpus = {
   */
   def validReff(filterUrn: CtsUrn): Vector[CtsUrn]
  = {
-   val filtered = nodes.filter(_.urn ~~ filterUrn)
-   filtered.map(_.urn)
+   val filtered = this ~~ filterUrn
+   filtered.nodes.map(_.urn)
   }
 
   /** Format text contents of a passage identified by a URN
