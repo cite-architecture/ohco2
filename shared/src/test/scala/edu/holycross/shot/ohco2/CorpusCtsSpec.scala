@@ -53,12 +53,21 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
     val expectedWorks = Set(CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:") )
     assert (corpus.citedWorks.toSet == expectedWorks)
   }
+
   it should "offer a convenience method for reducing a list of citable nodes to a list of URN" in {
     val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2")
     val expectedReff = Vector(CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.lemma"),
     CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.comment"))
     assert(corpus.validReff(filterUrn) == expectedReff)
   }
+
+  it should "offer a convenience method for reducing a list of citable nodes to a list of URNs using a range-urn" in {
+    val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1-1.3")
+    //val expectedReff = Vector(CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.lemma"), CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.comment"))
+    assert(corpus.validReff(filterUrn).size == 6)
+  }
+
+
   it should "offer a boolean function to test for empty contents" in {
     assert (corpus.isEmpty == false)
 
