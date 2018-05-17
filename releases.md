@@ -1,5 +1,7 @@
 # `ohco2`: release notes
 
+**10.8.0**:  Adds new `composite` function to the `Corpus` object, to create a single composite `Corpus` from a Vector of `Corpus` objects.
+
 
 **10.7.0**:  Extensive expansion of the text `Catalog` class with multiple methods for collecting and labelling catalog entries, and assembling a hierarchical table of contents using the newly introduced `LabelledCtsUrn` class.
 

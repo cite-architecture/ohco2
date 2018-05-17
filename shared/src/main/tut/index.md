@@ -29,5 +29,5 @@ The semantics of the CTS URN is based on a model of citable text as an "Ordered 
 
 
 -   [Quick start](quick)
--   Current [API docs](api/edu/holycross/shot/ohco2/index.html)
+-   [API docs](api/edu/holycross/shot/ohco2/index.html) for version 1.8.0
 -   [Github repository](https://github.com/cite-architecture/ohco2)

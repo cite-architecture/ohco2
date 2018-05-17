@@ -321,7 +321,7 @@ import scala.scalajs.js.annotation._
   /** Erroneously duplicated URN values.
   */
   val dupes = urns.groupBy(identity).collect { case (x,ys) if ys.lengthCompare(1) > 0 => x }
-  
+
   require(dupes.size == 0, s"""Duplicated URN values: ${dupes.mkString(",")}""")
 
 
@@ -1014,8 +1014,20 @@ object Corpus {
     Corpus(citableNodes)
   }
 
+  /** Create a single composite [[Corpus]] from a Vector
+  * of [[Corpus]] objects.  The order of nodes within the composite
+  * corpus follows their order in the Vector of corpora.
+  *
+  * @param v Vector of corpora to merge.
+  */
+  def composite(v: Vector[Corpus]) : Corpus = {
 
-  /**
+    v.foldLeft(Corpus(Vector.empty[CitableNode]))((r,c) => r ++ c)
+  }
+
+
+  /**  It would sure be nice if the person who wrote this function included
+  * a one-line summary of what it does.
   */
   def invertTopology(topo: TextPassageTopology.Value): TextPassageTopology.Value = {
     topo match {
@@ -1058,9 +1070,6 @@ object Corpus {
       }
     }
   }
-
-
-
 }
 
 /** A citable node in the model of the 82XF format.
