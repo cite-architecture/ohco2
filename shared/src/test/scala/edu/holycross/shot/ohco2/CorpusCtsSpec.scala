@@ -30,6 +30,12 @@ urn:cts:greekLit:tlg5026.msA.hmt:1.5.comment#<div xmlns="http://www.tei-c.org/ns
     assert(corpus.firstNode(filterUrn).urn == expectedFirst)
   }
 
+  it should "offer a method for geting valid reffs for a URN" in {
+    val rangeUrn:CtsUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.1.lemma-1.1.comment")
+    val vecUrns:Vector[CtsUrn]  = corpus.validReff(rangeUrn)
+    assert( vecUrns.size == 2 )
+  }
+
   it should "offer a convenience method for finding the last citable node in a filtered vector" in {
     val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2")
     val expectedLast = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.2.comment")

@@ -1,8 +1,8 @@
 # `ohco2`: release notes
 
+**10.8.1**:  Further fixes to `corpus.validReff`.
 
 **10.8.0**:  Adds new `composite` function to the `Corpus` object, to create a single composite `Corpus` from a Vector of `Corpus` objects.
-
 
 **10.7.1**:  Fixed bug with corpus.validReff and a range-URN as `filterUrn`.
 
