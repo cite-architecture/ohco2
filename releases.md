@@ -1,5 +1,9 @@
 # `ohco2`: release notes
 
+
+**10.9.0**:  New  functionality in `xcite` library.
+
+
 **10.8.1**:  Further fixes to `corpus.validReff`.
 
 **10.8.0**:  Adds new `composite` function to the `Corpus` object, to create a single composite `Corpus` from a Vector of `Corpus` objects.
