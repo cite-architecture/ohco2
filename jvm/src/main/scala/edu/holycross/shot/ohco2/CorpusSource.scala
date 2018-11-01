@@ -19,7 +19,7 @@ object CorpusSource {
   * @param delimiter String value of column delimiter.
   */
   def fromFile(f: String, delimiter: String = "#"): Corpus = {
-    val stringPairs = Source.fromFile(f).getLines.toVector.filter(_.nonEmpty).map(_.split(delimiter))
+    val stringPairs = Source.fromFile(f, "UTF-8").getLines.toVector.filter(_.nonEmpty).map(_.split(delimiter))
     val citableNodes = stringPairs.map( arr => CitableNode(CtsUrn(arr(0)), arr(1)))
     Corpus(citableNodes)
   }

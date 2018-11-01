@@ -75,7 +75,7 @@ urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.
     val corpus = CorpusSource.fromFile(srcFile,"\t")
     val testFileName = "jvm/src/test/resources/test82xf.txt"
     CorpusSource.to82xfFile(corpus, testFileName, "#")
-    val outputLines = Source.fromFile(testFileName).getLines.toVector
+    val outputLines = Source.fromFile(testFileName, "UTF-8").getLines.toVector
     assert (outputLines.size == 10)
     val testFile = new File(testFileName)
     testFile.delete()
@@ -85,7 +85,7 @@ urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.
     val corpus = CorpusSource.fromFile(srcFile,"\t")
     val testFile = new File("jvm/src/test/resources/test82xf.txt")
     CorpusSource.to82xfFile(corpus, testFile, "#")
-    val outputLines = Source.fromFile(testFile).getLines.toVector
+    val outputLines = Source.fromFile(testFile, "UTF-8").getLines.toVector
     assert (outputLines.size == 10)
     testFile.delete()
   }
@@ -95,7 +95,7 @@ urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.
     val corpus = CorpusSource.fromFile(srcFile,"\t")
     val testFileName = "jvm/src/test/resources/test82xf.txt"
     CorpusSource.to2colFile(corpus,testFileName, "#")
-    val outputLines = Source.fromFile(testFileName).getLines.toVector
+    val outputLines = Source.fromFile(testFileName, "UTF-8").getLines.toVector
     assert (outputLines.size == 10)
     val testFile = new File(testFileName)
     testFile.delete()
@@ -106,7 +106,7 @@ urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.
     val testFileName = "jvm/src/test/resources/test82xf.txt"
     val testFile = new File(testFileName)
     CorpusSource.to2colFile(corpus,testFile, "#")
-    val outputLines = Source.fromFile(testFileName).getLines.toVector
+    val outputLines = Source.fromFile(testFileName, "UTF-8").getLines.toVector
     assert (outputLines.size == 10)
 
     testFile.delete()
