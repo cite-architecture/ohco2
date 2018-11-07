@@ -1,6 +1,8 @@
 # `ohco2`: release notes
 
 
+**10.9.1**:  Explicitly sets assumed default encoding to UTF-8.
+
 **10.9.0**:  New  functionality in `xcite` library.
 
 
