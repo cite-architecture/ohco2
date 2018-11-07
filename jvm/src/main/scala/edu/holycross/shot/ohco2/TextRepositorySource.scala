@@ -23,7 +23,7 @@ object TextRepositorySource {
   * of CEX data.
   */
   def fromCexFile(cexFile: String, delimiter: String = "#"): TextRepository = {
-    TextRepository(Source.fromFile(cexFile).getLines.toVector.mkString("\n"))
+    TextRepository(Source.fromFile(cexFile, "UTF-8").getLines.toVector.mkString("\n"))
   }
 
   /** Convert an online text documented by an [[OnlineDocument]]
@@ -47,7 +47,7 @@ object TextRepositorySource {
   * @param outputDelim Delimiter to use in CEX output.
   */
   def cexForXml(doc: OnlineDocument, outputDelim: String = "#"): String = {
-    val xml = Source.fromFile(doc.docName).getLines.mkString("\n")
+    val xml = Source.fromFile(doc.docName, "UTF-8").getLines.mkString("\n")
     val corpus = SimpleTabulator(doc.urn, XPathTemplate(doc.xpathTemplate.get), xml)
     corpus.to2colString(outputDelim)
   }
@@ -103,7 +103,7 @@ object TextRepositorySource {
     delimiter1: String = "#",
     delimiter2: String = ","
   ): Vector[OnlineDocument] = {
-    val lines = Source.fromFile(configFileName).getLines.toVector.drop(1)
+    val lines = Source.fromFile(configFileName, "UTF-8").getLines.toVector.drop(1)
     val docs = lines.map(OnlineDocument(_, delimiter1, delimiter2)).toVector
     docs.map(_.absolutePath(baseDirectoryName))
   }
@@ -124,7 +124,7 @@ object TextRepositorySource {
     delimiter: String = "#",
     delimiter2 : String = ","): TextRepository = {
 
-    val catalogText = Source.fromFile(catalogFileName).getLines.mkString("\n")
+    val catalogText = Source.fromFile(catalogFileName, "UTF-8").getLines.mkString("\n")
     val catalog = Catalog(catalogText, delimiter)
 
     val onlineVect = TextRepositorySource.onlineVector(configFileName, baseDirectoryName)
