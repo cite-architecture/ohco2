@@ -9,7 +9,7 @@ title:            OHCO2 library
 tagline:          'Work with citable texts'
 description:      'A library for working with canonicaly citable texts modelled as an ordered hierarchy of citation objects'
 
-
+url: 'http://cite-architecture.org'
 baseurl: '/ohco2/'
 
 
@@ -19,7 +19,7 @@ author:
 
 links:
   - title:  CITE Architecture
-    url:  https://github.com/cite-architecture
+    url:  http://cite-architecture.org/
     external: true
   - title:  Github repository
     url:  https://github.com/cite-architecture/ohco2
