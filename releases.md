@@ -6,6 +6,10 @@
 
 **10.10.0**:  Add `Token` trait.
 
+**10.9.2**:  Allow dynamic definition of character encoding.
+
+**10.9.1**:  Explicitly sets assumed default encoding to UTF-8.
+
 **10.9.0**:  New  functionality in `xcite` library.
 
 

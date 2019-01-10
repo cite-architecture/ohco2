@@ -22,8 +22,8 @@ object TextRepositorySource {
   * @param delimiter String value used to delimit columns
   * of CEX data.
   */
-  def fromCexFile(cexFile: String, delimiter: String = "#"): TextRepository = {
-    TextRepository(Source.fromFile(cexFile, "UTF-8").getLines.toVector.mkString("\n"))
+  def fromCexFile(cexFile: String, delimiter: String = "#", encoding: String = "UTF-8"): TextRepository = {
+    TextRepository(Source.fromFile(cexFile, encoding).getLines.toVector.mkString("\n"))
   }
 
   /** Convert an online text documented by an [[OnlineDocument]]
@@ -46,8 +46,8 @@ object TextRepositorySource {
   * @param inputDelim Delimiter used in source files.
   * @param outputDelim Delimiter to use in CEX output.
   */
-  def cexForXml(doc: OnlineDocument, outputDelim: String = "#"): String = {
-    val xml = Source.fromFile(doc.docName, "UTF-8").getLines.mkString("\n")
+  def cexForXml(doc: OnlineDocument, outputDelim: String = "#", encoding: String = "UTF-8"): String = {
+    val xml = Source.fromFile(doc.docName, encoding).getLines.mkString("\n")
     val corpus = SimpleTabulator(doc.urn, XPathTemplate(doc.xpathTemplate.get), xml)
     corpus.to2colString(outputDelim)
   }
@@ -101,9 +101,10 @@ object TextRepositorySource {
     configFileName: String,
     baseDirectoryName: String,
     delimiter1: String = "#",
-    delimiter2: String = ","
+    delimiter2: String = ",",
+    encoding: String = "UTF-8"
   ): Vector[OnlineDocument] = {
-    val lines = Source.fromFile(configFileName, "UTF-8").getLines.toVector.drop(1)
+    val lines = Source.fromFile(configFileName, encoding).getLines.toVector.drop(1)
     val docs = lines.map(OnlineDocument(_, delimiter1, delimiter2)).toVector
     docs.map(_.absolutePath(baseDirectoryName))
   }
@@ -122,9 +123,11 @@ object TextRepositorySource {
     configFileName: String,
     baseDirectoryName: String,
     delimiter: String = "#",
-    delimiter2 : String = ","): TextRepository = {
+    delimiter2 : String = ",",
+    encoding: String = "UTF-8"
+  ): TextRepository = {
 
-    val catalogText = Source.fromFile(catalogFileName, "UTF-8").getLines.mkString("\n")
+    val catalogText = Source.fromFile(catalogFileName, encoding).getLines.mkString("\n")
     val catalog = Catalog(catalogText, delimiter)
 
     val onlineVect = TextRepositorySource.onlineVector(configFileName, baseDirectoryName)
