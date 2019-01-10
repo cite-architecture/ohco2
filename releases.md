@@ -1,5 +1,7 @@
 # `ohco2`: release notes
 
+**10.11.1**:  Test buggy behavior in inclusion of optional parameters to `TextRepositorySource.fromFiles`.
+
 **10.11.0**:  Update dependency on `xcite` library.
 
 **10.10.1**: Explicitly sets assumed default encoding to UTF-8.

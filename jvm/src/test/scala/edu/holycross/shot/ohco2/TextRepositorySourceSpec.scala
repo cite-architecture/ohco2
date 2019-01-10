@@ -53,9 +53,25 @@ class TextRepositorySourceSpec extends FlatSpec {
     assert(repo.corpus.size == expectedNodes)
   }
 
+  it should "permit inclusion of optional string parameters for delimiters and encoding" in {
+    val expectedTexts = 2
+    val expectedNodes = 133
+
+    val repo = TextRepositorySource.fromFiles(catCex,citeConf,baseDir, delimiter = "#")
+    assert(repo.catalog.size == expectedTexts)
+    assert(repo.corpus.size == expectedNodes)
+
+    val repo2 = TextRepositorySource.fromFiles(catCex,citeConf,baseDir, delimiter = "#", delimiter2 = ",")
+    assert(repo2.catalog.size == expectedTexts)
+    assert(repo2.corpus.size == expectedNodes)
+
+    val repo3 = TextRepositorySource.fromFiles(catCex,citeConf,baseDir, delimiter = "#", delimiter2 = ",", encoding = "utf8")
+    assert(repo3.catalog.size == expectedTexts)
+    assert(repo3.corpus.size == expectedNodes)    
+  }
+
 
   it should "create CEF for a two-column file" in pending
-  it should "create CEF for an 82XF file" in pending
 
   it should "create a Catalog from CEX sources" in pending /*{
     val catalog = TextRepositorySource.catalogFromXmlFile(catCex,citeConf)

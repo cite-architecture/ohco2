@@ -17,7 +17,7 @@ lazy val crossed = crossProject.in(file(".")).
       name := "ohco2",
       organization := "edu.holycross.shot",
 
-      version := "10.11.0",
+      version := "10.11.1",
 
 
       licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
