@@ -30,7 +30,7 @@ object OnlineDocument {
   * @param value String name of format.
   */
   def formatForString(value: String): Option[DocumentFormat] = {
-    val dfVect: Vector[DocumentFormat] = Vector(Wf_Xml, Two_Column, Markdown, Oxf)
+    val dfVect: Vector[DocumentFormat] = Vector(Wf_Xml, Two_Column, Markdown)
     dfVect.find(_.name == value)
   }
 

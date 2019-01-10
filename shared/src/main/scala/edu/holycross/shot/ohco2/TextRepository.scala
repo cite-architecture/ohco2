@@ -59,7 +59,7 @@ import scala.scalajs.js.annotation._
 
   // enforce 1-1 relation of texts cataloged as online
   // and texts cited in the corpus
-  require(online.texts.map(_.urn).toSet == corpus.citedWorks.toSet, "Online catalog (" + online.size + " texts) did not match works appearing in corpus (" + corpus.citedWorks.size + " texts)")
+  require(online.texts.map(_.urn).toSet == corpus.citedWorks.toSet, "Online catalog (" + online.size + " texts) did not match works appearing in corpus (" + corpus.citedWorks.size + s" texts).  Catalog ${online.texts.map(_.urn).toSet} vs. online corpus ${corpus.citedWorks.toSet}")
 
 /*
   def find(s: String): TextRepository = {

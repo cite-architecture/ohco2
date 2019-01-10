@@ -33,7 +33,7 @@ case object Two_Column extends DocumentFormat {
 
 
 /** 82XF format.
-*/
-case object Oxf extends DocumentFormat {
+
+case object 82xf extends DocumentFormat {
   val name = "82xf"
-}
+}*/

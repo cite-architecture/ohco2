@@ -30,6 +30,7 @@ urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main s
       case _ => fail("Failed to create corpus object")
     }
   }
+
   it should "have a catalog of citable texts" in {
     val repo = TextRepository(corpus, catalog)
     repo.catalog match {
@@ -37,13 +38,15 @@ urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main s
       case _ => fail("Failed to create catalog object")
     }
   }
+
   it should "validate there is a 1-1 relation between texts cataloged as online and texts cited in the corpus" in  {
     val repo = TextRepository(corpus, catalog)
 
     val catalogTexts = repo.catalog.texts.map(_.urn)
     assert(repo.corpus.citedWorks.toSet == catalogTexts.toSet)
   }
-  it should "throw an Ohco2 exception if works cataloged as online do not appear in the corpus"  in {
+
+  it should "throw an exception if works cataloged as online do not appear in the corpus"  in {
     val hdr = "urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online"
 
     val entry = "urn:cts:greekLit:tlg0012.tlg001.msA:#book/line#Homeric poetry#the Iliad A#the Venetus A manuscript##true#grc"
@@ -55,10 +58,15 @@ urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main s
       TextRepository(corpus, wrongCatalog)
       fail ("Should not have made a repository.")
     } catch {
-      case exc: IllegalArgumentException => assert(exc.getMessage() ==   "requirement failed: Online catalog (1 texts) did not match works appearing in corpus (1 texts)")
+      case exc: IllegalArgumentException => assert(exc.getMessage().contains("requirement failed: Online catalog (1 texts) did not match works appearing in corpus (1 texts)") )
+
+
+
       case otherExc: Throwable => throw otherExc
     }
   }
+
+
 
   it should "throw an Ohco2 exception if works in the corpus do not appear in the catalog as online"  in {
     val hdr = "urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online"
@@ -72,12 +80,12 @@ urn:cts:greekLit:tlg5026.msA.hmt:#book/scholion/part#Scholia to the Iliad#Main s
       TextRepository(corpus, shortCatalog)
       fail ("Should not have made a repository.")
     } catch {
-      case exc: IllegalArgumentException => assert(exc.getMessage() ==   "requirement failed: Online catalog (0 texts) did not match works appearing in corpus (1 texts)")
+      case exc: IllegalArgumentException => assert(exc.getMessage().contains(  "requirement failed: Online catalog (0 texts) did not match works appearing in corpus (1 texts)"))
       case otherExc: Throwable => throw otherExc
     }
   }
 
-  it should "ignore blank lines in making a repository" in {
+  it should "ignore blank lines in making a repository" in  {
 
     val tinyData = """urn:cts:greekLit:tlg5026.msA.hmt:1.4.lemma#<div xmlns="http://www.tei-c.org/ns/1.0" n="lemma"> <p> θεά</p></div>
 urn:cts:greekLit:tlg5026.msA.hmt:1.4.comment#<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> οὕτως εἴωθε τὴν <persName n="urn:cite:hmt:pers.pers6"> Μοῦσαν</persName> καλεῖν· ἀμέλει καὶ ἐν <title> Ὀδυσσεία</title> · <cit> <q> ἄνδρα μοι ἔννεπε <persName n="urn:cite:hmt:pers.pers6"> Μοῦσα</persName> <ref type="urn">
