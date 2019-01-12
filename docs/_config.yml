@@ -10,7 +10,7 @@ tagline:          'Work with citable texts'
 description:      'A library for working with canonicaly citable texts modelled as an ordered hierarchy of citation objects'
 
 url: 'http://cite-architecture.org'
-baseurl: '/code/citelibs/ohco2/'
+baseurl: '/ohco2/'
 
 
 author:
