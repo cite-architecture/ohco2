@@ -17,7 +17,7 @@ Status:  **active development**. [Release notes](releases.md)
 
 ## Documentation
 
-See <https://cite-architecture.org/ohco2/>.
+See <http://cite-architecture.org/ohco2/>.
 
 
 ## Using, building, testing
