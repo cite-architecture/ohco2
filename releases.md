@@ -1,5 +1,7 @@
 # `ohco2`: release notes
 
+**10.11.2**:  Twiddling a corpus on a `Vector[CtsUrn]` now works correctly if the Vector includes range- or containing-URNs.
+
 **10.11.1**:  Test buggy behavior in inclusion of optional parameters to `TextRepositorySource.fromFiles`.
 
 **10.11.0**:  Update dependency on `xcite` library.

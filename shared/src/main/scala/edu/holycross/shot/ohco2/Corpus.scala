@@ -431,8 +431,11 @@ import scala.scalajs.js.annotation._
   * @param urnV vector of URNs to use in filtering the corpus.
   */
   def  ~~(urnV: Vector[CtsUrn]): Corpus = {
+    val expandedUrnV:Vector[CtsUrn] = urnV.map( u => {
+      this.validReff(u)
+    }).flatten.distinct
     val rslts = Vector.empty
-    this.~~(urnV, Corpus(rslts))
+    this.~~(expandedUrnV, Corpus(rslts))
   }
 
 

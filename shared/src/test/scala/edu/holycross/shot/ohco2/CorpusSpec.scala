@@ -103,6 +103,25 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
     assert (anded.size == 3)
   }
 
+  it should "support twiddling on a vector of URNs" in {
+    val five = Corpus(fiveTokens,"#")
+    val one = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.1")
+    val two = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.2")
+    val three = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.3")
+    val urnVector = Vector(one,two,three)
+    val anded = five ~~ urnVector
+    assert (anded.size == 3)
+  }
+
+  it should "support twiddling on a vector of URNs when some might be ranges" in {
+    val five = Corpus(fiveTokens,"#")
+    val one = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.1-1.1.2")
+    val three = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.3")
+    val urnVector = Vector(one,three)
+    val anded = five ~~ urnVector
+    assert (anded.size == 3)
+  }
+
   it should "offer a function for retrieving URNs" in {
     val threeLines = Corpus(delimitedText,"#")
     val one = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.1")
