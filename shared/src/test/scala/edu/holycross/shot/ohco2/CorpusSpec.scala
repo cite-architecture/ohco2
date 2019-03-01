@@ -30,6 +30,40 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
     }
   }
 
+  it should "Give a clear error when attempting to build a corpus with duplicate IDs" in {
+
+    val dups = """urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.1#μῆνιν
+urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.2#ἄειδε
+urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.2#θεὰ
+urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.4#Πηληϊάδεω
+urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
+"""
+    try {
+      val corpus = Corpus(dups,"#")
+      fail("should not have build")
+    } catch {
+      case e:Exception => {
+        assert(e.toString == "java.lang.IllegalArgumentException: requirement failed: Duplicated URN values: urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.2")
+      }
+    }
+  }
+
+ it should "Give a clear error when failing to find two components in a line" in {
+
+    val failLine = """urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.1#μῆνιν
+urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.2ἄειδε
+urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.3#θεὰ
+"""
+    try {
+      val corpus = Corpus(failLine,"#")
+      fail("should not have build")
+    } catch {
+      case e:Exception => {
+        assert(e.toString == "edu.holycross.shot.ohco2.Ohco2Exception: Badly formatted input.  Did not find 2 columns in the following source: urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.2ἄειδε")
+      }
+    }
+  }
+
 
   it should "throw an Ohco2Exception if badly formatted data is given to the constructor" in {
     val badInput = "no structure here"
