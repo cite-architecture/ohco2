@@ -172,6 +172,106 @@ import scala.scalajs.js.annotation._
     }
   }
 
+  /** Given an Iterable[CtsUrn] return a Vector[CtsUrn] sorted by document
+  *   order according to the order in the Corpus. If any URNs in the 
+  *   parameter Iterable are range-URNs, this expands them to leaf-nodes 
+  *   before sorting.
+  *   @param passageSet Set[CtsUrn]
+  **/
+  def sortPassages(passages:Iterable[CtsUrn]):Vector[CtsUrn] = {
+    
+    // For some reason, this can't ge done in one line with 2.11?
+    val psgSet:Set[CtsUrn] = passages.toSet
+    val psgVec:Vector[CtsUrn] = psgSet.toVector
+    val pv:Vector[CtsUrn] = psgVec.map(u => this.validReff(u)).flatten
+
+    //println(pv.map(_.toString).mkString("\n"))
+    val pm:Vector[(CtsUrn,Vector[CtsUrn])] = pv.groupBy(_.dropPassage).toVector
+    val workVec:Vector[CtsUrn] = pm.map(work => {
+      val thisWorkUrns:Vector[(CtsUrn, Int)] = this.urns.filter(_.dropPassage == work._1).zipWithIndex
+      val theseUrns:Vector[(CtsUrn, Int)] = work._2.map( wu => {
+        var thisIndex:Int = thisWorkUrns.find(_._1 == wu).get._2
+        (wu, thisIndex)
+      })
+      theseUrns.sortBy(_._2).map(_._1)
+    }).flatten
+    workVec
+  }
+
+  /** Given a Vector[CtsUrn] compress it so that any sequences of URNs that
+  *   can be expressed as ranges are expressed as ranges.
+  * @param urns Vector[CtsUrn]
+  **/
+  def compressReff(urns:Vector[CtsUrn]):Vector[CtsUrn] = {
+      // expand any ranges or containing elements
+      val pv:Vector[CtsUrn] = urns.toVector.map(u => this.validReff(u)).flatten
+      // group by text
+      val pm:Vector[(CtsUrn,Vector[CtsUrn])] = pv.groupBy(_.dropPassage).toVector
+      /* workVec returns…
+        A Vector of…
+          A vector of…
+            A pair of CtsUrn, and that passage's index
+              (its place in its sequence)
+      */
+      val workVec:Vector[Vector[(CtsUrn,Int)]] = pm.map(work => {
+        val thisWorkUrns:Vector[(CtsUrn, Int)] = this.urns.filter(_.dropPassage == work._1).zipWithIndex
+        val theseUrns:Vector[(CtsUrn, Int)] = work._2.map( wu => {
+          var thisIndex:Int = thisWorkUrns.find(_._1 == wu).get._2
+          (wu, thisIndex)
+        })
+        theseUrns.sortBy(_._2)
+      })
+
+      val returnVec:Vector[CtsUrn] = workVec.map(wv => {
+        val indices:Vector[Int] = wv.map(_._2)
+        val indicesGrouped:Vector[Vector[Int]] = groupSequences(indices)
+        val returnDeepVec:Vector[CtsUrn] = indicesGrouped.map( i => {
+          if (i.size == 1 ) {
+            val u:CtsUrn = wv.find(_._2 == i.head ).get._1
+            u
+          } else {
+            val startUrn:CtsUrn = wv.find(_._2 == i.head ).get._1
+            val endUrn:CtsUrn = wv.find(_._2 == i.last ).get._1
+            val endPsg:String = endUrn.passageComponent
+            val u:CtsUrn = CtsUrn(s"${startUrn}-${endPsg}")
+            u
+          }           
+        })
+        returnDeepVec
+      }).flatten
+
+      returnVec
+  }
+
+  /** Utility function: Given a Vector[Int] group all continuous runs
+  * @param indices Vector[Int]
+  **/
+  private def groupSequences(indices:Vector[Int]):Vector[Vector[Int]] = {
+    val iAsLists:List[Int] = indices.toList
+    val answer:List[List[Int]] = groupSequences(iAsLists)
+    answer.map(_.toVector).toVector
+  }
+
+  /** Utility function: Given a List[Int] group all continuous runs
+  * @param indices List[Int]
+  **/
+  private def groupSequences(indices:List[Int]):List[List[Int]] = {
+        val (acc, last) = indices
+            .foldLeft ((List[List[Int]](), List[Int]())) ((a,b) => 
+                if ( a._2.size == 0  )  {
+                    (a._1 :+ a._2, List(b)) 
+                }
+                else if ( (a._2.last + 1) != b  ) {
+                    (a._1 :+ a._2, List(b))
+                }
+                else {
+                    (a._1, a._2 :+ b)
+                }
+            )
+        val answerAsLists:List[List[Int]] = (acc :+ last).tail  
+        answerAsLists
+  }
+
   /** Find the set of versions in the present corpus
   * matching a given URN.
   *
@@ -394,32 +494,35 @@ import scala.scalajs.js.annotation._
     val psgRef = filterUrn.passageComponentOption match {
       case None => ""
       case s: Option[String] => s.get
-    }
-
-    if (filterUrn.isPoint) {
-      Corpus(nodes.filter(_.urn ~~ filterUrn))
-
-    } else if (filterUrn.isRange) {
-      val corpora = for (cw <- concrete(filterUrn)) yield {
-        //println("\n\nFILTER FOR " + cw)
-        val concreteFilter = CtsUrn(cw.toString + psgRef)
-        val srcCorpus = Corpus(nodes.filter(_.urn.dropPassage == cw))
-        //println("Result of filtering is\n" + srcCorpus.nodes.map(_.urn).mkString("\n"))
-        try {
-          srcCorpus.rangeExtract(concreteFilter)
-        } catch {
-          case oe: Ohco2Exception => Corpus(Vector.empty)
-        }
-
       }
-      sumCorpora(corpora.toSeq.toVector,Corpus(Vector.empty))
+
+      if (filterUrn.isPoint) {
+        Corpus(nodes.filter(_.urn ~~ filterUrn))
+
+      } else if (filterUrn.isRange) {
+        val corpora = for (cw <- concrete(filterUrn)) yield {
+          //println("\n\nFILTER FOR " + cw)
+          val concreteFilter = CtsUrn(cw.toString + psgRef)
+          //println(s"\n\nconcreteFilter = ${concreteFilter}")
+          val srcCorpus = Corpus(nodes.filter(_.urn.dropPassage == cw))
+          //println("Result of filtering is\n" + srcCorpus.nodes.map(_.urn).mkString("\n"))
+          try {
+            val rangeCorpus:Corpus = srcCorpus.rangeExtract(concreteFilter)
+            //println(s"""\nrangeCorpus: ${rangeCorpus.nodes.map(_.urn.toString).mkString("\n")}""")
+            rangeCorpus
+          } catch {
+            case oe: Ohco2Exception => Corpus(Vector.empty)
+          }
+
+          }
+          sumCorpora(corpora.toSeq.toVector,Corpus(Vector.empty))
 
 
-    } else {
-      // containing node:
-      Corpus(nodes.filter(_.urn ~~ filterUrn))
-    }
-  }
+        } else {
+          // containing node:
+          Corpus(nodes.filter(_.urn ~~ filterUrn))
+        }
+      }
 
 
 
@@ -530,8 +633,16 @@ def >= (urn: CtsUrn) : Corpus = {
   */
   def validReff(filterUrn: CtsUrn): Vector[CtsUrn]
  = {
+   //println(s"Filter URN = ${filterUrn}")
    val filtered = this ~~ filterUrn
-   filtered.nodes.map(_.urn)
+   //println(s"\n-----\nfiltered\n-----")
+   //println(filtered.nodes.map(_.urn.toString).mkString("\n"))
+   val concrete:CtsUrn = filterUrn.dropPassage
+   //println(s"\n-----\n${concrete}\n")
+   val vrr:Vector[CtsUrn] =  filtered.nodes.filter(concrete >= _.urn).map(_.urn)
+   //println(s"\n-----\nValidReff\n")
+   //println(vrr.map(_.toString).mkString("\n"))
+   vrr 
   }
 
   /** Format text contents of a passage identified by a URN

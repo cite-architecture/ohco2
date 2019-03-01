@@ -97,6 +97,16 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
     assert(extracted.urns == expected)
   }
 
+   it should "throw an exception if asked to index an invalid range" in  {
+    val range = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.2-1.1.4")
+    try {
+      val rIdx = corpus.rangeIndex(range)
+      fail("Should have thrown an exception making a range index on " + range)
+    } catch {
+      case t: Throwable => assert(t.toString == "edu.holycross.shot.ohco2.Ohco2Exception: Failed to match both ends of range reference: urn:cts:ns:tg.w.v1.ex1:1.1.2-1.1.4")
+    }
+  }
+
   it should "be able to apply the containedNodes function to a concrete range" in {
     val range = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.2-1.2.2")
     assert (corpus.rangeExtract(range) == corpus.containedNodes(range))
