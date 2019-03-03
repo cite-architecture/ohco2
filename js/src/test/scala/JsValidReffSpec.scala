@@ -77,15 +77,15 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
       val v = corpus.validReff(u)
     }
     val endTime1 = new js.Date().getTime 
-    println("------")
-    println(s"new validReff in ${(endTime1 - startTime1) / 1000 }.")
+    //println("------")
+    //println(s"new validReff in ${(endTime1 - startTime1) / 1000 }.")
     val startTime2 = new js.Date().getTime 
     for (u <- uv) {
       val v = corpus.validReff2(u)
     }
     val endTime2 = new js.Date().getTime 
-    println("------")
-    println(s"old validReff in ${(endTime2 - startTime2) / 1000 }.")
+    //println("------")
+    //println(s"old validReff in ${(endTime2 - startTime2) / 1000 }.")
     assert ( true )
     
   }
