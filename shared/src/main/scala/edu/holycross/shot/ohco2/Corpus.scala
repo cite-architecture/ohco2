@@ -494,35 +494,35 @@ import scala.scalajs.js.annotation._
     val psgRef = filterUrn.passageComponentOption match {
       case None => ""
       case s: Option[String] => s.get
-      }
+    }
 
-      if (filterUrn.isPoint) {
-        Corpus(nodes.filter(_.urn ~~ filterUrn))
+    if (filterUrn.isPoint) {
+      Corpus(nodes.filter(_.urn ~~ filterUrn))
 
-      } else if (filterUrn.isRange) {
-        val corpora = for (cw <- concrete(filterUrn)) yield {
-          //println("\n\nFILTER FOR " + cw)
-          val concreteFilter = CtsUrn(cw.toString + psgRef)
-          //println(s"\n\nconcreteFilter = ${concreteFilter}")
-          val srcCorpus = Corpus(nodes.filter(_.urn.dropPassage == cw))
-          //println("Result of filtering is\n" + srcCorpus.nodes.map(_.urn).mkString("\n"))
-          try {
-            val rangeCorpus:Corpus = srcCorpus.rangeExtract(concreteFilter)
-            //println(s"""\nrangeCorpus: ${rangeCorpus.nodes.map(_.urn.toString).mkString("\n")}""")
-            rangeCorpus
-          } catch {
-            case oe: Ohco2Exception => Corpus(Vector.empty)
-          }
-
-          }
-          sumCorpora(corpora.toSeq.toVector,Corpus(Vector.empty))
-
-
-        } else {
-          // containing node:
-          Corpus(nodes.filter(_.urn ~~ filterUrn))
+    } else if (filterUrn.isRange) {
+      val corpora = for (cw <- concrete(filterUrn)) yield {
+        //println("\n\nFILTER FOR " + cw)
+        val concreteFilter = CtsUrn(cw.toString + psgRef)
+        //println(s"\n\nconcreteFilter = ${concreteFilter}")
+        val srcCorpus = Corpus(nodes.filter(_.urn.dropPassage == cw))
+        //println("Result of filtering is\n" + srcCorpus.nodes.map(_.urn).mkString("\n"))
+        try {
+          val rangeCorpus:Corpus = srcCorpus.rangeExtract(concreteFilter)
+          //println(s"""\nrangeCorpus: ${rangeCorpus.nodes.map(_.urn.toString).mkString("\n")}""")
+          rangeCorpus
+        } catch {
+          case oe: Ohco2Exception => Corpus(Vector.empty)
         }
+
+        }
+        sumCorpora(corpora.toSeq.toVector,Corpus(Vector.empty))
+
+
+      } else {
+        // containing node:
+        Corpus(nodes.filter(_.urn ~~ filterUrn))
       }
+    }
 
 
 
@@ -631,18 +631,55 @@ def >= (urn: CtsUrn) : Corpus = {
   *
   * @param filterUrn URN identifying passage for which to find node URNs.
   */
-  def validReff(filterUrn: CtsUrn): Vector[CtsUrn]
- = {
-   //println(s"Filter URN = ${filterUrn}")
-   val filtered = this ~~ filterUrn
-   //println(s"\n-----\nfiltered\n-----")
-   //println(filtered.nodes.map(_.urn.toString).mkString("\n"))
-   val concrete:CtsUrn = filterUrn.dropPassage
-   //println(s"\n-----\n${concrete}\n")
-   val vrr:Vector[CtsUrn] =  filtered.nodes.filter(concrete >= _.urn).map(_.urn)
-   //println(s"\n-----\nValidReff\n")
-   //println(vrr.map(_.toString).mkString("\n"))
-   vrr 
+  def validReff(urn: CtsUrn): Vector[CtsUrn] = {
+    val allVersions:Vector[CtsUrn] = citedWorks.filter( w => {
+      urn.dropPassage >= w
+    }).map( u => {
+      urn.passageComponentOption match {
+        case Some (pc) => CtsUrn(s"${u}${pc}")
+        case None => u
+      }
+    })
+
+    val vrr:Vector[CtsUrn] = allVersions.map( filterUrn => {
+        // Is the URN a leaf-node?
+        if (this.urns.indexOf(filterUrn) >= 0) { Vector(filterUrn) }
+        // It is not a leaf-node
+        else {
+            if (filterUrn.isRange) {
+                var u1:CtsUrn = filterUrn.rangeToUrnVector(0)            
+                var u2:CtsUrn = filterUrn.rangeToUrnVector(1)            
+                println(s"${u1} = ${u2}")
+                val beginIndex:Int = {
+                  val tempIndex = this.urns.indexOf(u1)
+                  if (tempIndex >= 0) { tempIndex }
+                  else {
+                    val d:Int = u1.citationDepth.head
+                    val firstNode:CtsUrn = this.urns.filter(_.collapsePassageTo(d) == u1).head
+                    this.urns.indexOf(firstNode)
+                  }
+                }
+                val endIndex:Int = {
+                  val tempIndex = this.urns.indexOf(u2)
+                  if (tempIndex >= 0) { tempIndex }
+                  else {
+                    val d:Int = u2.citationDepth.head
+                    val lastNode:CtsUrn = this.urns.filter(_.collapsePassageTo(d) == u2).last
+                    this.urns.indexOf(lastNode)
+                  }
+                }
+                if (beginIndex > endIndex) { Vector[CtsUrn]() }
+                else {
+                    this.urns.slice(beginIndex, (endIndex + 1) )
+                }
+            } else { 
+        // It is a container
+              val d:Int = filterUrn.citationDepth.head
+              this.urns.filter(_.collapsePassageTo(d) == filterUrn)
+            }
+        }
+      }).flatten
+      vrr
   }
 
   /** Format text contents of a passage identified by a URN
@@ -1060,7 +1097,7 @@ def >= (urn: CtsUrn) : Corpus = {
   *
   * @param delimiter String value to separate two columns.
   */
-  def cex(delimiter: String = "\t"): String = {
+  def cex(delimiter: String = "#"): String = {
     nodes.map(_.cex(delimiter)).mkString("\n") + "\n"
   }
 
