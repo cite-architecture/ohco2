@@ -649,7 +649,7 @@ def >= (urn: CtsUrn) : Corpus = {
             if (filterUrn.isRange) {
                 var u1:CtsUrn = filterUrn.rangeToUrnVector(0)            
                 var u2:CtsUrn = filterUrn.rangeToUrnVector(1)            
-                println(s"${u1} = ${u2}")
+                //println(s"${u1} = ${u2}")
                 val beginIndex:Int = {
                   val tempIndex = this.urns.indexOf(u1)
                   if (tempIndex >= 0) { tempIndex }
