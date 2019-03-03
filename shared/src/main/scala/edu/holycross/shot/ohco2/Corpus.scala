@@ -631,8 +631,9 @@ def >= (urn: CtsUrn) : Corpus = {
   def validReff(urn: CtsUrn): Vector[CtsUrn] = {
     val allVersions:Vector[CtsUrn] = citedWorks.filter( w => {
       urn.dropPassage >= w
-    }).map( u =>
-      CtsUrn(s"${u}${urn.passageComponent}")
+    }).map( u => {
+        CtsUrn(s"${u}${urn.passageComponent}")
+      }
     )
 
     val vrr:Vector[CtsUrn] = allVersions.map( filterUrn => {
@@ -1163,8 +1164,16 @@ object Corpus {
     if (checkFormat.size > 0) {
       throw Ohco2Exception("Badly formatted input.  Did not find 2 columns in the following source: " + checkFormat.map(_.mkString(" ")).mkString("\n"))
     }
-
     val citableNodes = stringPairs.map( arr => CitableNode(CtsUrn(arr(0)), arr(1))  )
+
+    // no range urns!!
+    val checkForWrongRanges:Vector[CtsUrn] = {
+        citableNodes.filter(_.urn.isRange).map(_.urn)     
+    }
+    if (checkForWrongRanges.size > 0) {
+      throw Ohco2Exception(s"Invald URN in input. ${checkForWrongRanges.map(_.toString).mkString("\n")}. Range-URNs are not allowed to identify leaf nodes.")
+    }
+
 
     Corpus(citableNodes)
   }

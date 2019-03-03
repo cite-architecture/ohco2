@@ -22,6 +22,8 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.4#Πηληϊάδεω
 urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
 """
 
+
+
   "A corpus of citable nodes"  should "offer a constructor signature for  a corpus from a string value for a URL identifying a 2-column delimited text source" in  {
     val corpus = Corpus(delimitedText,"#")
     corpus match {
@@ -44,6 +46,21 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
     } catch {
       case e:Exception => {
         assert(e.toString == "java.lang.IllegalArgumentException: requirement failed: Duplicated URN values: urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.2")
+      }
+    }
+  }
+
+  it should "Give a clear error when attempting to build a corpus with range-URNs identifying leaf nodes." in {
+    try {
+      val badCitations =  """urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.3#θεὰ
+urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.4-1.1.5#Πηληϊάδεω
+urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.6#Ἀχιλῆος
+"""
+      val corpus = Corpus(badCitations,"#")
+      fail("should not have build")
+    } catch {
+      case e:Exception => {
+        assert(e.toString == "edu.holycross.shot.ohco2.Ohco2Exception: Invald URN in input. urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.4-1.1.5. Range-URNs are not allowed to identify leaf nodes.")
       }
     }
   }
