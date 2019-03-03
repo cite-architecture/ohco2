@@ -10,7 +10,7 @@ import java.util.Calendar
 val fileName1:String = "scripts/iliad_2_col.txt"
 val fileName2:String = "scripts/iliad_2_col_noTok.txt"
 
-def loadFile(fp:String = fileName2):Vector[String] = {
+def loadFile(fp:String = fileName1):Vector[String] = {
 	Source.fromFile(fp).getLines.toVector
 }
 
@@ -54,6 +54,11 @@ val urnRanges:Vector[CtsUrn] = urnPoints.map( u => {
 	CtsUrn(rangePsg)
 })
 
+val urnWorks:Vector[CtsUrn] = Vector(
+	CtsUrn("urn:cts:greekLit:tlg0012.tlg001.perseus_grc2:"),
+	CtsUrn("urn:cts:greekLit:tlg0012.tlg001.perseus_grc2.tokens:")
+)
+
 val numUrns = urnPoints.size + urnBooks.size + urnRanges.size
 
 val u1 = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.perseus_grc2:1.5")
@@ -69,6 +74,8 @@ val timeStart:Long = Calendar.getInstance().getTimeInMillis
 	println(s"${books1.size} urns.")
 	val ranges1:Vector[CtsUrn] = urnRanges.map(u => corp.validReff(u)).flatten
 	println(s"${ranges1.size} urns.")
+	val allWorks1:Vector[CtsUrn] = urnWorks.map(u => corp.validReff(u)).flatten
+	println(s"${allWorks1.size} urns.")
 
 val timeEnd:Long = Calendar.getInstance().getTimeInMillis
 
@@ -81,6 +88,8 @@ val timeStart2:Long = Calendar.getInstance().getTimeInMillis
 	println(s"${books2.size} urns.")
 	val ranges2:Vector[CtsUrn] = urnRanges.map(u => corp.validReff2(u)).flatten
 	println(s"${ranges2.size} urns.")
+	val allWorks2:Vector[CtsUrn] = urnWorks.map(u => corp.validReff(u)).flatten
+	println(s"${allWorks2.size} urns.")
 
 val timeEnd2:Long = Calendar.getInstance().getTimeInMillis
 
@@ -88,10 +97,10 @@ val timeEnd2:Long = Calendar.getInstance().getTimeInMillis
 val totalResults1 = pts1.size + books1.size + ranges1.size
 val totalResults2 = pts2.size + books2.size + ranges2.size
 
-println(s"\t\tpoints\tbooks\tranges")
+println(s"points\tbooks\tranges")
 println(s"----------------------------------------")
-println(s"${pts1.size}\t${books1.size}\t${ranges1.size}")
-println(s"${pts2.size}\t${books2.size}\t${ranges2.size}")
+println(s"${pts1.size}\t${books1.size}\t${ranges1.size}\t${allWorks1.size}")
+println(s"${pts2.size}\t${books2.size}\t${ranges2.size}\t${allWorks2.size}")
 println(s"----------------------------------------")
 
 println(s"Resolved ${totalResults1}:${totalResults2} passages.")

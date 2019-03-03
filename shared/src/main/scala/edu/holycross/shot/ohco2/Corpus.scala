@@ -642,8 +642,11 @@ def >= (urn: CtsUrn) : Corpus = {
     })
 
     val vrr:Vector[CtsUrn] = allVersions.map( filterUrn => {
+        if ( filterUrn.passageComponentOption == None ) {
+          this.urns.filter(_.dropPassage == filterUrn)
+        } 
         // Is the URN a leaf-node?
-        if (this.urns.indexOf(filterUrn) >= 0) { Vector(filterUrn) }
+        else if (this.urns.indexOf(filterUrn) >= 0) { Vector(filterUrn) }
         // It is not a leaf-node
         else {
             if (filterUrn.isRange) {
@@ -681,6 +684,13 @@ def >= (urn: CtsUrn) : Corpus = {
       }).flatten
       vrr
   }
+
+  def validReff2(filterUrn: CtsUrn): Vector[CtsUrn] = {
+     val filtered = this ~~ filterUrn
+     val concrete:CtsUrn = filterUrn.dropPassage
+     val vrr:Vector[CtsUrn] =  filtered.nodes.filter(concrete >= _.urn).map(_.urn)
+     vrr 
+ }
 
   /** Format text contents of a passage identified by a URN
   * as a single string.

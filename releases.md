@@ -1,5 +1,7 @@
 # `ohco2`: release notes
 
+**10.12.3**: Passing new tests for `validReff` on notional works, ranges on notional works, and URNs without passage components.
+
 **10.12.2**: Remove unnecessary logging output.
 
 **10.12.1**: Rewrite of `validReff(urn:CtsUrn)` with 2x speedup.
