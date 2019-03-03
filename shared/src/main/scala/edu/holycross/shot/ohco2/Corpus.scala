@@ -173,13 +173,13 @@ import scala.scalajs.js.annotation._
   }
 
   /** Given an Iterable[CtsUrn] return a Vector[CtsUrn] sorted by document
-  *   order according to the order in the Corpus. If any URNs in the 
-  *   parameter Iterable are range-URNs, this expands them to leaf-nodes 
+  *   order according to the order in the Corpus. If any URNs in the
+  *   parameter Iterable are range-URNs, this expands them to leaf-nodes
   *   before sorting.
   *   @param passageSet Set[CtsUrn]
   **/
   def sortPassages(passages:Iterable[CtsUrn]):Vector[CtsUrn] = {
-    
+
     // For some reason, this can't ge done in one line with 2.11?
     val psgSet:Set[CtsUrn] = passages.toSet
     val psgVec:Vector[CtsUrn] = psgSet.toVector
@@ -235,7 +235,7 @@ import scala.scalajs.js.annotation._
             val endPsg:String = endUrn.passageComponent
             val u:CtsUrn = CtsUrn(s"${startUrn}-${endPsg}")
             u
-          }           
+          }
         })
         returnDeepVec
       }).flatten
@@ -257,9 +257,9 @@ import scala.scalajs.js.annotation._
   **/
   private def groupSequences(indices:List[Int]):List[List[Int]] = {
         val (acc, last) = indices
-            .foldLeft ((List[List[Int]](), List[Int]())) ((a,b) => 
+            .foldLeft ((List[List[Int]](), List[Int]())) ((a,b) =>
                 if ( a._2.size == 0  )  {
-                    (a._1 :+ a._2, List(b)) 
+                    (a._1 :+ a._2, List(b))
                 }
                 else if ( (a._2.last + 1) != b  ) {
                     (a._1 :+ a._2, List(b))
@@ -268,7 +268,7 @@ import scala.scalajs.js.annotation._
                     (a._1, a._2 :+ b)
                 }
             )
-        val answerAsLists:List[List[Int]] = (acc :+ last).tail  
+        val answerAsLists:List[List[Int]] = (acc :+ last).tail
         answerAsLists
   }
 
@@ -491,10 +491,7 @@ import scala.scalajs.js.annotation._
   * @param filterUrn URN identifying a set of nodes to select from this corpus.
   */
   def ~~ (filterUrn: CtsUrn) : Corpus = {
-    val psgRef = filterUrn.passageComponentOption match {
-      case None => ""
-      case s: Option[String] => s.get
-    }
+    val psgRef = filterUrn.passageComponent
 
     if (filterUrn.isPoint) {
       Corpus(nodes.filter(_.urn ~~ filterUrn))
@@ -634,24 +631,21 @@ def >= (urn: CtsUrn) : Corpus = {
   def validReff(urn: CtsUrn): Vector[CtsUrn] = {
     val allVersions:Vector[CtsUrn] = citedWorks.filter( w => {
       urn.dropPassage >= w
-    }).map( u => {
-      urn.passageComponentOption match {
-        case Some (pc) => CtsUrn(s"${u}${pc}")
-        case None => u
-      }
-    })
+    }).map( u =>
+      CtsUrn(s"${u}${urn.passageComponent}")
+    )
 
     val vrr:Vector[CtsUrn] = allVersions.map( filterUrn => {
-        if ( filterUrn.passageComponentOption == None ) {
+        if ( filterUrn.passageComponent.isEmpty ) {
           this.urns.filter(_.dropPassage == filterUrn)
-        } 
+        }
         // Is the URN a leaf-node?
         else if (this.urns.indexOf(filterUrn) >= 0) { Vector(filterUrn) }
         // It is not a leaf-node
         else {
             if (filterUrn.isRange) {
-                var u1:CtsUrn = filterUrn.rangeToUrnVector(0)            
-                var u2:CtsUrn = filterUrn.rangeToUrnVector(1)            
+                var u1:CtsUrn = filterUrn.rangeToUrnVector(0)
+                var u2:CtsUrn = filterUrn.rangeToUrnVector(1)
                 //println(s"${u1} = ${u2}")
                 val beginIndex:Int = {
                   val tempIndex = this.urns.indexOf(u1)
@@ -675,7 +669,7 @@ def >= (urn: CtsUrn) : Corpus = {
                 else {
                     this.urns.slice(beginIndex, (endIndex + 1) )
                 }
-            } else { 
+            } else {
         // It is a container
               val d:Int = filterUrn.citationDepth.head
               this.urns.filter(_.collapsePassageTo(d) == filterUrn)
@@ -689,7 +683,7 @@ def >= (urn: CtsUrn) : Corpus = {
      val filtered = this ~~ filterUrn
      val concrete:CtsUrn = filterUrn.dropPassage
      val vrr:Vector[CtsUrn] =  filtered.nodes.filter(concrete >= _.urn).map(_.urn)
-     vrr 
+     vrr
  }
 
   /** Format text contents of a passage identified by a URN

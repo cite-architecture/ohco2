@@ -38,13 +38,14 @@ class OnlineDocumentObjectSpec extends FlatSpec {
   }
 
   it should "throw an Exception if an invalid document URN" in {
-    val badUrn = "NOT_A_URN#xml#test-hdt-grc.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']"
+    val badUrn = "NOT_A_URN"
+    val badCex = s"${badUrn}#xml#test-hdt-grc.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']"
+
     try {
       val onlineDoc = OnlineDocument(badUrn,"#",",")
       fail("Should not have created document.")
     } catch {
-      case iae: IllegalArgumentException => assert (iae.getMessage() ==      "requirement failed: Invalid URN syntax: too few components in NOT_A_URN")
-      case t: Throwable => fail("Should have thrown IllegalArgumentExceptions instead of " + t)
+      case e: java.lang.Exception => assert (e.getMessage().contains(badUrn))
     }
 
   }

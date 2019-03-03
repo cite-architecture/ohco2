@@ -25,6 +25,14 @@ import scala.scalajs.js.annotation._
   * @param filterUrn URN identifying text(s).
   */
   def entriesForUrn(filterUrn: CtsUrn): Vector[CatalogEntry] = {
+   //println("GET ENTRIES MATHING " + filterUrn.dropPassage)
+    val urns = texts.map(_.urn)
+   //println("SELECT FROM "+  urns.mkString("\n"))
+
+    for (u <- urns) {
+     //println("CF " + u + " and " + filterUrn.dropPassage)
+     //println(u <= filterUrn.dropPassage)
+    }
     texts.filter(_.urn <= filterUrn.dropPassage)
   }
 

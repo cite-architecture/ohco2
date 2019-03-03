@@ -60,7 +60,7 @@ object OnlineDocument {
   */
   def apply(delimitedText: String, delimiter: String, delimiter2: String): OnlineDocument = {
 
-    val columns = delimitedText.split(delimiter)
+    val columns = delimitedText.split(delimiter).toVector
     if (columns.size <  3 ) {
       throw Ohco2Exception(s"OnlineDocument: only found required ${columns}.size columns in ${delimitedText}")
     } else {}
