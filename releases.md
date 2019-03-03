@@ -1,5 +1,7 @@
 # `ohco2`: release notes
 
+**10.12.5**: Using xcite 4.0.2.
+
 **10.12.3**: Passing new tests for `validReff` on notional works, ranges on notional works, and URNs without passage components. New test on CrossedJS.
 
 **10.12.2**: Remove unnecessary logging output.
