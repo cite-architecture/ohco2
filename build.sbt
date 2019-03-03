@@ -1,15 +1,14 @@
-name := "OHCO2 text library"
+//name := "OHCO2 text library"
 
 // XML libraries moved in 2.11, so can't support 2.10.
-crossScalaVersions in ThisBuild := Seq("2.11.8", "2.12.4")
-scalaVersion := (crossScalaVersions in ThisBuild).value.last
+lazy val supportedScalaVersions = List("2.11.8", "2.12.4")
+
 
 lazy val root = project.in(file(".")).
     aggregate(crossedJVM, crossedJS).
     settings(
-      publish := {},
-      publishLocal := {}
-
+      crossScalaVersions := Nil,
+      publish / skip := true
     )
 
 lazy val crossed = crossProject.in(file(".")).
@@ -35,11 +34,15 @@ lazy val crossed = crossProject.in(file(".")).
     ).
     jvmSettings(
       tutTargetDirectory := file("docs"),
-      tutSourceDirectory := file("tut")
+      tutSourceDirectory := file("tut"),
+      crossScalaVersions := supportedScalaVersions
+
     ).
     jsSettings(
       skip in packageJSDependencies := false,
-      scalaJSUseMainModuleInitializer in Compile := true
+      scalaJSUseMainModuleInitializer in Compile := true,
+      crossScalaVersions := supportedScalaVersions
+
 
     )
 
