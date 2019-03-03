@@ -1,5 +1,7 @@
 # `ohco2`: release notes
 
+**10.12.1**: Rewrite of `validReff(urn:CtsUrn)` with 2x speedup.
+
 **10.12.0**:  Added `.sortPassages(Iterable[CtsUrn])` method. Added `.compressReff(Vector[CtsUrn])` method, for turning all sequential runs of passage URNs into ranges where possible. Added tests for error reporting when building from two-column text.
 
 **10.11.2**:  Twiddling a corpus on a `Vector[CtsUrn]` now works correctly if the Vector includes range- or containing-URNs.

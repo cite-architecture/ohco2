@@ -53,7 +53,7 @@ import scala.scalajs.js.annotation._
   *
   * @param delimiter String value to use as delimiter between columns.
   */
-  def cex(delimiter: String = "\t") : String = {
+  def cex(delimiter: String = "#") : String = {
     s"""#!ctscatalog\n${catalog.cex(delimiter)}#!ctsdata\n${corpus.cex(delimiter)}"""
   }
 
