@@ -213,6 +213,31 @@ urn:cts:greekLit:g.w.v.e:2.2.2#tokens
       assert(nxt.get == expected)
   }
 
+  it should "throw an exception when asking for 'nextUrn' on a work-level URN" in {
+      val corpus = Corpus(versionsAndExemplars,"#")
+      val workUrn = CtsUrn("urn:cts:greekLit:g.w:1.3.1")
+      try {
+        val nextUrn:Option[CtsUrn] = corpus.nextUrn(workUrn)
+        fail("Should not have provided 'nextUrn' for a work-level URN:" + nextUrn)
+      } catch {
+        case t: Throwable => {
+          assert( t.toString == "edu.holycross.shot.ohco2.Ohco2Exception: 'nextUrn' is a valid request only for version- or exemplar-level URNs: urn:cts:greekLit:g.w:1.3.1")
+        }
+      }
+  }
+
+  it should "throw an exception when asking for 'prevUrn' on a work-level URN" in {
+      val corpus = Corpus(versionsAndExemplars,"#")
+      val workUrn = CtsUrn("urn:cts:greekLit:g.w:1.3.1")
+      try {
+        val prevUrn:Option[CtsUrn] = corpus.prevUrn(workUrn)
+        fail("Should not have provided 'prevUrn' for a work-level URN:" + prevUrn)
+      } catch {
+        case t: Throwable => {
+          assert( t.toString == "edu.holycross.shot.ohco2.Ohco2Exception: 'prevUrn' is a valid request only for version- or exemplar-level URNs: urn:cts:greekLit:g.w:1.3.1")
+        }
+      }
+  }
 
   "The companion object" should "make range URNs for a vector of citable nodes"  in {
     val range =  Corpus.passageUrn(corpus.nodes).get

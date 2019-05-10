@@ -1,5 +1,7 @@
 # `ohco2`: release notes
 
+**10.13.0**: Added methods for chunking a corpus by text or by citation-value; added `~=` variant on Corpus twiddling.
+
 **10.12.5**: Using xcite 4.0.2.
 
 **10.12.3**: Passing new tests for `validReff` on notional works, ranges on notional works, and URNs without passage components. New test on CrossedJS.
