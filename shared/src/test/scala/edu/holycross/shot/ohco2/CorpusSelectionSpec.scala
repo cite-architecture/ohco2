@@ -87,6 +87,18 @@ class CorpusSelectionSpec extends FlatSpec {
     assert(matched.urns.toSet == expected)
   }
 
+  it should "create a new corpus by twiddling, limited to a given version" in {
+      val u:CtsUrn = CtsUrn("urn:cts:test:g.w.v2:") 
+      val c:Corpus = corpus ~= u
+      assert (c.size == 6)
+  }
+
+  it should "create a new corpus by twiddling a urn with a passage, limited to a given version" in {
+      val u:CtsUrn = CtsUrn("urn:cts:test:g.w.v2:1") 
+      val c:Corpus = corpus ~= u
+      assert (c.size == 4)
+  }
+
 
 /*
   it should "create a new Corpus by selecting nodes *not* URN-similar (><) to another single node" in  {

@@ -4,7 +4,9 @@ import edu.holycross.shot.cite._
 
 class TextPassageInversionSpec extends FlatSpec {
 
+  // Deprecated
 
+  /*
   "The Corpus object" should "maintain equality relaitons when inverting topology" in  {
     assert(Corpus.invertTopology(TextPassageTopology.PassageEquals) == TextPassageTopology.PassageEquals)
   }
@@ -24,5 +26,6 @@ class TextPassageInversionSpec extends FlatSpec {
     assert(Corpus.invertTopology(TextPassageTopology.PassageOverlapsAndFollows) == TextPassageTopology.PassagePrecedesAndOverlaps)
     assert(Corpus.invertTopology(TextPassageTopology.PassagePrecedesAndOverlaps) == TextPassageTopology.PassageOverlapsAndFollows)
   }
+  */
 
 }

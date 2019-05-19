@@ -91,7 +91,7 @@ import scala.scalajs.js.annotation._
     } else if (u1size == 1 && u2size > 1) {
       nodeToRangeRelation(u1, u2)
     } else if (u2size == 1 && u1size > 1) {
-      Corpus.invertTopology(nodeToRangeRelation(u2, u1))
+      rangeToNodeRelation(u1, u2)
     } else {
       rangeToRangeRelation(u1, u2)
     }
@@ -110,6 +110,24 @@ import scala.scalajs.js.annotation._
     if (rIdx.a <= ptIdx &&  rIdx.b >= ptIdx) {
       TextPassageTopology.PassageContainedBy
     } else if (ptIdx < rIdx.a) {
+      TextPassageTopology.PassagePrecedes
+    } else {
+      TextPassageTopology.PassageFollows
+    }
+  }
+
+  /** Compute the topological relation of a range and a node.
+  *
+  * @param range URN for a series of nodes (a range  or containing expression).
+  * @param point URN for a single node.
+  */
+  private def rangeToNodeRelation(range: CtsUrn, point: CtsUrn): TextPassageTopology.Value = {
+    val rIdx = rangeIndex(range)
+    val ptIdx = pointIndex(point)
+
+    if (rIdx.a <= ptIdx && rIdx.b >= ptIdx) {
+      TextPassageTopology.PassageContains
+    } else if (rIdx.b < ptIdx) {
       TextPassageTopology.PassagePrecedes
     } else {
       TextPassageTopology.PassageFollows
@@ -481,6 +499,24 @@ import scala.scalajs.js.annotation._
     }
   }
 
+  /** Create a new corpus of nodes that are URN-similar to a given CtsUrn,
+  * limited to a given Version or Exemplar.
+  * Collect all texts where this URN is cited, then
+  * collect citable nodes for the cited version.
+  * Note that chaining these filters therefore successively
+  * filters the corpus and can be thought of as filtering by
+  * logically ANDing the URNs.
+  *
+  * @param filterUrn URN identifying a set of nodes to select from this corpus.
+  */
+  def ~= (filterUrn:CtsUrn) : Corpus = {
+    val vUrn:CtsUrn = filterUrn.dropPassage
+    val versionCorpus:Corpus = {
+      Corpus(nodes.filter(_.urn.dropPassage == vUrn))
+    }
+    versionCorpus ~~ filterUrn
+  }
+
   /** Create a new corpus of nodes that are URN-similar to a given CtsUrn.
   * Collect all texts where this URN is cited, then
   * collect citable nodes for the cited version.
@@ -559,6 +595,86 @@ import scala.scalajs.js.annotation._
     }
   }
 
+  /* Split a Corpus in to a Vector[Corpus] by distinct text 
+  * (versions & exemplars)
+  */
+  def chunkByText:Vector[Corpus] = {
+    import scala.collection.mutable.LinkedHashMap
+    val vcn:Vector[(CtsUrn, CitableNode)] = nodes.map(cn => {
+      (cn.urn.dropPassage, cn)
+    })
+    //val v1:Vector[(Int, Int, String)] = Vector((1,1,"one-one"),(1,2,"one-two"),(2,1,"two-one"),(2,2,"two-two"))
+    val v2 = vcn.zipWithIndex.groupBy( n => n._1._1)
+    val v3 = LinkedHashMap(v2.toSeq sortBy (_._2.head._2): _*)
+    val v4 = v3 mapValues (_ map (_._1))
+    val v5:Vector[(CtsUrn, scala.collection.immutable.Vector[(CtsUrn, CitableNode)])] = v4.toVector
+    val v6:Vector[Corpus] = v5.map( t => {
+      val nodes:Vector[CitableNode] = t._2.map(_._2)
+      Corpus(nodes)
+    })
+    v6
+  }
+
+  /* Split a Corpus in to a Vector[Corpus] by citation
+  * (Will first chunk by Text). With levelsToGroup=1 returns
+  * a Corpus for each citable node of the text. 
+  * For an epic poem, levelsToGroup = 1 will divide by Book.
+  * For a tokenized text, you probably want levelsToGroup = 2.
+  * @param levelsToGroup how many levels of citation-depth
+  * (conting from the right) to keep together in a Corpus
+  */
+  def chunkByCitation(levelsToGroup:Int = 1):Vector[Corpus] = {
+    val textChunks:Vector[Corpus] = this.chunkByText
+    val sectionChunks:Vector[Corpus] = textChunks.map( tc => {
+      val deepestLevel:Int = tc.urns.map(_.citationDepth.head).min
+      //println(s"deepestLevel = ${deepestLevel}")
+      if (deepestLevel <= levelsToGroup) { 
+        val vc:Vector[Corpus] = Vector(tc)
+        vc 
+      }
+      else {
+         val drops:Int = deepestLevel - levelsToGroup
+         //println(s"drops = ${drops}")
+         val urnMap:Vector[(CtsUrn, Int)] = tc.urns.zipWithIndex
+         // Get vector of node-indices where breaks will happen
+         val breakPoints:Vector[Int] = (1 to drops).toVector.map( d => {
+            val grouped:Vector[(CtsUrn,Int)] = {
+              urnMap.groupBy(_._1.collapsePassageTo(d)).toVector.map( m => {
+                m._2.sortBy( x => x._2).head
+              })
+            }
+            grouped
+         }).flatten.map(_._2).distinct.sortBy( x => x)
+         // Turn that into a map of from-Index, to-Index
+         val chunkMap:Vector[Vector[Int]] = {
+            val slid:Vector[Vector[Int]] = breakPoints.sliding(2,1).toVector
+            // make a pair for the last chunk
+            val lastPair:Vector[Vector[Int]] = {
+              val v:Vector[Int] = Vector( slid.last.last, (urnMap.last._2 + 1) )
+              Vector(v)
+            }
+            val adjustedSlid:Vector[Vector[Int]] = slid.map( s => {
+              Vector(s(0), s(1))
+            }) ++ lastPair
+            //println(s"${adjustedSlid}")
+            adjustedSlid
+         }
+         val corpVec:Vector[Corpus] = chunkMap.map( cm => {
+            val fromIndex:Int = cm(0)
+            val untilIndex:Int = cm(1)
+            val nodeVec:Vector[CitableNode] = {
+              tc.nodes.slice(fromIndex, untilIndex)
+            }
+            val newCorpus:Corpus = Corpus(nodeVec)
+            newCorpus 
+         })
+         corpVec
+      }
+    }).flatten
+    sectionChunks
+  }
+
+ 
 
 /*
   def >< (urn: CtsUrn) = {
@@ -792,8 +908,12 @@ def >= (urn: CtsUrn) : Corpus = {
   * @param filterUrn Passage to find nodes before.
   */
   def prevUrn(filterUrn: CtsUrn): Option[CtsUrn] = {
-    Corpus.passageUrn(prev(filterUrn))
-  }
+    if (filterUrn.isVersion || filterUrn.isExemplar) {
+      Corpus.passageUrn(prev(filterUrn))
+    } else {
+      throw Ohco2Exception("'prevUrn' is a valid request only for version- or exemplar-level URNs: " + filterUrn.toString)
+    }  
+}
 
 
   /** Find URN for nodes following a passage.
@@ -801,7 +921,11 @@ def >= (urn: CtsUrn) : Corpus = {
   * @param filterUrn Passage to find nodes after.
   */
   def nextUrn(filterUrn: CtsUrn): Option[CtsUrn] = {
-    Corpus.passageUrn(next(filterUrn))
+    if (filterUrn.isVersion || filterUrn.isExemplar) {
+      Corpus.passageUrn(next(filterUrn))
+    } else {
+      throw Ohco2Exception("'nextUrn' is a valid request only for version- or exemplar-level URNs: " + filterUrn.toString)
+    }
   }
 
 
@@ -1189,24 +1313,6 @@ object Corpus {
     v.foldLeft(Corpus(Vector.empty[CitableNode]))((r,c) => r ++ c)
   }
 
-
-  /**  It would sure be nice if the person who wrote this function included
-  * a one-line summary of what it does.
-  */
-  def invertTopology(topo: TextPassageTopology.Value): TextPassageTopology.Value = {
-    topo match {
-      case TextPassageTopology.PassageEquals => TextPassageTopology.PassageEquals
-
-      case TextPassageTopology.PassagePrecedes => TextPassageTopology.PassageFollows
-      case TextPassageTopology.PassageFollows => TextPassageTopology.PassagePrecedes
-
-      case TextPassageTopology.PassageContains => TextPassageTopology.PassageContainedBy
-      case TextPassageTopology.PassageContainedBy =>  TextPassageTopology.PassageContains
-
-      case TextPassageTopology.PassagePrecedesAndOverlaps =>  TextPassageTopology.PassageOverlapsAndFollows
-      case TextPassageTopology.PassageOverlapsAndFollows => TextPassageTopology.PassagePrecedesAndOverlaps
-    }
-  }
 
 
   /** Create a sequence of ngrams for a sequence of toknes.

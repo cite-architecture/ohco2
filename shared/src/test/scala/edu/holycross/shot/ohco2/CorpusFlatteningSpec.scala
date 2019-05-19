@@ -23,7 +23,6 @@ urn:cts:demo:g.w.v.token:2.4#late.
 
     val corpus = Corpus(tokenCorpusSrc,"#")
     val flattened = corpus.exemplarToVersion("flatVersion")
-    println(flattened.nodes.mkString("\n"))
 
     assert(corpus.size == 8)
     assert(flattened.size == 2)
