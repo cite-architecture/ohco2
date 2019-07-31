@@ -1,5 +1,6 @@
 # `ohco2`: release notes
 
+**10.13.2**:  Update `xcite` library.
 
 **10.13.1**: Fix issue #132 (https://github.com/cite-architecture/ohco2/issues/132)
 
