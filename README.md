@@ -35,4 +35,5 @@ To build from source and test for a given version, use normal sbt commands (`com
 
 You can also test or run tasks against all versions, using `+` before the task name.  E.g.,  `sbt "+ test"` runs the `test` task against all versions.
 
-`ohco2` is used by the CITE library manager `scm`.  The `scm` wiki at <https://github.com/cite-architecture/scm/wiki> includes examples of how to create an ohco2 `TextRepository` from local files in various formats.
+`ohco2` is used by the CITE library manager `scm`.  The `scm` documentaton at <https://cite-architecture.github.io/scm/> includes examples of how to create an ohco2 `TextRepository` from local files in various formats.
+
