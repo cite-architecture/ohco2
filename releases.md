@@ -1,5 +1,8 @@
 # `ohco2`: release notes
 
+
+**10.13.1**: Fix issue #132 (https://github.com/cite-architecture/ohco2/issues/132)
+
 **10.13.0**: Added methods for chunking a corpus by text or by citation-value; added `~=` variant on Corpus twiddling.
 
 **10.12.5**: Using xcite 4.0.2.

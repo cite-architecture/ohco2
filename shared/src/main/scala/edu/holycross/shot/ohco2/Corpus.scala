@@ -197,13 +197,18 @@ import scala.scalajs.js.annotation._
   *   @param passageSet Set[CtsUrn]
   **/
   def sortPassages(passages:Iterable[CtsUrn]):Vector[CtsUrn] = {
-
     // For some reason, this can't ge done in one line with 2.11?
     val psgSet:Set[CtsUrn] = passages.toSet
     val psgVec:Vector[CtsUrn] = psgSet.toVector
-    val pv:Vector[CtsUrn] = psgVec.map(u => this.validReff(u)).flatten
 
-    //println(pv.map(_.toString).mkString("\n"))
+    val pv:Vector[CtsUrn] = psgVec.map(
+      u => {
+        val vr = this.validReff(u)
+        vr
+      }
+    ).flatten
+
+    //println("VALID REF MAP\n" + pv.map(_.toString).mkString("\n"))
     val pm:Vector[(CtsUrn,Vector[CtsUrn])] = pv.groupBy(_.dropPassage).toVector
     val workVec:Vector[CtsUrn] = pm.map(work => {
       val thisWorkUrns:Vector[(CtsUrn, Int)] = this.urns.filter(_.dropPassage == work._1).zipWithIndex
@@ -304,10 +309,6 @@ import scala.scalajs.js.annotation._
       similar.map(_.dropPassage).distinct.toSet
 
     } else {
-      /*
-      val matches = nodes.filter(_.urn ~~ urn)
-      val versionList = matches.map(_.urn.dropPassage).filter(_.isVersion).distinct
-      versionList.toSet*/
       val similar = versionUrns.filter (_ ~~ urn)
       similar.map(_.dropPassage).distinct.toSet
     }
@@ -595,7 +596,7 @@ import scala.scalajs.js.annotation._
     }
   }
 
-  /* Split a Corpus in to a Vector[Corpus] by distinct text 
+  /** Split a Corpus in to a Vector[Corpus] by distinct text
   * (versions & exemplars)
   */
   def chunkByText:Vector[Corpus] = {
@@ -615,9 +616,9 @@ import scala.scalajs.js.annotation._
     v6
   }
 
-  /* Split a Corpus in to a Vector[Corpus] by citation
+  /** Split a Corpus in to a Vector[Corpus] by citation
   * (Will first chunk by Text). With levelsToGroup=1 returns
-  * a Corpus for each citable node of the text. 
+  * a Corpus for each citable node of the text.
   * For an epic poem, levelsToGroup = 1 will divide by Book.
   * For a tokenized text, you probably want levelsToGroup = 2.
   * @param levelsToGroup how many levels of citation-depth
@@ -628,9 +629,9 @@ import scala.scalajs.js.annotation._
     val sectionChunks:Vector[Corpus] = textChunks.map( tc => {
       val deepestLevel:Int = tc.urns.map(_.citationDepth.head).min
       //println(s"deepestLevel = ${deepestLevel}")
-      if (deepestLevel <= levelsToGroup) { 
+      if (deepestLevel <= levelsToGroup) {
         val vc:Vector[Corpus] = Vector(tc)
-        vc 
+        vc
       }
       else {
          val drops:Int = deepestLevel - levelsToGroup
@@ -666,7 +667,7 @@ import scala.scalajs.js.annotation._
               tc.nodes.slice(fromIndex, untilIndex)
             }
             val newCorpus:Corpus = Corpus(nodeVec)
-            newCorpus 
+            newCorpus
          })
          corpVec
       }
@@ -674,7 +675,7 @@ import scala.scalajs.js.annotation._
     sectionChunks
   }
 
- 
+
 
 /*
   def >< (urn: CtsUrn) = {
@@ -739,61 +740,95 @@ def >= (urn: CtsUrn) : Corpus = {
   }
 */
 
-  /** Extract all URNs for all citable nodes identified by a URN.
+  /** Find all versions of a given CtsUrn in this corpus.
+  *
+  * @param urn URN to find versions for
+  */
+  def passageVersions(urn: CtsUrn) : Vector[CtsUrn] = {
+    val matchingWorks = citedWorks.filter(wk => urn.dropPassage >= wk)
+    matchingWorks.map(u => CtsUrn(s"${u}${urn.passageComponent}"))
+  }
+
+  /** Find index in this corpus of a URN's first node.
+  * If urn is a leaf node, it's simply the index of the node,
+  * but for a containing node, it's the first contained
+  * leaf node.
+  *
+  * @param urn First node of a range.
+  */
+  def firstNodeIndex(urn: CtsUrn) : Int = {
+      val tempIndex = this.urns.indexOf(urn)
+      if (tempIndex >= 0) {
+        tempIndex
+      } else {
+        val d:Int = urn.citationDepth.head
+        val firstNode:CtsUrn = this.urns.filter(_.collapsePassageTo(d) == urn).head
+        this.urns.indexOf(firstNode)
+      }
+  }
+
+  /** Find index in this corpus of a URN's last node.
+  * If urn is a leaf node, it's simply the index of the node,
+  * but for a containing node, it's the last contained leaf node.
+  *
+  * @param urn Last node of a range.
+  */
+  def lastNodeIndex(urn: CtsUrn) : Int = {
+    val tempIndex = this.urns.indexOf(urn)
+    if (tempIndex >= 0) { tempIndex }
+    else {
+      val d = urn.citationDepth.head
+      val lastNode = this.urns.filter(_.collapsePassageTo(d) == urn).last
+      this.urns.indexOf(lastNode)
+    }
+  }
+
+  /** Extract all URNs for all citable nodes identified
+  * by a given URN.
   * Note that it is not an error if the resulting Vector is empty.
   *
-  * @param filterUrn URN identifying passage for which to find node URNs.
+  * @param urn URN identifying passage for which to find node URNs.
   */
   def validReff(urn: CtsUrn): Vector[CtsUrn] = {
-    val allVersions:Vector[CtsUrn] = citedWorks.filter( w => {
-      urn.dropPassage >= w
-    }).map( u => {
-        CtsUrn(s"${u}${urn.passageComponent}")
-      }
-    )
+    // collect all versions of this URN:
+    val allVersions :Vector[CtsUrn] = passageVersions(urn)
 
-    val vrr:Vector[CtsUrn] = allVersions.map( filterUrn => {
-        if ( filterUrn.passageComponent.isEmpty ) {
-          this.urns.filter(_.dropPassage == filterUrn)
-        }
-        // Is the URN a leaf-node?
-        else if (this.urns.indexOf(filterUrn) >= 0) { Vector(filterUrn) }
-        // It is not a leaf-node
-        else {
-            if (filterUrn.isRange) {
-                var u1:CtsUrn = filterUrn.rangeToUrnVector(0)
-                var u2:CtsUrn = filterUrn.rangeToUrnVector(1)
-                //println(s"${u1} = ${u2}")
-                val beginIndex:Int = {
-                  val tempIndex = this.urns.indexOf(u1)
-                  if (tempIndex >= 0) { tempIndex }
-                  else {
-                    val d:Int = u1.citationDepth.head
-                    val firstNode:CtsUrn = this.urns.filter(_.collapsePassageTo(d) == u1).head
-                    this.urns.indexOf(firstNode)
-                  }
-                }
-                val endIndex:Int = {
-                  val tempIndex = this.urns.indexOf(u2)
-                  if (tempIndex >= 0) { tempIndex }
-                  else {
-                    val d:Int = u2.citationDepth.head
-                    val lastNode:CtsUrn = this.urns.filter(_.collapsePassageTo(d) == u2).last
-                    this.urns.indexOf(lastNode)
-                  }
-                }
-                if (beginIndex > endIndex) { Vector[CtsUrn]() }
-                else {
-                    this.urns.slice(beginIndex, (endIndex + 1) )
-                }
+    val vrr:Vector[CtsUrn] = allVersions.map( versionUrn =>
+      {
+        if ( versionUrn.passageComponent.isEmpty ) {
+          //println("Valid reff: no passage component in " + urn)
+          this.urns.filter(_.dropPassage == versionUrn)
+
+        } else if (this.urns.indexOf(versionUrn) >= 0) {
+          // URN is a leaf-node
+          //println("Valid reff:  leaf node " + versionUrn)
+          Vector(versionUrn)
+
+        } else { // not a leaf-node
+
+          if (versionUrn.isRange) {
+            //println("Valid reff: range URN " + versionUrn)
+            val beginIndex = firstNodeIndex(versionUrn.rangeToUrnVector(0))
+            val endIndex = lastNodeIndex(versionUrn.rangeToUrnVector(1))
+            if (beginIndex > endIndex) {
+              Vector.empty[CtsUrn]
             } else {
-        // It is a container
-              val d:Int = filterUrn.citationDepth.head
-              this.urns.filter(_.collapsePassageTo(d) == filterUrn)
+              this.urns.slice(beginIndex, (endIndex + 1) )
             }
+
+          } else {
+            // It is a container
+            val dpth = versionUrn.citationDepth.head
+
+            // Careful here.   Can't collapse URNs
+            // to desired depth unless they're already
+            // at passage depth >= to target depth.
+            val containerResult = this.urns.filter(_.citationDepth.head >= dpth).filter(_.collapsePassageTo(dpth) == versionUrn)
+            containerResult
+          }
         }
       }).flatten
-      vrr
+    vrr
   }
 
   def validReff2(filterUrn: CtsUrn): Vector[CtsUrn] = {
@@ -912,7 +947,7 @@ def >= (urn: CtsUrn) : Corpus = {
       Corpus.passageUrn(prev(filterUrn))
     } else {
       throw Ohco2Exception("'prevUrn' is a valid request only for version- or exemplar-level URNs: " + filterUrn.toString)
-    }  
+    }
 }
 
 
@@ -1292,7 +1327,7 @@ object Corpus {
 
     // no range urns!!
     val checkForWrongRanges:Vector[CtsUrn] = {
-        citableNodes.filter(_.urn.isRange).map(_.urn)     
+        citableNodes.filter(_.urn.isRange).map(_.urn)
     }
     if (checkForWrongRanges.size > 0) {
       throw Ohco2Exception(s"Invald URN in input. ${checkForWrongRanges.map(_.toString).mkString("\n")}. Range-URNs are not allowed to identify leaf nodes.")
