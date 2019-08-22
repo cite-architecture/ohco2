@@ -1,5 +1,7 @@
 # `ohco2`: release notes
 
+**10.14.0**:  `CorpusSource` object's `fromFile` function allows optional flagging of CEX header.
+
 **10.13.2**:  Update `xcite` library.
 
 **10.13.1**: Fix issue #132 (https://github.com/cite-architecture/ohco2/issues/132)

@@ -18,9 +18,17 @@ object CorpusSource {
   * @param f Name of the file.
   * @param delimiter String value of column delimiter.
   */
-  def fromFile(f: String, delimiter: String = "#", encoding: String = "UTF-8"): Corpus = {
+  def fromFile(f: String, delimiter: String = "#", encoding: String = "UTF-8", cexHeader: Boolean = false): Corpus = {
 
-    val stringPairs = Source.fromFile(f, encoding).getLines.toVector.filter(_.nonEmpty).map(_.split(delimiter))
+    val lines = Source.fromFile(f, encoding).getLines.toVector.filter(_.nonEmpty)
+
+
+    val stringPairs =  if (cexHeader) {
+      lines.tail.map(_.split(delimiter))
+    } else {
+      lines.map(_.split(delimiter))
+    }
+
     val citableNodes = stringPairs.map( arr => CitableNode(CtsUrn(arr(0)), arr(1)))
     Corpus(citableNodes)
   }

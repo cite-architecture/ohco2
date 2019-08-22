@@ -112,4 +112,10 @@ urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.
     testFile.delete()
   }
 
+  it should "permit flagging CEX header in CEX files" in {
+    val srcFile = "jvm/src/test/resources/includes-header.cex"
+    val corpus = CorpusSource.fromFile(srcFile, cexHeader = true)
+    assert(corpus.size == 4)
+  }
+
 }
