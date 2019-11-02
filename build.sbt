@@ -46,5 +46,5 @@ lazy val crossed = crossProject.in(file(".")).
     )
 
 
-lazy val crossedJVM = crossed.jvm.enablePlugins(TutPlugin)
+lazy val crossedJVM = crossed.jvm//.enablePlugins(TutPlugin)
 lazy val crossedJS = crossed.js
