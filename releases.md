@@ -1,5 +1,7 @@
 # `ohco2`: release notes
 
+**10.15.0**: Updated ScalaJS version and `xcite` dependency. Fixed bug with `chunkCorpusByCitation` (possible to fix with updated `xcite`). Added missing file for JVM test on CEX serialization.
+
 **10.14.0**:  `CorpusSource` object's `fromFile` function allows optional flagging of CEX header.
 
 **10.13.2**:  Update `xcite` library.

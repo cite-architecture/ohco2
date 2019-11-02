@@ -130,8 +130,6 @@ urn:cts:fufolio:pope.iliad.fu2019:1.3.8#The brother-kings, of Atreus' royal race
       assert ( chunked(1).size == 4)
   }
 
-  // urn:cts:fufolio:pope.iliad.fu2019_tokens:
-  // 
   it should "chunk into corpora by citation-value, at 3 levels" in {
       val corp:Corpus = Corpus(cex1,"#")
       val vc:Vector[Corpus] = corp.chunkByText
@@ -144,14 +142,17 @@ urn:cts:fufolio:pope.iliad.fu2019:1.3.8#The brother-kings, of Atreus' royal race
       assert ( chunked(2).size == 8)
 
   }
+  
   it should "chunk into corpora by citation-value, on a 4-level text" in {
       val corp:Corpus = Corpus(cex1,"#")
       val vc:Vector[Corpus] = corp.chunkByText
       val oneWork:Corpus = corp ~= CtsUrn("urn:cts:fufolio:pope.iliad.fu2019_tokens:")
       assert( oneWork.size == 47)
-      val chunked:Vector[Corpus] = oneWork.chunkByCitation(1)
-      assert ( chunked.size == 6 )
-      assert ( chunked(0).size == 8)
+      val chunked1:Vector[Corpus] = oneWork.chunkByCitation(1)
+      assert ( chunked1.size == 6 )
+      assert ( chunked1(0).size == 8)
+      val chunked2:Vector[Corpus] = oneWork.chunkByCitation(2)
+      assert ( chunked2.size == 2 )
   }
 
   it should "chunk into corpora by citation-value, on a 4-level tokenized text" in {
@@ -163,6 +164,16 @@ urn:cts:fufolio:pope.iliad.fu2019:1.3.8#The brother-kings, of Atreus' royal race
       assert ( chunked.size == 2 )
       assert ( chunked(0).size == 25)
       assert ( chunked(1).size == 22)
+  }
+
+  it should "chunk into corpora by citation-value, when the result is a single chunk" in {
+      val corp:Corpus = Corpus(cex1,"#")
+      val vc:Vector[Corpus] = corp.chunkByText
+      val oneWork:Corpus = corp ~= CtsUrn("urn:cts:fufolio:pope.iliad.fu2019_tokens:")
+      assert( oneWork.size == 47)
+      val chunked:Vector[Corpus] = oneWork.chunkByCitation(3)
+      assert ( chunked.size == 1 )
+      assert ( chunked(0).size == 47)
   }
 
   it should "not fail when the requested chunk-group exceeds the citation-depth" in {

@@ -617,63 +617,63 @@ import scala.scalajs.js.annotation._
   }
 
   /** Split a Corpus in to a Vector[Corpus] by citation
-  * (Will first chunk by Text). With levelsToGroup=1 returns
-  * a Corpus for each citable node of the text.
-  * For an epic poem, levelsToGroup = 1 will divide by Book.
-  * For a tokenized text, you probably want levelsToGroup = 2.
-  * @param levelsToGroup how many levels of citation-depth
-  * (conting from the right) to keep together in a Corpus
+  * (Will first chunk by Text). 
+  * @param drop How many levels of the passage-hierarchy, from the right, to drop when grouping
   */
-  def chunkByCitation(levelsToGroup:Int = 1):Vector[Corpus] = {
+  def chunkByCitation(drop:Int = 1):Vector[Corpus] = {
     val textChunks:Vector[Corpus] = this.chunkByText
     val sectionChunks:Vector[Corpus] = textChunks.map( tc => {
       val deepestLevel:Int = tc.urns.map(_.citationDepth.head).min
-      //println(s"deepestLevel = ${deepestLevel}")
-      if (deepestLevel <= levelsToGroup) {
+      if (deepestLevel <= drop) {
         val vc:Vector[Corpus] = Vector(tc)
         vc
       }
       else {
-         val drops:Int = deepestLevel - levelsToGroup
-         //println(s"drops = ${drops}")
          val urnMap:Vector[(CtsUrn, Int)] = tc.urns.zipWithIndex
          // Get vector of node-indices where breaks will happen
-         val breakPoints:Vector[Int] = (1 to drops).toVector.map( d => {
-            val grouped:Vector[(CtsUrn,Int)] = {
-              urnMap.groupBy(_._1.collapsePassageTo(d)).toVector.map( m => {
-                m._2.sortBy( x => x._2).head
-              })
-            }
-            grouped
-         }).flatten.map(_._2).distinct.sortBy( x => x)
-         // Turn that into a map of from-Index, to-Index
-         val chunkMap:Vector[Vector[Int]] = {
-            val slid:Vector[Vector[Int]] = breakPoints.sliding(2,1).toVector
-            // make a pair for the last chunk
-            val lastPair:Vector[Vector[Int]] = {
-              val v:Vector[Int] = Vector( slid.last.last, (urnMap.last._2 + 1) )
-              Vector(v)
-            }
-            val adjustedSlid:Vector[Vector[Int]] = slid.map( s => {
-              Vector(s(0), s(1))
-            }) ++ lastPair
-            //println(s"${adjustedSlid}")
-            adjustedSlid
+         val breakPoints:Vector[Int] = {
+          val groupedVec: Vector[ (CtsUrn, Vector[(CtsUrn, Int)])] = {
+            urnMap.groupBy( um => um._1.collapsePassageBy(drop)).toVector
+          }
+          val justHeads: Vector[ Int ] = {
+            groupedVec.map( _._2.head._2).sortBy( i => i )
+          }
+          justHeads
          }
-         val corpVec:Vector[Corpus] = chunkMap.map( cm => {
-            val fromIndex:Int = cm(0)
-            val untilIndex:Int = cm(1)
-            val nodeVec:Vector[CitableNode] = {
-              tc.nodes.slice(fromIndex, untilIndex)
-            }
-            val newCorpus:Corpus = Corpus(nodeVec)
-            newCorpus
-         })
-         corpVec
+         if (breakPoints.size > 1) {
+           // Turn that into a map of from-Index, to-Index
+           val chunkMap:Vector[Vector[Int]] = {
+              val slid:Vector[Vector[Int]] = breakPoints.sliding(2,1).toVector
+              // make a pair for the last chunk
+              val lastPair:Vector[Vector[Int]] = {
+                val v:Vector[Int] = Vector( slid.last.last, (urnMap.last._2 + 1) )
+                Vector(v)
+              }
+              val adjustedSlid:Vector[Vector[Int]] = slid.map( s => {
+                Vector(s(0), s(1))
+              }) ++ lastPair
+              //println(s"${adjustedSlid}")
+              adjustedSlid
+           }
+           val corpVec:Vector[Corpus] = chunkMap.map( cm => {
+              val fromIndex:Int = cm(0)
+              val untilIndex:Int = cm(1)
+              val nodeVec:Vector[CitableNode] = {
+                tc.nodes.slice(fromIndex, untilIndex)
+              }
+              val newCorpus:Corpus = Corpus(nodeVec)
+              newCorpus
+           })
+           corpVec
+         } else {
+          // There's only one chunk
+          Vector(this)
+         }
       }
     }).flatten
     sectionChunks
   }
+
 
 
 

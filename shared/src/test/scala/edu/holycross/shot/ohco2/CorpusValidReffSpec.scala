@@ -133,7 +133,6 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
     assert(corpus.validReff(passages).toSet == sorted.toSet)
   }
 
-
   it should "correctly report validReff on ranges of containing elements" in {
       val crUrn:CtsUrn = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1-1.2")    
       assert(corpus.validReff(crUrn).size == 6)
@@ -141,7 +140,7 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
 
   it  should  "correctly report validReff for notional works" in {
     val passages:CtsUrn = CtsUrn("urn:cts:ns:tg.w:")
-    val totalNum:Int = textDelimited.lines.size
+    val totalNum:Int = textDelimited.split("\n").toVector.size
     assert(corpus.validReff(passages).size == totalNum)
   } 
 
