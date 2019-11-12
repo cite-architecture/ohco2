@@ -23,7 +23,19 @@ object TextRepositorySource {
   * of CEX data.
   */
   def fromCexFile(cexFile: String, delimiter: String = "#", encoding: String = "UTF-8"): TextRepository = {
-    TextRepository(Source.fromFile(cexFile, encoding).getLines.toVector.mkString("\n"))
+    //TextRepository(Source.fromFile(cexFile, encoding).getLines.toVector.mkString("\n"))
+    fromCexString(Source.fromFile(cexFile, encoding).getLines.toVector.mkString("\n"), delimiter)
+  }
+
+
+  /** Create a [[TextRepository]] from a single string of CEX data.
+  *
+  * @param cexData Data in CEX format.
+  * @param delimiter String value used to delimit columns
+  * of CEX data.
+  */
+  def fromCexString(cexData:  String, delimiter: String = "#") = {
+    TextRepository(cexData, delimiter)
   }
 
   /** Convert an online text documented by an [[OnlineDocument]]
