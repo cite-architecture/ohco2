@@ -1,6 +1,8 @@
 # `ohco2`: release notes
 
-**10.15.0**: Add function to `TextRepositorySource` object to create a `TextRepository` from a single string in CEX format.
+**10.17.0**: Add `fromUrl` function to `CorpusSource` object to instantiate a `Corpus` from a URL source for CEX data.
+
+**10.16.0**: Add function to `TextRepositorySource` object to create a `TextRepository` from a single string in CEX format.
 
 
 **10.15.0**: Updated ScalaJS version and `xcite` dependency. Fixed bug with `chunkCorpusByCitation` (possible to fix with updated `xcite`). Added missing file for JVM test on CEX serialization.

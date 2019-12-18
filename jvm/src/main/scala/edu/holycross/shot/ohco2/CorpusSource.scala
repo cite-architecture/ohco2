@@ -4,33 +4,48 @@ import edu.holycross.shot.cite._
 import scala.io.Source
 import java.io._
 
-
-
-
-
 /** A utility class for creating [[Corpus]] objects from
 * various kinds of concrete sources available in the JVM,
 * and serializing [[Corpus]] objects to various kinds of output.
 */
 object CorpusSource {
 
+
+  def fromString(cex: String,  delimiter: String = "#", cexHeader: Boolean = false): Corpus = {
+    val lines = cex.split("\n").toVector
+    val stringPairs =  if (cexHeader) {
+      lines.tail.map(_.split(delimiter).toVector)
+    } else {
+      lines.map(_.split(delimiter).toVector)
+    }
+
+    val citableNodes = stringPairs.map( arr =>
+      {
+        try {
+          val u = CtsUrn(arr(0))
+          CitableNode(u, arr(1))
+        } catch {
+          case t: Throwable => {
+            println("Failed on input line " + arr)
+            throw t
+          }
+        }
+      })
+    Corpus(citableNodes)
+  }
+
   /** Create a [[Corpus]] from a two-column delimited-text file.
   * @param f Name of the file.
   * @param delimiter String value of column delimiter.
   */
   def fromFile(f: String, delimiter: String = "#", encoding: String = "UTF-8", cexHeader: Boolean = false): Corpus = {
+    val txt = Source.fromFile(f, encoding).getLines.toVector.filter(_.nonEmpty).mkString("\n")
+    fromString(txt, delimiter, cexHeader)
+  }
 
-    val lines = Source.fromFile(f, encoding).getLines.toVector.filter(_.nonEmpty)
-
-
-    val stringPairs =  if (cexHeader) {
-      lines.tail.map(_.split(delimiter))
-    } else {
-      lines.map(_.split(delimiter))
-    }
-
-    val citableNodes = stringPairs.map( arr => CitableNode(CtsUrn(arr(0)), arr(1)))
-    Corpus(citableNodes)
+  def fromUrl(url: String,  delimiter: String = "#", encoding: String = "UTF-8", cexHeader: Boolean = false): Corpus = {
+    val txt = Source.fromURL(url, encoding).getLines.toVector.filter(_.nonEmpty).mkString("\n")
+    fromString(txt, delimiter, cexHeader)
   }
 
 

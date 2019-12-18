@@ -23,10 +23,17 @@ urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.
 
   it should "have a non-empty vector of citable nodes" in {
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
-    val corpus = CorpusSource.fromFile(srcFile,"\t")
-    assert(corpus.nodes.size > 0)
+    val corpus = CorpusSource.fromFile(srcFile, delimiter = "\t")
+    assert(corpus.nodes.size == 4)
+
   }
 
+  it should "instantiate a corpus from a URL to a CEX source" in {
+    val srcUrl = "https://raw.githubusercontent.com/neelsmith/nomisma/master/cex/ric-1-3-cts.cex"
+    val coins = CorpusSource.fromUrl(srcUrl)
+
+    assert(coins.size > 27000)
+  }
 
   it should "offer a convenience method for extracting the string contents from a list of citable nodes as a single string" in pending /*{
     val filterUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.2")
@@ -42,7 +49,7 @@ urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.
     assert(actualText.startsWith(expectedOpening))
     assert(actualText.endsWith(expectedClosing))
   }
-*/
+
   it should "offer a convenience method to extract a list of works cited in the corpus" in {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msA:1.1-1.2")
     val srcFile = "jvm/src/test/resources/scholia-twocolumns.tsv"
@@ -117,5 +124,6 @@ urn:cts:greekLit:tlg0016.tlg001.grc:#xml#test-hdt-grc.xml#tei->http://www.tei-c.
     val corpus = CorpusSource.fromFile(srcFile, cexHeader = true)
     assert(corpus.size == 4)
   }
+  */
 
 }
