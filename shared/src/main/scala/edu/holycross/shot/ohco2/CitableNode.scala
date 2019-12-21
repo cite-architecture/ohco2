@@ -3,6 +3,11 @@ import edu.holycross.shot.cite._
 import scala.scalajs.js
 import scala.scalajs.js.annotation._
 
+
+import wvlet.log._
+import wvlet.log.LogFormatter.SourceCodeLogFormatter
+
+
 import scala.annotation.tailrec
 
 /** The smallest canonically citable unit of a text.
@@ -10,7 +15,7 @@ import scala.annotation.tailrec
 * @param urn URN identifying the node.
 * @param text Text contents of the node.
 */
-@JSExportAll  case class CitableNode (urn: CtsUrn, text: String) {
+@JSExportAll  case class CitableNode (urn: CtsUrn, text: String) extends LogSupport {
   if (text.isEmpty) {
     throw new Ohco2Exception("CitableNode: text content cannot be empty")
   }
@@ -218,7 +223,7 @@ def tokensWithin( v: Vector[String], distance: Int): Boolean = {
         }
         case n: Int => {
           val trailString = firstNCharsKwic(chunks(1),context)
-          //println("TRAIL ON " + chunks(1) + " at " + context + " yields " + trailString)
+          //debug("TRAIL ON " + chunks(1) + " at " + context + " yields " + trailString)
           lastNCharsKwic(chunks(0), context) + "**" + s + "**"  + firstNCharsKwic(chunks(1), context)
         }
       }

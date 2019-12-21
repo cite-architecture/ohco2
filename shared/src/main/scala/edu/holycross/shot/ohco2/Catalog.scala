@@ -5,6 +5,11 @@ import scala.io.Source
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Try
 
+
+import wvlet.log._
+import wvlet.log.LogFormatter.SourceCodeLogFormatter
+
+
 import scala.scalajs.js
 import scala.scalajs.js.annotation._
 
@@ -12,7 +17,7 @@ import scala.scalajs.js.annotation._
 *
 * @param texts Set of catalog entries.
 */
-@JSExportAll case class Catalog (texts: Vector[CatalogEntry]) {
+@JSExportAll case class Catalog (texts: Vector[CatalogEntry]) extends LogSupport {
 
 
   // ensure unique urns
@@ -25,13 +30,13 @@ import scala.scalajs.js.annotation._
   * @param filterUrn URN identifying text(s).
   */
   def entriesForUrn(filterUrn: CtsUrn): Vector[CatalogEntry] = {
-   //println("GET ENTRIES MATHING " + filterUrn.dropPassage)
+   //debug("GET ENTRIES MATHING " + filterUrn.dropPassage)
     val urns = texts.map(_.urn)
-   //println("SELECT FROM "+  urns.mkString("\n"))
+   //debug("SELECT FROM "+  urns.mkString("\n"))
 
     for (u <- urns) {
-     //println("CF " + u + " and " + filterUrn.dropPassage)
-     //println(u <= filterUrn.dropPassage)
+     //debug("CF " + u + " and " + filterUrn.dropPassage)
+     //debug(u <= filterUrn.dropPassage)
     }
     texts.filter(_.urn <= filterUrn.dropPassage)
   }
@@ -69,7 +74,7 @@ import scala.scalajs.js.annotation._
     val pairings = for (w <- works.sortBy(_.label)) yield {
       val vers = labelledVersions.filter(_.urn ~~ w.urn)
       (w, versionsToc(vers.toSeq.toVector.sortBy(_.label)))
-      //println("WORKS TOC " + s"${w}->${vers}")
+      //debug("WORKS TOC " + s"${w}->${vers}")
     }
     pairings.toMap
   }
@@ -87,7 +92,7 @@ import scala.scalajs.js.annotation._
       //(g,
       val wks = labelledWorks.filter(_.urn ~~ g.urn)
       (g, worksToc(wks.toSeq.toVector.sortBy(_.label)))
-      //println(wks.toSeq.toVector)
+      //debug(wks.toSeq.toVector)
     }
     pairings.toMap
   }

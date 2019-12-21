@@ -8,12 +8,17 @@ import scala.collection.mutable.Map
 import scala.scalajs.js
 import scala.scalajs.js.annotation._
 
+
+import wvlet.log._
+import wvlet.log.LogFormatter.SourceCodeLogFormatter
+
+
 /** A corpus of citable texts.
 *
 * @constructor Create a new corpus with a vector of CitableNode objects.
 * @param nodes Contents of the citable corpus
 */
-@JSExportAll case class Corpus (nodes: Vector[CitableNode]) {
+@JSExportAll case class Corpus (nodes: Vector[CitableNode]) extends LogSupport {
 
   /** Map each concrete text's URN to a Vector of [CitableNode]s.
   */
@@ -32,15 +37,15 @@ import scala.scalajs.js.annotation._
   def containedNodes(u: CtsUrn): Corpus = {
     require(u.concrete, "Can only compute contained nodes for a concrete instance of a text: " + u)
     val trimmed = u.dropPassage
-    //println("\n\nLimit containment to " + trimmed)
-    //println("From corpus \n" + urns.mkString("\n") )
+    //debug("\n\nLimit containment to " + trimmed)
+    //debug("From corpus \n" + urns.mkString("\n") )
     val matchingWork = nodes.filter(_.urn.dropPassage == trimmed)
-    //println("Found " + matchingWork.size + " nodes")
+    //debug("Found " + matchingWork.size + " nodes")
 
     if (u.isRange) {
       // Allow for possibility that range begin/end references are
       // either containers or nodes
-      //println("CONTAINMENT ON RANGE: " + u)
+      //debug("CONTAINMENT ON RANGE: " + u)
       val urnA = CtsUrn(u.dropPassage.toString + u.rangeBeginRef)
       val urnB = CtsUrn(u.dropPassage.toString + u.rangeEndRef)
 
@@ -59,7 +64,7 @@ import scala.scalajs.js.annotation._
     } else {
       // single node or containing reference:
       val containedCorpus = Corpus(matchingWork.filter(u >= _.urn ))
-      //println("Filtering using " + u + ": " + containedCorpus.size)
+      //debug("Filtering using " + u + ": " + containedCorpus.size)
       containedCorpus
 
     }
@@ -160,8 +165,8 @@ import scala.scalajs.js.annotation._
     } else if (r1idx.a < r2idx.a && r1idx.b < r2idx.b && r1idx.b >= r2idx.a) {
       TextPassageTopology.PassagePrecedesAndOverlaps
     } else if (r1idx.a > r2idx.a && r1idx.b > r2idx.b  ) {
-      //println("Two ranges: " + r1idx + ", " + r2idx)
-      //println("from " + u1 + ", " + u2)
+      //debug("Two ranges: " + r1idx + ", " + r2idx)
+      //debug("from " + u1 + ", " + u2)
       TextPassageTopology.PassageOverlapsAndFollows
 
     } else {
@@ -208,7 +213,7 @@ import scala.scalajs.js.annotation._
       }
     ).flatten
 
-    //println("VALID REF MAP\n" + pv.map(_.toString).mkString("\n"))
+    //debug("VALID REF MAP\n" + pv.map(_.toString).mkString("\n"))
     val pm:Vector[(CtsUrn,Vector[CtsUrn])] = pv.groupBy(_.dropPassage).toVector
     val workVec:Vector[CtsUrn] = pm.map(work => {
       val thisWorkUrns:Vector[(CtsUrn, Int)] = this.urns.filter(_.dropPassage == work._1).zipWithIndex
@@ -335,13 +340,13 @@ import scala.scalajs.js.annotation._
     }
     /*
     val matches = nodes.filter(_.urn ~~ urn)
-    println("Exemplars? matching " + urn)
-    println("got " + matches)
+    debug("Exemplars? matching " + urn)
+    debug("got " + matches)
     val allMatches = matches.map(_.urn.dropPassage)
-    println("Drop passage matches: " + allMatches)
+    debug("Drop passage matches: " + allMatches)
     //.filter(_.isExemplar).distinct
     val exemplarList = allMatches.filter(_.isExemplar).distinct
-    println("exemplars only: " + exemplarList)
+    debug("exemplars only: " + exemplarList)
     exemplarList.toSet
     */
   }
@@ -371,7 +376,7 @@ import scala.scalajs.js.annotation._
     require (urn.concrete, "Can only index references to concrete texts: " + urn)
     if (urn.isRange) {
       val noPsg = nodes.filter(_.urn.dropPassage == urn.dropPassage)
-      //println("RANGE INDEX " + urn)
+      //debug("RANGE INDEX " + urn)
 
       val beginRef ={
         urn.rangeBeginRefOption match {
@@ -388,13 +393,13 @@ import scala.scalajs.js.annotation._
 
       val urnA = CtsUrn(urn.dropPassage.toString + beginRef)
       val urnB = CtsUrn(urn.dropPassage.toString + endRef)
-      //println("A,B: \n" + urnA + " \n" + urnB)
+      //debug("A,B: \n" + urnA + " \n" + urnB)
 
       val aMatches = noPsg.filter(_.urn ~~ urnA)
       val bMatches = noPsg.filter(_.urn ~~ urnB)
-      //println("\nrangeIndexing " + urn + "\n")
-      //println("amatches: " + aMatches.map(_.urn).mkString("\n"))
-      //println("\n bmatches: " + bMatches.map(_.urn).mkString("\n"))
+      //debug("\nrangeIndexing " + urn + "\n")
+      //debug("amatches: " + aMatches.map(_.urn).mkString("\n"))
+      //debug("\n bmatches: " + bMatches.map(_.urn).mkString("\n"))
 
 
       if (aMatches.isEmpty || bMatches.isEmpty) {
@@ -535,14 +540,14 @@ import scala.scalajs.js.annotation._
 
     } else if (filterUrn.isRange) {
       val corpora = for (cw <- concrete(filterUrn)) yield {
-        //println("\n\nFILTER FOR " + cw)
+        //debug("\n\nFILTER FOR " + cw)
         val concreteFilter = CtsUrn(cw.toString + psgRef)
-        //println(s"\n\nconcreteFilter = ${concreteFilter}")
+        //debug(s"\n\nconcreteFilter = ${concreteFilter}")
         val srcCorpus = Corpus(nodes.filter(_.urn.dropPassage == cw))
-        //println("Result of filtering is\n" + srcCorpus.nodes.map(_.urn).mkString("\n"))
+        //debug("Result of filtering is\n" + srcCorpus.nodes.map(_.urn).mkString("\n"))
         try {
           val rangeCorpus:Corpus = srcCorpus.rangeExtract(concreteFilter)
-          //println(s"""\nrangeCorpus: ${rangeCorpus.nodes.map(_.urn.toString).mkString("\n")}""")
+          //debug(s"""\nrangeCorpus: ${rangeCorpus.nodes.map(_.urn.toString).mkString("\n")}""")
           rangeCorpus
         } catch {
           case oe: Ohco2Exception => Corpus(Vector.empty)
@@ -617,7 +622,7 @@ import scala.scalajs.js.annotation._
   }
 
   /** Split a Corpus in to a Vector[Corpus] by citation
-  * (Will first chunk by Text). 
+  * (Will first chunk by Text).
   * @param drop How many levels of the passage-hierarchy, from the right, to drop when grouping
   */
   def chunkByCitation(drop:Int = 1):Vector[Corpus] = {
@@ -652,7 +657,7 @@ import scala.scalajs.js.annotation._
               val adjustedSlid:Vector[Vector[Int]] = slid.map( s => {
                 Vector(s(0), s(1))
               }) ++ lastPair
-              //println(s"${adjustedSlid}")
+              //debug(s"${adjustedSlid}")
               adjustedSlid
            }
            val corpVec:Vector[Corpus] = chunkMap.map( cm => {
@@ -710,19 +715,19 @@ def >= (urn: CtsUrn) : Corpus = {
 
   } else {
     val psg = urn.passageComponent
-    //println("NOTIONAL: USE " + concrete(urn))
+    //debug("NOTIONAL: USE " + concrete(urn))
     // THIS IS BROKEN:
     val concreteTexts = concrete(urn)
-    //println("Concrete texts:\n")
-    //println(concreteTexts.mkString("\n"))
+    //debug("Concrete texts:\n")
+    //debug(concreteTexts.mkString("\n"))
     val nVect = for (conc <-  concreteTexts) yield {
       val u = CtsUrn(conc.toString + psg)
-      //println("\n\nGET CONCRETE " + u)
+      //debug("\n\nGET CONCRETE " + u)
       val contained = containedNodes(u)
-      //println("yielded " + contained)
+      //debug("yielded " + contained)
       contained
     }
-    //println(s"NVECT:${nVect.size} nodes " + nVect.toSeq.toVector)
+    //debug(s"NVECT:${nVect.size} nodes " + nVect.toSeq.toVector)
     sumCorpora(nVect.toSeq.toVector,Corpus(Vector.empty))
   }
 }
@@ -796,18 +801,18 @@ def >= (urn: CtsUrn) : Corpus = {
     val vrr:Vector[CtsUrn] = allVersions.map( versionUrn =>
       {
         if ( versionUrn.passageComponent.isEmpty ) {
-          //println("Valid reff: no passage component in " + urn)
+          //debug("Valid reff: no passage component in " + urn)
           this.urns.filter(_.dropPassage == versionUrn)
 
         } else if (this.urns.indexOf(versionUrn) >= 0) {
           // URN is a leaf-node
-          //println("Valid reff:  leaf node " + versionUrn)
+          //debug("Valid reff:  leaf node " + versionUrn)
           Vector(versionUrn)
 
         } else { // not a leaf-node
 
           if (versionUrn.isRange) {
-            //println("Valid reff: range URN " + versionUrn)
+            //debug("Valid reff: range URN " + versionUrn)
             val beginIndex = firstNodeIndex(versionUrn.rangeToUrnVector(0))
             val endIndex = lastNodeIndex(versionUrn.rangeToUrnVector(1))
             if (beginIndex > endIndex) {

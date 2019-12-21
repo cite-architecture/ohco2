@@ -1,5 +1,8 @@
 # `ohco2`: release notes
 
+**10.18.0**: Add support for logging with airframe logging framework.
+
+
 **10.17.0**: Add `fromUrl` function to `CorpusSource` object to instantiate a `Corpus` from a URL source for CEX data.
 
 **10.16.0**: Add function to `TextRepositorySource` object to create a `TextRepository` from a single string in CEX format.
