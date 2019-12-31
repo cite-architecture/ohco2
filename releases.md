@@ -1,5 +1,8 @@
 # `ohco2`: release notes
 
+
+**10.18.1**: Fix bug in publishing of 10.18.0 release.
+
 **10.18.0**: Add support for logging with airframe logging framework.
 
 
