@@ -761,14 +761,18 @@ def >= (urn: CtsUrn) : Corpus = {
   *
   * @param urn First node of a range.
   */
-  def firstNodeIndex(urn: CtsUrn) : Int = {
+  def firstNodeIndex(urn: CtsUrn) : Option[Int] = {
       val tempIndex = this.urns.indexOf(urn)
       if (tempIndex >= 0) {
-        tempIndex
+        Some(tempIndex)
       } else {
         val d:Int = urn.citationDepth.head
-        val firstNode:CtsUrn = this.urns.filter(_.collapsePassageTo(d) == urn).head
-        this.urns.indexOf(firstNode)
+        val filteredNodes:Vector[CtsUrn] = this.urns.filter(_.collapsePassageTo(d) == urn)
+        if (filteredNodes.size == 0) None
+        else {
+          val firstNode = filteredNodes.head
+          Some(this.urns.indexOf(firstNode))
+        }
       }
   }
 
@@ -778,13 +782,17 @@ def >= (urn: CtsUrn) : Corpus = {
   *
   * @param urn Last node of a range.
   */
-  def lastNodeIndex(urn: CtsUrn) : Int = {
+  def lastNodeIndex(urn: CtsUrn) : Option[Int] = {
     val tempIndex = this.urns.indexOf(urn)
-    if (tempIndex >= 0) { tempIndex }
+    if (tempIndex >= 0) { Some(tempIndex) }
     else {
       val d = urn.citationDepth.head
-      val lastNode = this.urns.filter(_.collapsePassageTo(d) == urn).last
-      this.urns.indexOf(lastNode)
+      val filteredNodes:Vector[CtsUrn] = this.urns.filter(_.collapsePassageTo(d) == urn)
+      if (filteredNodes.size == 0) None
+      else {
+        val lastNode = filteredNodes.last
+        Some(this.urns.indexOf(lastNode))
+      }
     }
   }
 
@@ -797,34 +805,44 @@ def >= (urn: CtsUrn) : Corpus = {
   def validReff(urn: CtsUrn): Vector[CtsUrn] = {
     // collect all versions of this URN:
     val allVersions :Vector[CtsUrn] = passageVersions(urn)
+    //info(s"All versions: ${allVersions.size}")
 
     val vrr:Vector[CtsUrn] = allVersions.map( versionUrn =>
       {
         if ( versionUrn.passageComponent.isEmpty ) {
-          //debug("Valid reff: no passage component in " + urn)
+          //info("Valid reff: no passage component in " + urn)
           this.urns.filter(_.dropPassage == versionUrn)
 
         } else if (this.urns.indexOf(versionUrn) >= 0) {
           // URN is a leaf-node
-          //debug("Valid reff:  leaf node " + versionUrn)
+          //info("Valid reff:  leaf node " + versionUrn)
           Vector(versionUrn)
 
         } else { // not a leaf-node
 
           if (versionUrn.isRange) {
-            //debug("Valid reff: range URN " + versionUrn)
-            val beginIndex = firstNodeIndex(versionUrn.rangeToUrnVector(0))
-            val endIndex = lastNodeIndex(versionUrn.rangeToUrnVector(1))
-            if (beginIndex > endIndex) {
+            //info("Valid reff: range URN " + versionUrn)
+            val beginIndex:Option[Int] = firstNodeIndex(versionUrn.rangeToUrnVector(0))
+            val endIndex:Option[Int] = lastNodeIndex(versionUrn.rangeToUrnVector(1))
+            if ( (beginIndex == None) | (endIndex == None) ) {
               Vector.empty[CtsUrn]
             } else {
-              this.urns.slice(beginIndex, (endIndex + 1) )
+              if (beginIndex.get > endIndex.get) {
+                Vector.empty[CtsUrn]
+              } else {
+                this.urns.slice(beginIndex.get, (endIndex.get + 1) )
+              }
             }
 
           } else {
             // It is a container
+            //info(s"versionUrn = ${versionUrn}")
+            //info(s"versionUrn.citationDepth = ${versionUrn.citationDepth}")
             val dpth = versionUrn.citationDepth.head
 
+            //info(s"${ this.urns.filter(_.citationDepth.head >= dpth).size }")
+            //info(s"${ this.urns.filter(_.citationDepth.head >= dpth).filter(_.collapsePassageTo(dpth) == versionUrn) }")
+            //info(s"Done!")
             // Careful here.   Can't collapse URNs
             // to desired depth unless they're already
             // at passage depth >= to target depth.

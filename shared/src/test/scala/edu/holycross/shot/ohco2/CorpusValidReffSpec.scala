@@ -144,6 +144,15 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
     assert(corpus.validReff(passages).size == totalNum)
   } 
 
+  it should "return an empty vector when it finds no reffs" in {
+    val badUrn = CtsUrn("urn:cts:ns:tg.w.v1:not")
+    assert(corpus.validReff(badUrn).size == 0)
+    val badRangeUrn1 = CtsUrn("urn:cts:ns:tg.w.v1:not-here")
+    assert(corpus.validReff(badRangeUrn1).size == 0)
+    val badRangeUrn2 = CtsUrn("urn:cts:ns:tg.w.v2:1.1-200.300")
+    assert(corpus.validReff(badRangeUrn2).size == 0)
+  }
+
 
 
 }
