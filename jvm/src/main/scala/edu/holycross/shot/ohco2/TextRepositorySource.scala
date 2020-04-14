@@ -21,22 +21,22 @@ object TextRepositorySource {
   * @param cexFile File with data in CEX format.
   * @param delimiter String value used to delimit columns
   * of CEX data.
-  */
+
   def fromCexFile(cexFile: String, delimiter: String = "#", encoding: String = "UTF-8"): TextRepository = {
     //TextRepository(Source.fromFile(cexFile, encoding).getLines.toVector.mkString("\n"))
     fromCexString(Source.fromFile(cexFile, encoding).getLines.toVector.mkString("\n"), delimiter)
   }
-
+*/
 
   /** Create a [[TextRepository]] from a single string of CEX data.
   *
   * @param cexData Data in CEX format.
   * @param delimiter String value used to delimit columns
   * of CEX data.
-  */
+
   def fromCexString(cexData:  String, delimiter: String = "#") = {
     TextRepository(cexData, delimiter)
-  }
+  }*/
 
   /** Convert an online text documented by an [[OnlineDocument]]
   * object to a two-column string.
@@ -130,7 +130,7 @@ object TextRepositorySource {
   * file are relative to this directory.
   * @param delimter Top-level delimiter for CEX structure.
   * @param delimiter2 Secondary delimiter for CEX structure.
-  */
+
   def fromFiles(catalogFileName: String,
     configFileName: String,
     baseDirectoryName: String,
@@ -140,7 +140,7 @@ object TextRepositorySource {
   ): TextRepository = {
 
     val catalogText = Source.fromFile(catalogFileName, encoding).getLines.mkString("\n")
-    val catalog = Catalog(catalogText, delimiter)
+    val catalog = Catalog.fromCex(catalogText, delimiter)
 
     val onlineVect = TextRepositorySource.onlineVector(configFileName, baseDirectoryName)
     val corpus = corpusFromOnlineVector (onlineVect)
@@ -148,5 +148,5 @@ object TextRepositorySource {
     TextRepository(corpus,catalog)
   }
 
-
+  */
 }
