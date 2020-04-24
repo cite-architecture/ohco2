@@ -15,7 +15,7 @@ import scala.xml._
 */
 object TextRepositorySource {
 
-
+}
   /** Create a [[TextRepository]] from a single file with CEX data.
   *
   * @param cexFile File with data in CEX format.
@@ -26,9 +26,7 @@ object TextRepositorySource {
     //TextRepository(Source.fromFile(cexFile, encoding).getLines.toVector.mkString("\n"))
     fromCexString(Source.fromFile(cexFile, encoding).getLines.toVector.mkString("\n"), delimiter)
   }
-*/
-
-  /** Create a [[TextRepository]] from a single string of CEX data.
+  * Create a [[TextRepository]] from a single string of CEX data.
   *
   * @param cexData Data in CEX format.
   * @param delimiter String value used to delimit columns
@@ -36,13 +34,12 @@ object TextRepositorySource {
 
   def fromCexString(cexData:  String, delimiter: String = "#") = {
     TextRepository(cexData, delimiter)
-  }*/
-
-  /** Convert an online text documented by an [[OnlineDocument]]
+  }
+  * Convert an online text documented by an [[OnlineDocument]]
   * object to a two-column string.
   *
   * @param doc Documentation of the text to convert.
-  */
+
   def cexForDocument(doc: OnlineDocument, outputDelim: String = "#"): String = {
     doc.format match {
       case Wf_Xml => cexForXml(doc, outputDelim )
@@ -50,14 +47,13 @@ object TextRepositorySource {
       case _ => ""
     }
   }
-
-  /** Convert a single XML file documentd by an [[OnlineDocument]]
+* Convert a single XML file documentd by an [[OnlineDocument]]
   * object to a two-column string.
   *
   * @param doc Documentation of the text to convert.
   * @param inputDelim Delimiter used in source files.
   * @param outputDelim Delimiter to use in CEX output.
-  */
+
   def cexForXml(doc: OnlineDocument, outputDelim: String = "#", encoding: String = "UTF-8"): String = {
     val xml = Source.fromFile(doc.docName, encoding).getLines.mkString("\n")
     val corpus = SimpleTabulator(doc.urn, XPathTemplate(doc.xpathTemplate.get), xml)
@@ -65,25 +61,25 @@ object TextRepositorySource {
   }
 
 
-  def cexForMarkdown(doc: OnlineDocument, invFile: String, confFile: String, outputDelim: String = "#"): String = {
-    val f = new File(doc.docName)
-
-    /*
-    val twoCols = MdTabulator.mdFileToTwoColumns(f, doc.urn.toString, outputDelim)
-
-    twoCols
-    */
-    "Not currently implemented"
-  }
+//  def cexForMarkdown(doc: OnlineDocument, invFile: String, confFile: String, outputDelim: String = "#"): String = {
+//    val f = new File(doc.docName)
 
 
-  /** Create complete CEX representation of
+    //val twoCols = MdTabulator.mdFileToTwoColumns(f, doc.urn.toString, outputDelim)
+
+    //twoCols
+
+  //  "Not currently implemented"
+//  }
+
+
+* Create complete CEX representation of
   * a text repository from local files.
   *
   * @param invFileName Name of file with basic inventory of texts and their citation schemes.
   * @param configFileName Name of file with details about location and format of files.
   * @param baseDirectoryName Name of root directory where local files are found.
-  */
+
 
 
   // this is messed up...
@@ -101,14 +97,12 @@ object TextRepositorySource {
     val cex = onlineVect.map(cexForDocument(_))
     Corpus(cex.mkString("\n"))
   }
-
-
-  /** Create a vector of [[OnlineDocument]]s from a cataloged
+  * Create a vector of [[OnlineDocument]]s from a cataloged
   * set of files in a local file system.
   *
   * @param configFileName Name of file with details about location and format of files.
   * @param baseDirectoryName Name of root directory where local files are found.
-  */
+
   def onlineVector(
     configFileName: String,
     baseDirectoryName: String,
@@ -120,8 +114,8 @@ object TextRepositorySource {
     val docs = lines.map(OnlineDocument(_, delimiter1, delimiter2)).toVector
     docs.map(_.absolutePath(baseDirectoryName))
   }
-
-  /** Create a TextRepository from local files.
+  *
+* Create a TextRepository from local files.
   *
   * @param catalogFileName Name of file with catalog of texts in CEX format.
   * @param configFileName Name of file with delimited-text data mapping cataloged texts
@@ -146,7 +140,8 @@ object TextRepositorySource {
     val corpus = corpusFromOnlineVector (onlineVect)
 
     TextRepository(corpus,catalog)
-  }
 
-  */
+
+
 }
+*/

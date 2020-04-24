@@ -20,7 +20,7 @@ object SimpleTabulator {
   * @param docUrn Version- or exemplar-level CtsUrn for this document.
   * @param spec CEX-format catalog specification for this document.
   * @param xmlString A String of XML.
-  */
+
   def apply(docUrn: CtsUrn, xpTemplate: XPathTemplate, xmlString: String ): Corpus = {
 
     val xml = scala.xml.XML.loadString(xmlString)
@@ -64,6 +64,6 @@ object SimpleTabulator {
     }
     buff.toVector
   }
-
+*/
 
 }
