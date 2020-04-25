@@ -60,8 +60,14 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
   }*/
 
 
-
-  def ++(corpus2: CorpusVector): CorpusVector = {CorpusVector(Vector.empty[CitableNode])}
+/** Create a new corpus by adding a second corpus to this one.
+  *
+  * @param corpus2 second corpus with contents to be added.
+  */
+  def ++(corpus2: CorpusVector): CorpusVector  = {
+    val newNodes = nodes ++ corpus2.nodes
+    CorpusVector(newNodes.distinct)
+  }
 
 /*
 def ~=(filterUrn: edu.holycross.shot.cite.CtsUrn): edu.holycross.shot.ohco2.Corpus = ???
