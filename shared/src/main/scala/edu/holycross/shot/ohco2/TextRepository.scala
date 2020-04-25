@@ -11,5 +11,5 @@ import wvlet.log._
 import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
 
-trait TextRepository[ReopImpl] extends LogSupport {
+trait TextRepository[RepoImpl] extends LogSupport {
 }
