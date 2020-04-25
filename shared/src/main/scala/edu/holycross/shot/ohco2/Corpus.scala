@@ -16,4 +16,6 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 trait Corpus extends LogSupport {
   def nodes: Vector[CitableNode]
 
+  def ++(corpus2: CorpusVector): CorpusVector
+  
 }
