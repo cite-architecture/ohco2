@@ -58,4 +58,31 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
       containedCorpus
     }
   }*/
+
+
+
+  def ++(corpus2: CorpusVector): CorpusVector = {CorpusVector(Vector.empty[CitableNode])}
+
+/*
+def ~=(filterUrn: edu.holycross.shot.cite.CtsUrn): edu.holycross.shot.ohco2.Corpus = ???
+[error]   def ~~(urnV: Vector[edu.holycross.shot.cite.CtsUrn]): edu.holycross.shot.ohco2.Corpus = ???
+[error]   def ~~(filterUrn: edu.holycross.shot.cite.CtsUrn): edu.holycross.shot.ohco2.Corpus = ???
+[error]   def chunkByCitation(drop: Int): Vector[edu.holycross.shot.ohco2.Corpus] = ???
+[error]   def chunkByText: Vector[edu.holycross.shot.ohco2.Corpus] = ???
+[error]   def concreteMap: scala.collection.mutable.Map[edu.holycross.shot.cite.CtsUrn,edu.holycross.shot.ohco2.Corpus] = ???
+[error]   def containedNodes(u: edu.holycross.shot.cite.CtsUrn): edu.holycross.shot.ohco2.Corpus = ???
+[error]   def exemplarToVersion(newVersionId: String): edu.holycross.shot.ohco2.Corpus = ???
+[error]   def find(v: Vector[String]): edu.holycross.shot.ohco2.Corpus = ???
+[error]   def find(str: String): edu.holycross.shot.ohco2.Corpus = ???
+[error]   def findToken(t: String,omitPunctuation: Boolean): edu.holycross.shot.ohco2.Corpus = ???
+[error]   def findTokensWithin(v: Vector[String],distance: Int,omitPunctuation: Boolean): edu.holycross.shot.ohco2.Corpus = ???
+[error]   def firstNodeOption(filterUrn: edu.holycross.shot.cite.CtsUrn): Option[edu.holycross.shot.ohco2.CitableNode] = ???
+[error]   def lastNodeOption(filterUrn: edu.holycross.shot.cite.CtsUrn): Option[edu.holycross.shot.ohco2.CitableNode] = ???
+[error]   def next(filterUrn: edu.holycross.shot.cite.CtsUrn): Vector[edu.holycross.shot.ohco2.CitableNode] = ???
+[error]   def prev(filterUrn: edu.holycross.shot.cite.CtsUrn): Vector[edu.holycross.shot.ohco2.CitableNode] = ???
+[error]   def rangeExtract(urn: edu.holycross.shot.cite.CtsUrn): edu.holycross.shot.ohco2.Corpus = ???
+[error]   def rangeIndex(urn: edu.holycross.shot.cite.CtsUrn): edu.holycross.shot.ohco2.RangeIndex = ???
+[error]   def sumCorpora(corpora: Vector[edu.holycross.shot.ohco2.Corpus],sumCorpus: edu.holycross.shot.ohco2.Corpus): edu.holycross.shot.ohco2.Corpus = ???
+*/
+
 }

@@ -336,7 +336,7 @@ trait Corpus extends LogSupport {
   * @param u CtsUrn to index.  It is an exception if u does not
   * identify a range of nodes present in the Corpus.
   */
-  def rangeIndex(urn: CtsUrn): RangeIndex = {
+  def rangeIndex(urn: CtsUrn): RangeIndex /*= {
     require (urn.concrete, "Can only index references to concrete texts: " + urn)
     if (urn.isRange) {
       val noPsg = nodes.filter(_.urn.dropPassage == urn.dropPassage)
@@ -384,7 +384,7 @@ trait Corpus extends LogSupport {
         throw Ohco2Exception(s"Not a containing or range expression: ${urn}")
       }
     }
-  }
+  }*/
 
 
   /** Find index in `nodes` of a given CtsUrn.
@@ -449,8 +449,8 @@ trait Corpus extends LogSupport {
   /** Create a new corpus by subtracting a second corpus from this one.
   *
   * @ corpus2 second corpus with contents to be removed from this one.
-  */
-  def --(corpus2: Corpus) : Corpus /*= {
+
+  TBA  def --(corpus2: Corpus) : Corpus = {
     Corpus( nodes diff corpus2.nodes)
   }*/
 
@@ -553,8 +553,8 @@ trait Corpus extends LogSupport {
   *
   * @param urnV vector of URNs to use in filtering the corpus.
   * @param resultCorpus
-  */
-  def ~~(urnV : Vector[CtsUrn], resultCorpus: Corpus): Corpus /*= {
+
+  TBA  def ~~(urnV : Vector[CtsUrn], resultCorpus: Corpus): Corpus = {
     if (urnV.isEmpty ) {
       resultCorpus
 
@@ -672,8 +672,8 @@ def concrete(urn: CtsUrn) : Set[CtsUrn] = {
 * given URN.
 *
 * @param urn CtsUrn to use in filtering the corpus.
-*/
-def >= (urn: CtsUrn) : Corpus /*= {
+
+TBA def >= (urn: CtsUrn) : Corpus = {
   if (urn.concrete) {
      containedNodes(urn)
 
@@ -857,13 +857,13 @@ def >= (urn: CtsUrn) : Corpus /*= {
   *
   * @param filterUrn URN identifying the passage.
   */
-  def firstNodeOption(filterUrn: CtsUrn): Option[CitableNode] = {
+  def firstNodeOption(filterUrn: CtsUrn): Option[CitableNode]/* = {
     val matching = this >= filterUrn
     matching.nodes.isEmpty match {
       case true => None
       case false => Some(matching.nodes.head)
     }
-  }
+  }*/
 
 
   /** Find first citable node in a passage.
@@ -896,13 +896,13 @@ def >= (urn: CtsUrn) : Corpus /*= {
   *
   * @param filterUrn URN identifying the passage.
   */
-  def lastNodeOption(filterUrn: CtsUrn): Option[CitableNode] = {
+  def lastNodeOption(filterUrn: CtsUrn): Option[CitableNode]/* = {
     val matching = this >= filterUrn
     matching.nodes.isEmpty match {
       case true => None
       case false => Some(matching.nodes.last)
     }
-  }
+  }*/
 
   /** Find the last citable node in a passage.
   * It is an exception if the passage does not include
@@ -960,7 +960,7 @@ def >= (urn: CtsUrn) : Corpus /*= {
   *
   * @param filterUrn passage to find nodes before
   */
-  def next(filterUrn: CtsUrn): Vector[CitableNode] = {
+  def next(filterUrn: CtsUrn): Vector[CitableNode] /*= {
     val subselection = this >= filterUrn
 
     if (subselection.nodes.isEmpty) {
@@ -975,7 +975,7 @@ def >= (urn: CtsUrn) : Corpus /*= {
         case _ => workCorpus.nodes.slice(idx,workCorpus.nodes.size)
       }
     }
-  }
+  }*/
 
 
 
@@ -989,7 +989,7 @@ def >= (urn: CtsUrn) : Corpus /*= {
   *
   * @param filterUrn passage to find nodes before
   */
-  def prev(filterUrn: CtsUrn): Vector[CitableNode] = {
+  def prev(filterUrn: CtsUrn): Vector[CitableNode] /* = {
     val subselection = this >= filterUrn
 
     if (subselection.nodes.isEmpty) {
@@ -1009,12 +1009,12 @@ def >= (urn: CtsUrn) : Corpus /*= {
         }
       }
     }
-  }
+  } */
 
   /** Create a vector of [[edu.holycross.shot.ohco2.XfRow]]
   * instances equivalent to the present corpus.
-  */
-  def to82xfVector: Vector[XfRow] = {
+
+  TBA  maybe def to82xfVector: Vector[XfRow] = {
     val ids = nodes.map ( n => n.urn)
     val templateVector = Vector.empty[String]
     val nextColumn = templateVector  ++ ids.drop(1) ++ Vector("")
@@ -1023,25 +1023,25 @@ def >= (urn: CtsUrn) : Corpus /*= {
     nodes.zip(nextPrev).map {
       case (n,(nxt,prv)) => XfRow(n.urn.toString,nxt.toString,prv.toString,n.text)
     }
-  }
+  }*/
 
 
   /** Represent the Corpus in 82XF format.
   *
   * @param delimiter String value to use as a column separator.
-  */
-  def to82xfString(delimiter: String): String = {
+
+  TBA maybe def to82xfString(delimiter: String): String = {
     to82xfVector.map(_.rowString(delimiter)).mkString("\n")
-  }
+  }*/
 
   /** Represent the Corpus in two-column delimited-text format.
   *
   * @param delimiter String value to use as to separate URN strings from text contents.
-  */
-  def to2colString(delimiter: String): String = {
+
+  TBA def to2colString(delimiter: String): String = {
     nodes.map(cn => cn.urn + delimiter + cn.text).mkString("\n")
   }
-
+*/
 
   /** Convert strings to vectors of words, tokenizing on whitespace.
   * Optionally, omit puncutation characters from result.
@@ -1331,7 +1331,7 @@ object Corpus {
   * corpus follows their order in the Vector of corpora.
   *
   * @param v Vector of corpora to merge.
-  
+
   def composite(v: Vector[Corpus]) : Corpus = {
 
     v.foldLeft(Corpus(Vector.empty[CitableNode]))((r,c) => r ++ c)
