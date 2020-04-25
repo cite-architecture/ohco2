@@ -33,7 +33,15 @@ trait Corpus[CImpl] extends LogSupport {
   */
   def -- (corpus2: CImpl) : CImpl
 
+  def sortPassages(passages: Set[CtsUrn]): Vector[CtsUrn]
 
+  /** Extract URNs for all citable nodes identified
+  * by a given URN.
+  * Note that it is not an error if the resulting Vector is empty.
+  *
+  * @param urn URN identifying passage for which to find node URNs.
+  */
+  def validReff(urn: CtsUrn): Vector[CtsUrn]
 
 
   //// Concrete method implementations
@@ -56,9 +64,25 @@ trait Corpus[CImpl] extends LogSupport {
     nodes.map(_.urn.dropPassage).distinct
   }
 
+  /** Project all URNs in the corpus to a vector.
+  */
+  def urns : Vector[CtsUrn] = {
+    nodes.map(_.urn)
+  }
+
   /** Project text contents of the corpus to a vector of Strings.
   */
   def contents : Vector[String] = {
     nodes.map(_.text)
+  }
+
+
+  /** Find all versions of a given CtsUrn in this corpus.
+  *
+  * @param urn URN to find versions for
+  */
+  def passageVersions(urn: CtsUrn) : Vector[CtsUrn] = {
+    val matchingWorks = citedWorks.filter(wk => urn.dropPassage >= wk)
+    matchingWorks.map(u => CtsUrn(s"${u}${urn.passageComponent}"))
   }
 }

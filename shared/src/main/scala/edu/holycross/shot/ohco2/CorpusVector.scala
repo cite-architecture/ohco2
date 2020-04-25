@@ -82,4 +82,11 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
     CorpusVector( nodes diff corpus2.nodes)
   }
 
+  def validReff(urn: CtsUrn): Vector[CtsUrn] = {
+    Vector.empty[CtsUrn]
+  }
+  def sortPassages(passages: Set[CtsUrn]): Vector[CtsUrn] = {
+    Vector.empty[CtsUrn]
+  }
+
 }

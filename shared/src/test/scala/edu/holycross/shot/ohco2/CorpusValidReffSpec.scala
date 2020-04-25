@@ -54,37 +54,37 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
   "urn:cts:ns:tg.w.v1.ex2:2.3.1#Version_1_exemp_2:2.3.1\n" +
   "urn:cts:ns:tg.w.v1.ex2:2.3.2#Version_1_exemp_2:2.3.2\n" +
   "urn:cts:ns:tg.w.v1.ex2:2.3.3#Version_1_exemp_2:2.3.3"
-  val corpus = Corpus(textDelimited,"#")
+  //val corpus = Corpus(textDelimited,"#")
 
-  "A Corpus"  should  "offer a method reporting valid references" in {
+  "A Corpus"  should  "offer a method reporting valid references" in pending /* {
     val passages:CtsUrn = CtsUrn("urn:cts:ns:tg.w.v1:1.1-1.3")
     val sorted:Vector[CtsUrn] = Vector(
       CtsUrn("urn:cts:ns:tg.w.v1:1.1"),
       CtsUrn("urn:cts:ns:tg.w.v1:1.2"),
       CtsUrn("urn:cts:ns:tg.w.v1:1.3"),
-      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.1"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.2"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.3"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.2"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.3"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.3.1"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.3.2"), 
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.3"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.3"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.3.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.3.2"),
       CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.3.3"),
-      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.1.1"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.1.2"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.1.3"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.1"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.2"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.3"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.3.1"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.3.2"), 
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.1.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.1.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.1.3"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.3"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.3.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.3.2"),
       CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.3.3")
-    )    
+    )
     assert(corpus.validReff(passages) == sorted)
-  }
+  }*/
 
-  it  should  "correctly report validReff for exemplar-level URNs" in {
+  it  should  "correctly report validReff for exemplar-level URNs" in pending /*{
     val passages:CtsUrn = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1-1.2.3")
     val sorted:Vector[CtsUrn] = Vector(
       CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1"),
@@ -92,66 +92,66 @@ val textDelimited = "urn:cts:ns:tg.w.v1:1.1#Version_1:1.1\n" +
       CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.3")
     )
     assert(corpus.validReff(passages) == sorted)
-  }
+  } */
 
 
-  it  should  "correctly report validReff for notional works URNs" in {
+  it  should  "correctly report validReff for notional works URNs" in pending /*{
     val passages:CtsUrn = CtsUrn("urn:cts:ns:tg.w:1.2")
     val sorted:Vector[CtsUrn] = Vector(
       CtsUrn("urn:cts:ns:tg.w.v1:1.2"),
-      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.2"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.3"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.1"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.2"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.3"), 
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.3"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.3"),
       CtsUrn("urn:cts:ns:tg.w.v2:1.2")
     )
     assert(corpus.validReff(passages).toSet == sorted.toSet)
-  }
-  
- it  should  "correctly report validReff for notional works range URNs" in {
+  }*/
+
+ it  should  "correctly report validReff for notional works range URNs" in pending /*{
     val passages:CtsUrn = CtsUrn("urn:cts:ns:tg.w:1.1-1.2")
     val sorted:Vector[CtsUrn] = Vector(
       CtsUrn("urn:cts:ns:tg.w.v1:1.1"),
-      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.1"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.2"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.3"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.1.1"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.1.2"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.1.3"), 
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1.3"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.1.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.1.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.1.3"),
       CtsUrn("urn:cts:ns:tg.w.v2:1.1"),
       CtsUrn("urn:cts:ns:tg.w.v1:1.2"),
-      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.2"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.3"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.1"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.2"), 
-      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.3"), 
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.2.3"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.1"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.2"),
+      CtsUrn("urn:cts:ns:tg.w.v1.ex2:1.2.3"),
       CtsUrn("urn:cts:ns:tg.w.v2:1.2")
     )
     assert(corpus.validReff(passages).toSet == sorted.toSet)
-  }
+  }*/
 
-  it should "correctly report validReff on ranges of containing elements" in {
-      val crUrn:CtsUrn = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1-1.2")    
+  it should "correctly report validReff on ranges of containing elements" in pending /*{
+      val crUrn:CtsUrn = CtsUrn("urn:cts:ns:tg.w.v1.ex1:1.1-1.2")
       assert(corpus.validReff(crUrn).size == 6)
-  }
+  }*/
 
-  it  should  "correctly report validReff for notional works" in {
+  it  should  "correctly report validReff for notional works" in pending /*{
     val passages:CtsUrn = CtsUrn("urn:cts:ns:tg.w:")
     val totalNum:Int = textDelimited.split("\n").toVector.size
     assert(corpus.validReff(passages).size == totalNum)
-  } 
+  } */
 
-  it should "return an empty vector when it finds no reffs" in {
+  it should "return an empty vector when it finds no reffs" in pending /*{
     val badUrn = CtsUrn("urn:cts:ns:tg.w.v1:not")
     assert(corpus.validReff(badUrn).size == 0)
     val badRangeUrn1 = CtsUrn("urn:cts:ns:tg.w.v1:not-here")
     assert(corpus.validReff(badRangeUrn1).size == 0)
     val badRangeUrn2 = CtsUrn("urn:cts:ns:tg.w.v2:1.1-200.300")
     assert(corpus.validReff(badRangeUrn2).size == 0)
-  }
+  } */
 
 
 
