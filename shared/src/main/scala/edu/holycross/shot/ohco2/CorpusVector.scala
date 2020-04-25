@@ -1,13 +1,10 @@
 package edu.holycross.shot.ohco2
 
 import edu.holycross.shot.cite._
-import scala.annotation.tailrec
-
-import scala.collection.mutable.Map
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation._
-
+import scala.annotation.tailrec
 
 import wvlet.log._
 import wvlet.log.LogFormatter.SourceCodeLogFormatter
@@ -18,7 +15,10 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 * @constructor Create a new corpus with a vector of CitableNode objects.
 * @param nodes Contents of the citable corpus
 */
-@JSExportAll case class CorpusVector (nodes: Vector[CitableNode]) extends Corpus with LogSupport {
+@JSExportAll case class CorpusVector (nodeList: Vector[CitableNode]) extends Corpus[CorpusVector] with LogSupport {
+
+
+  def nodes: Vector[CitableNode] = nodeList
 
   /** Create a new corpus comprising nodes contained by a given URN.
   *
@@ -60,7 +60,7 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
   }*/
 
 
-/** Create a new corpus by adding a second corpus to this one.
+  /** Create a new corpus by adding a second corpus to this one.
   *
   * @param corpus2 second corpus with contents to be added.
   */
@@ -69,26 +69,12 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
     CorpusVector(newNodes.distinct)
   }
 
-/*
-def ~=(filterUrn: edu.holycross.shot.cite.CtsUrn): edu.holycross.shot.ohco2.Corpus = ???
-[error]   def ~~(urnV: Vector[edu.holycross.shot.cite.CtsUrn]): edu.holycross.shot.ohco2.Corpus = ???
-[error]   def ~~(filterUrn: edu.holycross.shot.cite.CtsUrn): edu.holycross.shot.ohco2.Corpus = ???
-[error]   def chunkByCitation(drop: Int): Vector[edu.holycross.shot.ohco2.Corpus] = ???
-[error]   def chunkByText: Vector[edu.holycross.shot.ohco2.Corpus] = ???
-[error]   def concreteMap: scala.collection.mutable.Map[edu.holycross.shot.cite.CtsUrn,edu.holycross.shot.ohco2.Corpus] = ???
-[error]   def containedNodes(u: edu.holycross.shot.cite.CtsUrn): edu.holycross.shot.ohco2.Corpus = ???
-[error]   def exemplarToVersion(newVersionId: String): edu.holycross.shot.ohco2.Corpus = ???
-[error]   def find(v: Vector[String]): edu.holycross.shot.ohco2.Corpus = ???
-[error]   def find(str: String): edu.holycross.shot.ohco2.Corpus = ???
-[error]   def findToken(t: String,omitPunctuation: Boolean): edu.holycross.shot.ohco2.Corpus = ???
-[error]   def findTokensWithin(v: Vector[String],distance: Int,omitPunctuation: Boolean): edu.holycross.shot.ohco2.Corpus = ???
-[error]   def firstNodeOption(filterUrn: edu.holycross.shot.cite.CtsUrn): Option[edu.holycross.shot.ohco2.CitableNode] = ???
-[error]   def lastNodeOption(filterUrn: edu.holycross.shot.cite.CtsUrn): Option[edu.holycross.shot.ohco2.CitableNode] = ???
-[error]   def next(filterUrn: edu.holycross.shot.cite.CtsUrn): Vector[edu.holycross.shot.ohco2.CitableNode] = ???
-[error]   def prev(filterUrn: edu.holycross.shot.cite.CtsUrn): Vector[edu.holycross.shot.ohco2.CitableNode] = ???
-[error]   def rangeExtract(urn: edu.holycross.shot.cite.CtsUrn): edu.holycross.shot.ohco2.Corpus = ???
-[error]   def rangeIndex(urn: edu.holycross.shot.cite.CtsUrn): edu.holycross.shot.ohco2.RangeIndex = ???
-[error]   def sumCorpora(corpora: Vector[edu.holycross.shot.ohco2.Corpus],sumCorpus: edu.holycross.shot.ohco2.Corpus): edu.holycross.shot.ohco2.Corpus = ???
-*/
+  /** Create a new corpus by subtracting a second corpus from this one.
+  *
+  * @param corpus2 second corpus with contents to be removed from this one.
+  */
+  def --(corpus2: CorpusVector) : CorpusVector = {
+    CorpusVector( nodes diff corpus2.nodes)
+  }
 
 }

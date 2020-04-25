@@ -13,9 +13,10 @@ import wvlet.log._
 import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
 
-trait Corpus extends LogSupport {
+trait Corpus[CImpl] extends LogSupport {
+
   def nodes: Vector[CitableNode]
 
-  def ++(corpus2: CorpusVector): CorpusVector
-  
+  def ++ (corpus2: CImpl): CImpl
+  def --(corpus2: CImpl) : CImpl
 }
