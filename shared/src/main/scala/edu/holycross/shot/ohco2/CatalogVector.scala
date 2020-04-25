@@ -17,7 +17,7 @@ import scala.scalajs.js.annotation._
 *
 * @param texts Vector of catalog entries.
 */
-@JSExportAll case class CatalogVector (texts: Vector[CatalogEntry]) extends Catalog with LogSupport {
+case class CatalogVector (texts: Vector[CatalogEntry]) extends Catalog with LogSupport {
 
   def fromCex(data: String, sep: String = "#") = CatalogVector(data, sep)
 

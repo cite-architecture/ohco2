@@ -17,14 +17,14 @@ import scala.scalajs.js.annotation._
   /** Create a new repository by adding a second repository to this one.
   *
   * @param repo2 Catalog to add to this one.
-  */
-  def ++(repo2: TextRepository): TextRepository = {
+
+  TBA def ++(repo2: TextRepository): TextRepository = {
     TextRepository(
       corpus ++ repo2.corpus,
       catalog ++ repo2.catalog
     )
   }
-
+  */
 
   /** Create a new repository by subtracting a second repository from this one.
   *
@@ -41,20 +41,21 @@ import scala.scalajs.js.annotation._
   /** Create a new catalog containing only online texts.
 
   def online: Catalog = Catalog.fromCex(catalog.texts.filter(_.online))
-
+  */
   /** Create label for passage identified by URN.
   */
   def label(urn: CtsUrn): String = {
     catalog.label(urn.dropPassage) + " " + urn.passageComponent
   }
-  */
+
 
   /** Serialize repository to CITE Exchange format.
   *
   * @param delimiter String value to use as delimiter between columns.
   */
   def cex(delimiter: String = "#") : String = {
-    s"""#!ctscatalog\n${catalog.cex(delimiter)}#!ctsdata\n${corpus.cex(delimiter)}"""
+    //s"""#!ctscatalog\n${catalog.cex(delimiter)}#!ctsdata\n${corpus.cex(delimiter)}"""
+    "TBA"
   }
 
   // enforce 1-1 relation of texts cataloged as online
