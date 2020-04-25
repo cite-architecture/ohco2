@@ -17,6 +17,11 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 */
 @JSExportAll case class CorpusVector (nodeList: Vector[CitableNode]) extends Corpus[CorpusVector] with LogSupport {
 
+/*
+  def apply(nodeList: Vector[CitableNode]): CorpusVector = {
+    new CorpusVector(nodeList)
+  }
+*/
 
   def nodes: Vector[CitableNode] = nodeList
 
