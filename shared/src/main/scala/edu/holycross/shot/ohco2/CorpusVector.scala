@@ -90,3 +90,35 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
   }
 
 }
+
+
+/** Factory for [[CorpusVector]] instances.
+*/
+object CorpusVector {
+
+  /** Create a CorpusVector from a two-column data source.
+  *
+  * @param data string serialization of a corpus as delimited text, with one citable node per line.
+  * @param separator delimiting value separating URN from text contents of citable node.
+  */
+  def apply(data: String, separator: String = "#"): CorpusVector = {
+    val stringPairs = data.split("\n").toVector.filter(_.nonEmpty).map(_.split(separator).toVector)
+    // should be exclusively 2-column data
+    val checkFormat = stringPairs.filter(_.size != 2)
+    if (checkFormat.size > 0) {
+      throw Ohco2Exception("Badly formatted input.  Did not find 2 columns in the following source: " + checkFormat.map(_.mkString(" ")).mkString("\n"))
+    }
+    val citableNodes = stringPairs.map( arr => CitableNode(CtsUrn(arr(0)), arr(1))  )
+
+    // no range urns!!
+    val checkForWrongRanges:Vector[CtsUrn] = {
+        citableNodes.filter(_.urn.isRange).map(_.urn)
+    }
+    if (checkForWrongRanges.size > 0) {
+      throw Ohco2Exception(s"Invald URN in input. ${checkForWrongRanges.map(_.toString).mkString("\n")}. Range-URNs are not allowed to identify leaf nodes.")
+    }
+
+
+    CorpusVector(citableNodes)
+  }
+}
