@@ -24,19 +24,16 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
 
 
 
-  "A CorpusVector"  should "do" in pending
-
-
-  it should "have a non-empty vector of citable nodes" in pending /*{
+  "A CorpusVector"  should  "have a non-empty vector of citable nodes" in {
     val corpus = CorpusVector(delimitedText,"#")
     assert(corpus.nodes.size > 0)
-  }*/
-  it should "have a size function giving number of nodes" in pending /*{
+  }
+  it should "have a size function giving number of nodes" in {
     val corpus = CorpusVector(delimitedText,"#")
     assert (corpus.size == 3)
-  }*/
+  }
 
-  it should "allow comparing of corpus equality" in pending /*{
+  it should "allow comparing of corpus equality" in {
     val allFive = CorpusVector(fiveTokens,"#")
 
     val c1 = CorpusVector(delimitedText,"#")
@@ -44,18 +41,18 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
     val combo = c1 ++ c2
 
     assert(allFive == combo)
-  }*/
+  }
 
-  it should "support addition of corpora" in pending /*{
+  it should "support addition of corpora" in {
     val c1 = CorpusVector(delimitedText,"#")
     val c2 = CorpusVector(text2,"#")
     val combo = c1 ++ c2
     assert (combo.size == 5)
-  }*/
+  }
 
 
 
-  it should "maintain corpus sequence in addition of corpora" in pending /*{
+  it should "maintain corpus sequence in addition of corpora" in {
     val allFive = CorpusVector(fiveTokens,"#")
 
     val c1 = CorpusVector(delimitedText,"#")
@@ -63,21 +60,21 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
     val combo = c2 ++ c1
 
     assert(allFive != combo)
-  }*/
+  }
 
-  it should "allow subtraction on corpora" in pending /*{
+  it should "allow subtraction on corpora" in {
     val allFive = CorpusVector(fiveTokens,"#")
     val threeLines = CorpusVector(delimitedText,"#")
     assert( (allFive -- threeLines).size == 2)
-  }*/
+  }
 
-  it should "maintain non-commutative property subtraction" in pending /* {
+  it should "maintain non-commutative property subtraction" in {
     val allFive = CorpusVector(fiveTokens,"#")
     val threeLines = CorpusVector(delimitedText,"#")
     assert( (threeLines -- allFive).size == 0)
-  }*/
+  }
 
-  it should "support twiddling on vectors of URNs" in pending /*{
+  it should "support twiddling on vectors of URNs" in pending /* {
     val five = CorpusVector(fiveTokens,"#")
     val one = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.1")
     val two = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.2")
@@ -86,8 +83,8 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
     val resultCorpus = CorpusVector(Vector.empty)
     val anded = five.~~( urnVector, resultCorpus)
     assert (anded.size == 3)
-  }*/
-
+  }
+*/
   it should "support twiddling on a vector of URNs" in pending /*{
     val five = CorpusVector(fiveTokens,"#")
     val one = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.1")
@@ -107,7 +104,7 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
     assert (anded.size == 3)
   } */
 
-  it should "offer a function for retrieving URNs" in pending /*{
+  it should "offer a function for retrieving URNs" in  {
     val threeLines = CorpusVector(delimitedText,"#")
     val one = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.1")
     val two = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.2")
@@ -116,15 +113,15 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.5#Ἀχιλῆος
 
 
     assert (threeLines.urns == expected)
-  } */
+  }
 
-  it should "offer a function for retrieving text contents" in pending /*{
+  it should "offer a function for retrieving text contents" in  {
     val threeLines = CorpusVector(delimitedText,"#")
     val expected = Vector("μῆνιν","ἄειδε","θεὰ")
 
 
     assert (threeLines.contents == expected)
-  }*/
+  }
 
 
 }
