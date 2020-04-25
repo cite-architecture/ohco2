@@ -17,14 +17,14 @@ import scala.scalajs.js.annotation._
 *
 * @param texts Set of catalog entries.
 */
-trait Catalog  extends LogSupport {
+trait Catalog[CatImpl]  extends LogSupport {
 
 
   /** Catalog of texts. */
   def texts: Vector[CatalogEntry]
 
   /** Create a Catalog of texts from CEX source. */
-  def fromCex(data: String, sep: String = "#"): Catalog
+  def fromCex(data: String, sep: String = "#"): CatImpl
 
   def entriesForUrn(filterUrn: CtsUrn): Vector[CatalogEntry]
 
@@ -32,19 +32,20 @@ trait Catalog  extends LogSupport {
   *
   * @param catalog2 Catalog to add to this one.
   */
-  def ++(catalog2: Catalog): Catalog
+  def ++(catalog2: CatImpl): CatImpl
 
   /** Create a new catalog by subtracting a catalog corpus from this one.
   *
   * @ catalog2 second catalog with contents to be removed from this one.
   */
-  def --(catalog2: Catalog) : Catalog
+  def --(catalog2: CatImpl) : CatImpl
 
 
   // ensure unique urns
-  val urnList = texts.map(_.urn)
+  def urnList = texts.map(_.urn)
   val dupes = urnList.groupBy(identity).collect {
-    case (x,ys) if ys.lengthCompare(1) > 0 => x }
+    case (x,ys) if ys.lengthCompare(1) > 0 => x
+  }
   require(dupes.size == 0, s"""Duplicated URN values: ${dupes.mkString(",")}""")
 
 

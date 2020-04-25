@@ -17,7 +17,7 @@ import scala.scalajs.js.annotation._
 *
 * @param texts Vector of catalog entries.
 */
-case class CatalogVector (texts: Vector[CatalogEntry]) extends Catalog with LogSupport {
+case class CatalogVector (texts: Vector[CatalogEntry]) extends Catalog[CatalogVector] with LogSupport {
 
   def fromCex(data: String, sep: String = "#") = CatalogVector(data, sep)
 
@@ -44,7 +44,7 @@ case class CatalogVector (texts: Vector[CatalogEntry]) extends Catalog with LogS
   def groupName(u: CtsUrn): String = {
     val matches = entriesForUrn(u)
     if (matches.size < 1) {
-      throw new  Exception(s"ohco2.Catalog:  no urns matching ${u} found.")
+      throw new  Exception(s"ohco2.CatalogVector:  no urns matching ${u} found.")
     } else {
       matches(0).groupName
     }
@@ -57,7 +57,7 @@ case class CatalogVector (texts: Vector[CatalogEntry]) extends Catalog with LogS
   def workTitle(u: CtsUrn): String = {
     val matches = entriesForUrn(u)
     if (matches.size < 1) {
-      throw new  Exception(s"ohco2.Catalog:  no urns matching ${u} found.")
+      throw new  Exception(s"ohco2.CatalogVector:  no urns matching ${u} found.")
     } else {
       matches(0).workTitle
     }
@@ -70,7 +70,7 @@ case class CatalogVector (texts: Vector[CatalogEntry]) extends Catalog with LogS
   def versionLabel(u: CtsUrn): String = {
     val matches = entriesForUrn(u)
     if (matches.size < 1) {
-      throw new  Exception(s"ohco2.Catalog:  no urns matching ${u} found.")
+      throw new  Exception(s"ohco2.CatalogVector:  no urns matching ${u} found.")
     } else {
       matches(0).versionLabel match {
         case None => ""
@@ -86,7 +86,7 @@ case class CatalogVector (texts: Vector[CatalogEntry]) extends Catalog with LogS
   def exemplarLabel(u: CtsUrn): String = {
     val matches = entriesForUrn(u)
     if (matches.size < 1) {
-      throw new  Exception(s"ohco2.Catalog:  no urns matching ${u} found.")
+      throw new  Exception(s"ohco2.CatalogVector:  no urns matching ${u} found.")
     } else {
       matches(0).exemplarLabel match {
         case None => ""
@@ -96,9 +96,9 @@ case class CatalogVector (texts: Vector[CatalogEntry]) extends Catalog with LogS
   }
   /** Create a new catalog by adding a second corpus to this one.
   *
-  * @param catalog2 Catalog to add to this one.
+  * @param catalog2 CatalogVector to add to this one.
   */
-  def ++(catalog2: Catalog): CatalogVector= {
+  def ++(catalog2: CatalogVector): CatalogVector= {
     val newEntries = texts ++ catalog2.texts
     CatalogVector(newEntries.distinct)
   }
@@ -109,7 +109,7 @@ case class CatalogVector (texts: Vector[CatalogEntry]) extends Catalog with LogS
   *
   * @ catalog2 second catalog with contents to be removed from this one.
   */
-  def --(catalog2: Catalog) : CatalogVector= {
+  def --(catalog2: CatalogVector) : CatalogVector= {
       CatalogVector( texts diff catalog2.texts)
   }
 
