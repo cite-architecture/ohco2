@@ -20,19 +20,19 @@ trait Corpus extends LogSupport {
 
   /** Map each concrete text's URN to a Vector of [CitableNode]s.
   */
-  def concreteMap : Map[CtsUrn, Corpus] = {
+  def concreteMap : Map[CtsUrn, Corpus] /*= {
     var mappedByText = scala.collection.mutable.Map[CtsUrn, Corpus]()
     for (c <- citedWorks) {
       mappedByText += (c -> containedNodes(c))
     }
     mappedByText
-  }
+  }*/
 
   /** Create a new corpus comprising nodes contained by a given URN.
   *
   * @param u A CtsUrn at either version or exemplar level.
   */
-  def containedNodes(u: CtsUrn): Corpus 
+  def containedNodes(u: CtsUrn): Corpus
 
   /** Computes topological relation of passage
   * components of two CtsUrns.
@@ -194,7 +194,7 @@ trait Corpus extends LogSupport {
   *   can be expressed as ranges are expressed as ranges.
   * @param urns Vector[CtsUrn]
   **/
-  def compressReff(urns:Vector[CtsUrn]):Vector[CtsUrn] = {
+  def compressReff(urns: Vector[CtsUrn]) : Vector[CtsUrn] = {
       // expand any ranges or containing elements
       val pv:Vector[CtsUrn] = urns.toVector.map(u => this.validReff(u)).flatten
       // group by text
@@ -247,7 +247,7 @@ trait Corpus extends LogSupport {
   /** Utility function: Given a List[Int] group all continuous runs
   * @param indices List[Int]
   **/
-  private def groupSequences(indices:List[Int]):List[List[Int]] = {
+  private def groupSequences(indices: List[Int]): List[List[Int]] = {
         val (acc, last) = indices
             .foldLeft ((List[List[Int]](), List[Int]())) ((a,b) =>
                 if ( a._2.size == 0  )  {
@@ -322,12 +322,12 @@ trait Corpus extends LogSupport {
   *
   * @param urn Range URN identifying corpus to extract.
   */
-  def rangeExtract(urn: CtsUrn) : Corpus = {
+  def rangeExtract(urn: CtsUrn) : Corpus  /*= {
     require(urn.concrete, "Can only extract ranges for a concrete text:  " + urn)
     val rIdx = rangeIndex(urn)
     val sliver = nodes.slice(rIdx.a, rIdx.b + 1)
     Corpus(sliver)
-  }
+  } */
 
   /** Find beginning and end index in this corpus of a given range URN.
   * Beginning and end references of ranges may either be node references or
@@ -441,18 +441,18 @@ trait Corpus extends LogSupport {
   *
   * @param corpus2 second corpus with contents to be added.
   */
-  def ++(corpus2: Corpus) : Corpus = {
+  def ++(corpus2: Corpus) : Corpus  /* ={
     val newNodes = nodes ++ corpus2.nodes
     Corpus(newNodes.distinct)
-  }
+  }*/
 
   /** Create a new corpus by subtracting a second corpus from this one.
   *
   * @ corpus2 second corpus with contents to be removed from this one.
   */
-  def --(corpus2: Corpus) : Corpus = {
+  def --(corpus2: Corpus) : Corpus /*= {
     Corpus( nodes diff corpus2.nodes)
-  }
+  }*/
 
 
   /** Create a single [[Corpus]] by summing up the contents of
@@ -461,13 +461,13 @@ trait Corpus extends LogSupport {
   * @param corpora [[Corpus]] instances to concatenate.
   */
   //@tailrec final def sumCorpora(corpora: Vector[Corpus], sumCorpus:
-  def sumCorpora(corpora: Vector[Corpus], sumCorpus: Corpus): Corpus = {
+  def sumCorpora(corpora: Vector[Corpus], sumCorpus: Corpus): Corpus /*= {
     if (corpora.isEmpty) {
       sumCorpus
     } else {
       sumCorpora(corpora.drop(1), sumCorpus ++ corpora(0))
     }
-  }
+  }*/
 
   /** Create a new corpus of nodes that are URN-similar to a given CtsUrn,
   * limited to a given Version or Exemplar.
@@ -479,13 +479,13 @@ trait Corpus extends LogSupport {
   *
   * @param filterUrn URN identifying a set of nodes to select from this corpus.
   */
-  def ~= (filterUrn:CtsUrn) : Corpus = {
+  def ~= (filterUrn:CtsUrn) : Corpus  /*= {
     val vUrn:CtsUrn = filterUrn.dropPassage
     val versionCorpus:Corpus = {
       Corpus(nodes.filter(_.urn.dropPassage == vUrn))
     }
     versionCorpus ~~ filterUrn
-  }
+  }*/
 
   /** Create a new corpus of nodes that are URN-similar to a given CtsUrn.
   * Collect all texts where this URN is cited, then
@@ -496,7 +496,7 @@ trait Corpus extends LogSupport {
   *
   * @param filterUrn URN identifying a set of nodes to select from this corpus.
   */
-  def ~~ (filterUrn: CtsUrn) : Corpus = {
+  def ~~ (filterUrn: CtsUrn) : Corpus /*= {
     val psgRef = filterUrn.passageComponent
 
     if (filterUrn.isPoint) {
@@ -527,7 +527,7 @@ trait Corpus extends LogSupport {
       }
     }
 
-
+*/
 
   /** Create a new corpus of nodes that are URN-similar to any
   * CtsUrn in a given vector of CtsUrns.
@@ -536,13 +536,13 @@ trait Corpus extends LogSupport {
   *
   * @param urnV vector of URNs to use in filtering the corpus.
   */
-  def  ~~(urnV: Vector[CtsUrn]): Corpus = {
+  def  ~~(urnV: Vector[CtsUrn]): Corpus /* = {
     val expandedUrnV:Vector[CtsUrn] = urnV.map( u => {
       this.validReff(u)
     }).flatten.distinct
     val rslts = Vector.empty
     this.~~(expandedUrnV, Corpus(rslts))
-  }
+  }*/
 
 
   //@tailrec final  def ~~(urnV : Vector[CtsUrn], resultCorpus: Corpus):
@@ -554,7 +554,7 @@ trait Corpus extends LogSupport {
   * @param urnV vector of URNs to use in filtering the corpus.
   * @param resultCorpus
   */
-  def ~~(urnV : Vector[CtsUrn], resultCorpus: Corpus): Corpus = {
+  def ~~(urnV : Vector[CtsUrn], resultCorpus: Corpus): Corpus /*= {
     if (urnV.isEmpty ) {
       resultCorpus
 
@@ -563,12 +563,12 @@ trait Corpus extends LogSupport {
       val newTotal = resultCorpus ++ subVect
       this ~~(urnV.tail, newTotal)
     }
-  }
+  }*/
 
   /** Split a Corpus in to a Vector[Corpus] by distinct text
   * (versions & exemplars)
   */
-  def chunkByText:Vector[Corpus] = {
+  def chunkByText: Vector[Corpus] /* = {
     import scala.collection.mutable.LinkedHashMap
     val vcn:Vector[(CtsUrn, CitableNode)] = nodes.map(cn => {
       (cn.urn.dropPassage, cn)
@@ -583,13 +583,13 @@ trait Corpus extends LogSupport {
       Corpus(nodes)
     })
     v6
-  }
+  }*/
 
   /** Split a Corpus in to a Vector[Corpus] by citation
   * (Will first chunk by Text).
   * @param drop How many levels of the passage-hierarchy, from the right, to drop when grouping
   */
-  def chunkByCitation(drop:Int = 1):Vector[Corpus] = {
+  def chunkByCitation(drop:Int = 1): Vector[Corpus] /*= {
     val textChunks:Vector[Corpus] = this.chunkByText
     val sectionChunks:Vector[Corpus] = textChunks.map( tc => {
       val deepestLevel:Int = tc.urns.map(_.citationDepth.head).min
@@ -642,7 +642,7 @@ trait Corpus extends LogSupport {
     }).flatten
     sectionChunks
   }
-
+*/
 
 
 
@@ -673,7 +673,7 @@ def concrete(urn: CtsUrn) : Set[CtsUrn] = {
 *
 * @param urn CtsUrn to use in filtering the corpus.
 */
-def >= (urn: CtsUrn) : Corpus = {
+def >= (urn: CtsUrn) : Corpus /*= {
   if (urn.concrete) {
      containedNodes(urn)
 
@@ -695,7 +695,7 @@ def >= (urn: CtsUrn) : Corpus = {
     sumCorpora(nVect.toSeq.toVector,Corpus(Vector.empty))
   }
 }
-
+*/
 
 /*
   def < (urn: CtsUrn) = {
@@ -1098,9 +1098,9 @@ def >= (urn: CtsUrn) : Corpus = {
   * @param str String to search for.
   * @return A Corpus object.
   */
-  def find(str: String): Corpus = {
+  def find(str: String): Corpus /* = {
     Corpus(this.nodes.filter(_.text.contains(str)))
-  }
+  }*/
 
 
   /** Create a new corpus containing citable nodes with content
@@ -1128,13 +1128,13 @@ def >= (urn: CtsUrn) : Corpus = {
   *
   * @param v Strings to search for.
   */
-  def find(v: Vector[String]): Corpus = {
+  def find(v: Vector[String]): Corpus /*= {
     if (v.isEmpty) {
       Corpus(Vector.empty)
     } else {
       find(v.drop(1), this.find(v(0)))
     }
-  }
+  }*/
 
   /** Create a new corpus containing citable nodes
   * with content matching a white-space delimited token.
@@ -1143,7 +1143,7 @@ def >= (urn: CtsUrn) : Corpus = {
   * @param v Strings to search for.
   * @param omitPunctuation True if punctuation should be ignored.
   */
-  def findToken(t: String, omitPunctuation: Boolean = true): Corpus = {
+  def findToken(t: String, omitPunctuation: Boolean = true): Corpus /*= {
     if (omitPunctuation) {
       // guardNodes removes any CitableNodes that would have empty text-content after stripping punctuation.
       val guardNodes:Vector[CitableNode] = nodes.filter(_.stripPunctuation.size > 0)
@@ -1152,7 +1152,7 @@ def >= (urn: CtsUrn) : Corpus = {
     } else {
       Corpus(nodes.filter(_.tokenMatches(t)))
     }
-  }
+  } */
 
     /** Create a new corpus with nodes containing all tokens in a
   * given list by recursively finding matches for the first token in the list.
@@ -1212,7 +1212,7 @@ def >= (urn: CtsUrn) : Corpus = {
   * @param distance Maximum size of consecutive tokens all tokens
   * in v must fall within.
   */
-  def findTokensWithin(v: Vector[String], distance: Int, omitPunctuation: Boolean = true): Corpus = {
+  def findTokensWithin(v: Vector[String], distance: Int, omitPunctuation: Boolean = true): Corpus /*= {
     if (omitPunctuation) {
 
 
@@ -1224,7 +1224,7 @@ def >= (urn: CtsUrn) : Corpus = {
       val closeBy = Corpus(matches.nodes.filter(_.tokensWithin(v,distance)))
       closeBy
     }
-  }
+  }*/
 
 /** Create a histogram of ngrams of size n,
 * occurring more than threshold times, and including
@@ -1236,12 +1236,13 @@ def >= (urn: CtsUrn) : Corpus = {
 * times.  (Default value of 0 therefore collects all ngrams of the given sie.)
 * @param dropPunctuation true if punctuation should be omitted from ngrams
 * @return a vector of word+count pairs sorted from high to low
-*/
+
   def ngramHisto(str: String, n: Int, threshhold: Int, dropPunctuation: Boolean ): StringHistogram = {
     val searchCorpus = Corpus(this.nodes.filter(_.text.contains(str)))
     val hist  = searchCorpus.ngramHisto(n,threshhold,dropPunctuation)
     hist.stringMatch(str)
   }
+*/
 
   /** Two-column serialization of this Corpus as formated for
   * CEX serialization.
@@ -1279,7 +1280,7 @@ def >= (urn: CtsUrn) : Corpus = {
     * @param newVersionId Value for version identifier of newly
     * generated version.
     */
-    def exemplarToVersion(newVersionId: String): Corpus = {
+    def exemplarToVersion(newVersionId: String): Corpus /*= {
       val zipped = nodes.zipWithIndex
       val triple = zipped.map {
         case (cn,i) => (cn.urn.passageComponent,cn,i)
@@ -1291,7 +1292,7 @@ def >= (urn: CtsUrn) : Corpus = {
       Corpus(grouped.map(
         flattenTriple(_, newVersionId)).sortBy(_._1).map( _._2)
         )
-    }
+    }*/
 }
 
 /** Factory for [[edu.holycross.shot.ohco2.Corpus]] instances.
@@ -1303,6 +1304,7 @@ object Corpus {
   * @param data string serialization of a corpus as delimited text, with one citable node per line.
   * @param separator delimiting value separating URN from text contents of citable node.
   */
+  /*
   def apply(data: String, separator: String = "#"): Corpus = {
     val stringPairs = data.split("\n").toVector.filter(_.nonEmpty).map(_.split(separator).toVector)
     // should be exclusively 2-column data
@@ -1322,19 +1324,19 @@ object Corpus {
 
 
     Corpus(citableNodes)
-  }
+  }*/
 
   /** Create a single composite [[Corpus]] from a Vector
   * of [[Corpus]] objects.  The order of nodes within the composite
   * corpus follows their order in the Vector of corpora.
   *
   * @param v Vector of corpora to merge.
-  */
+  
   def composite(v: Vector[Corpus]) : Corpus = {
 
     v.foldLeft(Corpus(Vector.empty[CitableNode]))((r,c) => r ++ c)
   }
-
+*/
 
 
   /** Create a sequence of ngrams for a sequence of toknes.

@@ -23,7 +23,7 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
   /** Create a new corpus comprising nodes contained by a given URN.
   *
   * @param u A CtsUrn at either version or exemplar level.
-  */
+
   def containedNodes(u: CtsUrn): CorpusVector  = {
     require(u.concrete, "Can only compute contained nodes for a concrete instance of a text: " + u)
     val trimmed = u.dropPassage
@@ -57,5 +57,5 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
       //debug("Filtering using " + u + ": " + containedCorpus.size)
       containedCorpus
     }
-  }
+  }*/
 }
