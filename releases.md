@@ -1,5 +1,6 @@
 # `ohco2`: release notes
 
+**10.19.0**: Publish binaries for SJS 1.0.
 
 **10.18.2**: Corpus.validReff now returns an empty Vector rather than throwing an exception with given a range-urn that is not in the text.
 
