@@ -135,4 +135,30 @@ urn:cts:citedemo:arabic.quran.v1:2.2#ذَلِكَ الْكِتَابُ لَا ر
 
   it should "offer a function to join two catalogs" in pending
   it should "offer a function to diff two catalogs" in pending
+
+  it should "support twiddling to create a new catalog" in {
+    val cex = """#!citelibrary
+name#demo
+version#2017.1
+license#CC Share Alike.  For details, see more info.
+#!ctscatalog
+urn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online
+urn:cts:citedemo:arabic.quran.v1:#surah/ayah#Classical Arabic examples#The Quran#Arabic. Text from http://tanzil.net. Creative Commons Attribution 3.0 License##true#ara
+#!ctsdata
+urn:cts:citedemo:arabic.quran.v1:1.1#بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
+urn:cts:citedemo:arabic.quran.v1:1.2#الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ
+urn:cts:citedemo:arabic.quran.v1:1.3#الرَّحْمَنِ الرَّحِيمِ
+urn:cts:citedemo:arabic.quran.v1:1.4#مَالِكِ يَوْمِ الدِّينِ
+urn:cts:citedemo:arabic.quran.v1:1.5#إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ
+urn:cts:citedemo:arabic.quran.v1:1.6#اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ
+urn:cts:citedemo:arabic.quran.v1:1.7#صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ
+urn:cts:citedemo:arabic.quran.v1:2.1#بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ الم
+urn:cts:citedemo:arabic.quran.v1:2.2#ذَلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ هُدًى لِلْمُتَّقِينَ
+"""
+    val repo = TextRepository(cex,"#")
+    val filterUrn = CtsUrn("urn:cts:citedemo:arabic.quran.v1:1")
+    val newRepo = repo ~~ filterUrn
+    assert(newRepo.catalog.size == 1)
+    assert(newRepo.corpus.size == 7)
+  }
 }

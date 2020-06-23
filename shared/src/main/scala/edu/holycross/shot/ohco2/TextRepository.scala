@@ -13,6 +13,9 @@ import scala.scalajs.js.annotation._
 */
 @JSExportAll case class TextRepository (corpus: Corpus, catalog: Catalog) {
 
+  def ~~ (ctsUrn: CtsUrn) : TextRepository = {
+    TextRepository(corpus ~~ ctsUrn, catalog ~~ ctsUrn)
+  }
 
   /** Create a new repository by adding a second repository to this one.
   *

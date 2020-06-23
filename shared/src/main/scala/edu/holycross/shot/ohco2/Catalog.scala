@@ -25,6 +25,10 @@ import scala.scalajs.js.annotation._
   val dupes = urnList.groupBy(identity).collect { case (x,ys) if ys.lengthCompare(1) > 0 => x }
   require(dupes.size == 0, s"""Duplicated URN values: ${dupes.mkString(",")}""")
 
+  def ~~(filterUrn: CtsUrn): Catalog = {
+    Catalog(entriesForUrn(filterUrn))
+  }
+
   /** Find catalog entries by URN.
   *
   * @param filterUrn URN identifying text(s).
