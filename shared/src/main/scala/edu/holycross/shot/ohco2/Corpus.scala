@@ -1332,7 +1332,7 @@ def >= (urn: CtsUrn) : Corpus = {
 
 /** Factory for [[edu.holycross.shot.ohco2.Corpus]] instances.
 */
-object Corpus {
+object Corpus extends LogSupport {
 
   /** Create a Corpus from a two-column data source.
   *
@@ -1340,13 +1340,29 @@ object Corpus {
   * @param separator delimiting value separating URN from text contents of citable node.
   */
   def apply(data: String, separator: String = "#"): Corpus = {
-    val stringPairs = data.split("\n").toVector.filter(_.nonEmpty).map(_.split(separator).toVector)
-    // should be exclusively 2-column data
-    val checkFormat = stringPairs.filter(_.size != 2)
-    if (checkFormat.size > 0) {
-      throw Ohco2Exception("Badly formatted input.  Did not find 2 columns in the following source: " + checkFormat.map(_.mkString(" ")).mkString("\n"))
-    }
-    val citableNodes = stringPairs.map( arr => CitableNode(CtsUrn(arr(0)), arr(1))  )
+    val stringPairs = data.split("\n").toVector.filter(_.nonEmpty).map(_.split(separator).toVector).toVector
+    // should be exclusively 2-column data, or empty text
+    val citableNodes = stringPairs.map( pair => {
+      val u = try  { CtsUrn(pair(0)) } catch {
+        case t: Throwable => {
+          warn(s"CorpusSource: unable to parse URN in ${pair(0)} from text columns ${pair}")
+          throw t
+        }
+      }
+
+      val cn: CitableNode = pair.size match {
+        case 2 => CitableNode(u, pair(1))
+        case 1 => CitableNode(u, "")
+        case _ => {
+          val msg = s"Corpus source. Bad input: " + pair + ". Wrong number of columns ${lines.size}."
+          warn(msg)
+          throw new Ohco2Exception(msg)
+        }
+      }
+      cn
+    })
+
+
 
     // no range urns!!
     val checkForWrongRanges:Vector[CtsUrn] = {

@@ -1,6 +1,8 @@
 # `ohco2`: release notes
 
-**10.20.2**: Fixes a bug in loading empty text nodes from CEX.
+**10.20.3**: Pathetically fixes same bug as 10.20.2 for `Corpus` class.
+
+**10.20.2**: Fixes a bug in loading empty text nodes from CEX with `CorpusSource`.
 
 **10.20.1**: Addresses the profoundest philosophical question of existence by allowing `CitableNode`s to have empty text content.
 

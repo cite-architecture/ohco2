@@ -65,20 +65,14 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.6#Ἀχιλῆος
     }
   }
 
- it should "Give a clear error when failing to find two components in a line" in {
+ it should "accept empty text columns" in {
 
     val failLine = """urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.1#μῆνιν
 urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.2ἄειδε
 urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.3#θεὰ
 """
-    try {
       val corpus = Corpus(failLine,"#")
-      fail("should not have build")
-    } catch {
-      case e:Exception => {
-        assert(e.toString == "edu.holycross.shot.ohco2.Ohco2Exception: Badly formatted input.  Did not find 2 columns in the following source: urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.2ἄειδε")
-      }
-    }
+      assert(corpus.size > corpus.nodes.filter(_.text.nonEmpty).size)
   }
 
 
@@ -88,8 +82,10 @@ urn:cts:greekLit:tlg0012.tlg001.msA.tkns:1.1.3#θεὰ
       Corpus(badInput,"#")
       fail("Should not have reached this point")
     } catch {
-      case oe: Ohco2Exception => assert(oe.message == "Badly formatted input.  Did not find 2 columns in the following source: no structure here")
-      case otherEx : Throwable => fail("Did not match " + otherEx)
+      case exc : java.lang.Exception => {
+        println("EXCP MESG: " + exc.getMessage)
+        assert(exc.getMessage.startsWith("Unable to parse URN string no structure here"))
+      }
     }
   }
 
