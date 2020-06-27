@@ -4,33 +4,46 @@ import edu.holycross.shot.cite._
 import scala.io.Source
 import java.io._
 
+
+import wvlet.log._
+import wvlet.log.LogFormatter.SourceCodeLogFormatter
+
+
 /** A utility class for creating [[Corpus]] objects from
 * various kinds of concrete sources available in the JVM,
 * and serializing [[Corpus]] objects to various kinds of output.
 */
-object CorpusSource {
-
+object CorpusSource extends LogSupport {
 
   def fromString(cex: String,  delimiter: String = "#", cexHeader: Boolean = false): Corpus = {
     val lines = cex.split("\n").toVector
     val stringPairs =  if (cexHeader) {
-      lines.tail.map(_.split(delimiter).toVector)
+      lines.tail.map(_.split(delimiter).toVector).toVector
     } else {
-      lines.map(_.split(delimiter).toVector)
+      lines.map(_.split(delimiter).toVector).toVector
     }
 
-    val citableNodes = stringPairs.map( arr =>
-      {
-        try {
-          val u = CtsUrn(arr(0))
-          CitableNode(u, arr(1))
-        } catch {
-          case t: Throwable => {
-            println("Failed on input line " + arr)
-            throw t
-          }
+    val citableNodes = stringPairs.map( lines => {
+
+      // first col. should always be URN:
+      val u = try  { CtsUrn(lines(0)) } catch {
+        case t: Throwable => {
+          warn(s"CorpusSource: unable to parse URN in ${lines(0)} from text line ${lines}")
+          throw t
         }
-      })
+      }
+
+      val cn = lines.size match {
+        case 2 => CitableNode(u, lines(1))
+        case 1 => CitableNode(u, "")
+        case _ => {
+          val msg = s"Corpus source. Bad input: " + lines + ". Wrong number of columns ${lines.size}."
+          warn(msg)
+          throw new Exception(msg)
+        }}
+
+      cn
+    })
     Corpus(citableNodes)
   }
 

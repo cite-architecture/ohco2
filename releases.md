@@ -1,6 +1,10 @@
 # `ohco2`: release notes
 
-**10.19.0**: Adds `~~` method for `TextCatalog` and `TextRepository` classes.
+**10.20.2**: Fixes a bug in loading empty text nodes from CEX.
+
+**10.20.1**: Addresses the profoundest philosophical question of existence by allowing `CitableNode`s to have empty text content.
+
+**10.20.0**: Adds `~~` method for `TextCatalog` and `TextRepository` classes.
 
 
 **10.19.0**: Publish binaries for SJS 1.0.

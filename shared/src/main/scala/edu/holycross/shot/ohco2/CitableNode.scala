@@ -16,9 +16,9 @@ import scala.annotation.tailrec
 * @param text Text contents of the node.
 */
 @JSExportAll  case class CitableNode (urn: CtsUrn, text: String) extends LogSupport {
-  if (text.isEmpty) {
-    throw new Ohco2Exception("CitableNode: text content cannot be empty")
-  }
+  //if (text.isEmpty) {
+  //  throw new Ohco2Exception("CitableNode: text content cannot be empty")
+  //}
 
   /** True if this node is URN-similar to a second URN.
   *
