@@ -37,7 +37,7 @@ object CorpusSource extends LogSupport {
         case 2 => CitableNode(u, lines(1))
         case 1 => CitableNode(u, "")
         case _ => {
-          val msg = s"Corpus source. Bad input: " + lines + ". Wrong number of columns ${lines.size}."
+          val msg = s"Corpus source. Bad input: ${lines}. Wrong number of columns ${lines.size}."
           warn(msg)
           throw new Exception(msg)
         }}
