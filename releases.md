@@ -1,5 +1,7 @@
 # `ohco2`: release notes
 
+**10.20.5**: Artifact published now at https://terracotta.hpcc.uh.edu/nexus/repository/maven-releases/
+
 **10.20.4**: Fixes a a typo in an error message.
 
 **10.20.3**: Pathetically fixes same bug as 10.20.2 for `Corpus` class.
