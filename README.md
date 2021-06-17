@@ -20,9 +20,10 @@ See <http://cite-architecture.org/ohco2/>.
 
 ## Using, building, testing
 
-`ohco2` can be built for both the JVM and ScalaJS using any version of Scala 2.11 or higher.  Binaries for both the JVM and ScalaJS are available from jcenter built with Scala 2.12.3.  To use the binaries in an sbt project, include `Resolver.jcenterRepo`in your list of resolvers
+`ohco2` can be built for both the JVM and ScalaJS using any version of Scala 2.11 or higher.  Binaries for all three versions are available from the Nexus repository on <terracotta.hpcc.uh.edu/nexus>.
 
-    resolvers += Resolver.jcenter
+    	resolvers += "Nexus" at "https://terracotta.hpcc.uh.edu/nexus/repository/maven-releases/"
+
 
 and  add this to your library dependencies:
 
